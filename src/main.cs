@@ -6,7 +6,8 @@ namespace Main
   {
     static void Main(string[] args)
     {
-      Console.WriteLine("Ghazi Akmal Fauzan");    
+      Algorithm algo = new Algorithm();  
+      algo.print();
     }
   }
 }
