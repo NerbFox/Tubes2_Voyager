@@ -32,7 +32,7 @@ namespace inputHandler
             if (File.Exists(path)) {
                 inputFileData = File.ReadAllLines(path);
                 for (int i = 0; i < inputFileData.Length; i++) {
-                    inputFileData[i] = inputFileData[i].Trim();
+                    inputFileData[i] = inputFileData[i].Replace(" ", "");
                 }
             } else {
                 Console.WriteLine("File does not exist!");
