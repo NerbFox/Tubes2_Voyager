@@ -9,8 +9,12 @@ INPUTMAPDLL := bin/map.dll
 OUTPUT := -out:$(INPUTMAPDLL)
 
 build:
-	@echo "Compiling inputHandler.."
+	@echo "Compiling map.."
 	@$(CSC) $(SRCINPUTHANDLER) $(SRCMAP) $(SRCDRIVER) $(OUTPUT)
 
 run:
 	@$(DOTNET) $(INPUTMAPDLL)
+
+clean:
+	@echo "Cleaning up.."
+	@del /Q bin\
