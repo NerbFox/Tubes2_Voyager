@@ -1,20 +1,25 @@
 // program for DFS Voyager with a class
 using System;
+using myMap;
+
 namespace Algorithm{
-    public class DFS
+    public class DFS : Algorithm
     {
-        // // instan
-        int treasure;
-        // char[,] Map;
-        // private Graph G;
-        // private boolean[] visited;
-        // // constructor
-        // public Algorithm(Graph G)
-        // {
-        //     // initialize instance variables
-        //     this.G = G;
-        //     visited = new boolean[G.V()];
-        // }
+        public DFS()
+        {
+            treasureFound = 0;
+            mapData = new map();
+        }
+
+        public DFS(map data)
+        {
+            treasureFound = 0;
+            mapData = data;
+        }
+
+        public void printMap(){
+            mapData.print();
+        }
 
         public void DFSMethod(int v, char Map)
         {
@@ -31,7 +36,7 @@ namespace Algorithm{
             //     }
             // }
         }
-        public void print(){
+        public override void print(){
             Console.WriteLine("Hello DFS");
         }
     }

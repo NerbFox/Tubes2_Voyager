@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Algorithm{
-    public class TSP{
-        public void print(){
+    public class TSP : Algorithm{
+        public override void print(){
             Console.WriteLine("Hello TSP");
         }
     }

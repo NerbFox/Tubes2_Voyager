@@ -1,11 +1,17 @@
 using System;
 using Algorithm;
+using inputHandler;
+using myMap;
 
 class driverDFS
 {
     static void Main(string[] args)
     {
-        DFS dfs = new DFS();
-        dfs.print(); 
+        inputHandlerFile inputHandlerFile = new inputHandlerFile();
+        inputHandlerFile.readFile("../../testInput3.txt");    
+        map map = new map(inputHandlerFile.getInputData());
+        DFS dfs = new DFS(map);
+        dfs.printMap();  
+        dfs.print();  
     }
 }
