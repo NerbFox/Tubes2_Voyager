@@ -1,8 +1,8 @@
 build:
-	@cd ./src && dotnet build --nologo && cd ..
+	@cd ./src && dotnet build --nologo
 
 run:
-	@cd ./src && dotnet run && cd ..
+	@cd ./src && dotnet run
 
 clean:
-	@cd ./src && dotnet clean --nologo && cd ..
+	@cd ./src && dotnet clean --nologo

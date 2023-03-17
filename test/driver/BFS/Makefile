@@ -1,16 +1,25 @@
 DOTNET := dotnet
 CSC := dotnet csc
 
-SRCALGODRIVERBFS := ../../../src/class/BFS.cs
-SRCAL := ../../../src/class/Algorithm.cs
+SRCBFS := ../../../src/class/BFS.cs
+SRCALGO := ../../../src/class/Algorithm.cs
 SRCDRIVER := driver.cs
 
-ALGODLL := bin/ALgo.dll
-OUTPUT := -out:$(ALGODLL)
+BFSDLL := bin/BFS.dll
+OUTPUT := -out:$(BFSDLL)
 
 build:
-	@echo "Compiling ghazi handler.."
-	@$(CSC) $(SRCDRIVER) $(SRCALGODRIVERBFS) $(SRCAL) $(OUTPUT)
+	@echo "Compiling BFS.."
+	@if not exist bin mkdir bin
+	@$(CSC) $(SRCBFS) $(SRCALGO) $(SRCDRIVER) $(OUTPUT)
 
 run:
-	@$(DOTNET) $(ALGODLL)
+	@$(DOTNET) $(BFSDLL)
+
+runbuild:
+	@make -s build
+	@make -s run
+
+clean:
+	@echo "Cleaning up BFS.."
+	@if exist bin del /Q bin\ && rmdir bin

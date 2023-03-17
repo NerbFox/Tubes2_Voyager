@@ -1,9 +1,9 @@
-// program for DFS Voyager with a class
 using System;
 using myMap;
 
-namespace Algorithm{
-    public class DFS : Algorithm
+namespace Algorithm
+{
+    public class DFS : algorithm
     {
         public DFS()
         {
@@ -36,7 +36,9 @@ namespace Algorithm{
             //     }
             // }
         }
-        public override void print(){
+
+        public override void print()
+        {
             Console.WriteLine("Hello DFS");
         }
     }

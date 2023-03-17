@@ -1,17 +1,26 @@
 DOTNET := dotnet
 CSC := dotnet csc
 
-SRCALGODRIVERDFS := ../../../src/class/DFS.cs
-SRCALGODRIVERBFS := ../../../src/class/BFS.cs
-SRCAL := ../../../src/class/Algorithm.cs
+SRCDFS := ../../../src/class/DFS.cs
+SRCBFS := ../../../src/class/BFS.cs
+SRCALGO := ../../../src/class/algorithm.cs
 SRCDRIVER := driver.cs
 
-ALGODLL := bin/ALgo.dll
-OUTPUT := -out:$(ALGODLL)
+BFSDFSDLL := bin/BFSDFS.dll
+OUTPUT := -out:$(BFSDFS)
 
 build:
-	@echo "Compiling inputHandler.."
-	@$(CSC) $(SRCALGODRIVERDFS) $(SRCDRIVER) $(SRCALGODRIVERBFS) $(SRCAL) $(OUTPUT)
+	@echo "Compiling BFS_DFS.."
+	@if not exist bin mkdir bin
+	@$(CSC) $(SRCDFS) $(SRCBFS) $(SRCALGO) $(SRCDRIVER) $(OUTPUT)
 
 run:
-	@$(DOTNET) $(ALGODLL)
+	@$(DOTNET) $(BFSDFSDLL)
+
+runbuild:
+	@make -s build
+	@make -s run
+
+clean:
+	@echo "Cleaning up BFS_DFS.."
+	@if exist bin del /Q bin\ && rmdir bin

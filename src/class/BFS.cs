@@ -1,7 +1,10 @@
 using System;
+
 namespace Algorithm{
-    public class BFS : Algorithm{
-        public override void print(){
+    public class BFS : algorithm
+    {
+        public override void print()
+        {
             Console.WriteLine("Hello BFS");
         }
     }
