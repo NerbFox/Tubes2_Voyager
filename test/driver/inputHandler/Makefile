@@ -13,3 +13,7 @@ build:
 
 run:
 	@$(DOTNET) $(INPUTHANDLERDLL)
+
+clean:
+	@echo "Cleaning up.."
+	@del /Q bin\
