@@ -27,7 +27,7 @@ namespace inputHandler
             return inputFileData;
         }
 
-        public void ReadFile(string path)
+        public void readFile(string path)
         {
             if (File.Exists(path)) {
                 inputFileData = File.ReadAllLines(path);
