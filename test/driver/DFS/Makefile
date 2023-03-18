@@ -10,6 +10,10 @@ SRCDRIVER := Driver.cs
 DFSDLL := bin/DFS.dll
 OUTPUT := -out:$(DFSDLL)
 
+all:
+	@make -s clean
+	@make -s runbuild
+
 build:
 	@echo "Compiling DFS.."
 	@if not exist bin mkdir bin

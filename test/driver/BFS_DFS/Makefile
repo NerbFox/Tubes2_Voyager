@@ -10,6 +10,10 @@ SRCDRIVER := Driver.cs
 BFSDFSDLL := bin/BFSDFS.dll
 OUTPUT := -out:$(BFSDFSDLL)
 
+all:
+	@make -s clean
+	@make -s runbuild
+
 build:
 	@echo "Compiling BFS_DFS.."
 	@if not exist bin mkdir bin

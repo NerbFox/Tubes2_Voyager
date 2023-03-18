@@ -8,6 +8,10 @@ SRCDRIVER := Driver.cs
 INPUTMAPDLL := bin/Map.dll
 OUTPUT := -out:$(INPUTMAPDLL)
 
+all:
+	@make -s clean
+	@make -s runbuild
+
 build:
 	@echo "Compiling Map.."
 	@if not exist bin mkdir bin

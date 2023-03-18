@@ -1,3 +1,8 @@
+all:
+	@make -s clean
+	@make -s build
+	@make -s run
+
 build:
 	@cd ./src && dotnet build --nologo
 
