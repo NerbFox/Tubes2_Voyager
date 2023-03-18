@@ -13,6 +13,7 @@ class DriverDFS
         DFS dfs = new DFS(map);
         dfs.printMap();  
         dfs.print();  
-        int i = 0; 
+        dfs.printVisMatrix();
+        // int i = 0; 
     }
 }
