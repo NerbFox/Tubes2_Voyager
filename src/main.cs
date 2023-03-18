@@ -1,25 +1,20 @@
 using System;
+using System.Windows.Forms;
 using Algorithm;
 using inputHandler;
 using Map;
+using GUI;
 
 namespace Main
 {
   class Program
   {
+    [STAThread]
     static void Main(string[] args)
     {
-      Console.WriteLine("Ghazi Akmal Fauzan");    
-      Console.WriteLine("Tubes 2");
-      Console.WriteLine("Voyager");
-      Console.WriteLine("====================================");
-      Console.WriteLine("1. BFS");
-      Console.WriteLine("2. DFS");
-      DFS dfs = new DFS();
-      BFS bfs = new BFS();
-      Console.Write("Pilih Algoritma: ");
-      dfs.print();
-      bfs.print();
+      Application.EnableVisualStyles();
+      Application.SetCompatibleTextRenderingDefault(false);
+      Application.Run(new MyForm());
     }
   }
 }
