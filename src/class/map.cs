@@ -1,6 +1,6 @@
 using System;
 
-namespace myMap
+namespace Map
 {
     public class map
     {

@@ -1,6 +1,6 @@
 using System;
 using inputHandler;
-using myMap;
+using Map;
 
 class driverMap
 {

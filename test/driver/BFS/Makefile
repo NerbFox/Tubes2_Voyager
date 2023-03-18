@@ -2,7 +2,8 @@ DOTNET := dotnet
 CSC := dotnet csc
 
 SRCBFS := ../../../src/class/BFS.cs
-SRCALGO := ../../../src/class/Algorithm.cs
+SRCALGO := ../../../src/class/algorithm.cs
+SRCMAP := ../../../src/class/map.cs
 SRCDRIVER := driver.cs
 
 BFSDLL := bin/BFS.dll
@@ -11,7 +12,7 @@ OUTPUT := -out:$(BFSDLL)
 build:
 	@echo "Compiling BFS.."
 	@if not exist bin mkdir bin
-	@$(CSC) $(SRCBFS) $(SRCALGO) $(SRCDRIVER) $(OUTPUT)
+	@$(CSC) $(SRCBFS) $(SRCALGO) $(SRCMAP) $(SRCDRIVER) $(OUTPUT)
 
 run:
 	@$(DOTNET) $(BFSDLL)

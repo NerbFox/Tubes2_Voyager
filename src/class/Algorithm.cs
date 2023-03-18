@@ -1,5 +1,5 @@
 using System;
-using myMap;
+using Map;
 
 namespace Algorithm
 {

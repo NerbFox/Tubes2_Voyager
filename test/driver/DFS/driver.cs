@@ -1,7 +1,7 @@
 using System;
 using Algorithm;
 using inputHandler;
-using myMap;
+using Map;
 
 class driverDFS
 {
