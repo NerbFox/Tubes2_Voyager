@@ -13,5 +13,6 @@ class driverDFS
         DFS dfs = new DFS(map);
         dfs.printMap();  
         dfs.print();  
+        int i = 0; 
     }
 }
