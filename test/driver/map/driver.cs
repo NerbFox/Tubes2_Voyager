@@ -1,14 +1,14 @@
 using System;
-using inputHandler;
+using InputHandler;
 using Map;
 
-class driverMap
+class DriverMap
 {
     static void Main(string[] args)
     {
-        inputHandlerFile file = new inputHandlerFile();
+        InputHandlerFile file = new InputHandlerFile();
         file.readFile("../../testInput3.txt");
-        map map = new map(file.getInputData());
+        MyMap map = new MyMap(file.getInputData());
         Console.WriteLine(map.getMapWidth());
         Console.WriteLine(map.getMapHeight());
         Console.WriteLine(map.getMapSize());

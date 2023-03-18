@@ -3,10 +3,10 @@ using Map;
 
 namespace Algorithm
 {
-    public abstract class algorithm
+    public abstract class MyAlgorithm
     {
         protected int treasureFound;
-        protected map mapData;
+        protected MyMap mapData = new MyMap();
         public abstract void print();
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using Algorithm;
 
-class driverDFS
+class DriverDFS
 {
     static void Main(string[] args)
     {

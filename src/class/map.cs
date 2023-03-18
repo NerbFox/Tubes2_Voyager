@@ -2,14 +2,14 @@ using System;
 
 namespace Map
 {
-    public class map
+    public class MyMap
     {
         private char[,] mapData;
         private int mapWidth;
         private int mapHeight;
         private int mapSize;
 
-        public map()
+        public MyMap()
         {
             mapData = new char[0, 0];
             mapWidth = 0;
@@ -17,7 +17,7 @@ namespace Map
             mapSize = 0;
         }
 
-        public map(string[] data)
+        public MyMap(string[] data)
         {
             mapWidth = data[0].Length;
             mapHeight = data.Length;

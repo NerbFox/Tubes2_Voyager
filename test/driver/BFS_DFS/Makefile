@@ -3,9 +3,9 @@ CSC := dotnet csc
 
 SRCDFS := ../../../src/class/DFS.cs
 SRCBFS := ../../../src/class/BFS.cs
-SRCALGO := ../../../src/class/algorithm.cs
-SRCMAP := ../../../src/class/map.cs
-SRCDRIVER := driver.cs
+SRCALGO := ../../../src/class/Algorithm.cs
+SRCMAP := ../../../src/class/Map.cs
+SRCDRIVER := Driver.cs
 
 BFSDFSDLL := bin/BFSDFS.dll
 OUTPUT := -out:$(BFSDFSDLL)

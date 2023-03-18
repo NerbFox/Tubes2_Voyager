@@ -3,15 +3,15 @@ using Map;
 
 namespace Algorithm
 {
-    public class DFS : algorithm
+    public class DFS : MyAlgorithm
     {
         public DFS()
         {
             treasureFound = 0;
-            mapData = new map();
+            mapData = new MyMap();
         }
 
-        public DFS(map data)
+        public DFS(MyMap data)
         {
             treasureFound = 0;
             mapData = data;
@@ -42,4 +42,4 @@ namespace Algorithm
             Console.WriteLine("Hello DFS");
         }
     }
-};
+}

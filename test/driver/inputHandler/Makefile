@@ -1,14 +1,14 @@
 DOTNET := dotnet
 CSC := dotnet csc
 
-SRCINPUTHANDLER := ../../../src/class/inputHandler.cs
-SRCDRIVER := driver.cs
+SRCINPUTHANDLER := ../../../src/class/InputHandler.cs
+SRCDRIVER := Driver.cs
 
-INPUTHANDLERDLL := bin/inputHandler.dll
+INPUTHANDLERDLL := bin/InputHandler.dll
 OUTPUT := -out:$(INPUTHANDLERDLL)
 
 build:
-	@echo "Compiling inputHandler.."
+	@echo "Compiling InputHandler.."
 	@if not exist bin mkdir bin
 	@$(CSC) $(SRCINPUTHANDLER) $(SRCDRIVER) $(OUTPUT)
 
@@ -20,5 +20,5 @@ runbuild:
 	@make -s run
 
 clean:
-	@echo "Cleaning up inputHandler.."
+	@echo "Cleaning up InputHandler.."
 	@if exist bin del /Q bin\ && rmdir bin

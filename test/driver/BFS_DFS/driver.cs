@@ -1,7 +1,7 @@
 using System;
 using Algorithm;
 
-class driverDFS_BFS
+class DriverDFS_BFS
 {
     static void Main(string[] args)
     {

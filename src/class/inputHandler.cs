@@ -1,13 +1,13 @@
 ﻿using System;
 using System.IO;
 
-namespace inputHandler
+namespace InputHandler
 {
-    public class inputHandlerFile
+    public class InputHandlerFile
     {
         private string[] inputFileData;
 
-        public inputHandlerFile()
+        public InputHandlerFile()
         {
             inputFileData = new string[0];
         }
@@ -40,11 +40,11 @@ namespace inputHandler
         }
     }
 
-    public class inputHandlerCommand
+    public class InputHandlerCommand
     {
         private int command;
 
-        public inputHandlerCommand()
+        public InputHandlerCommand()
         {
             command = 0;
         }

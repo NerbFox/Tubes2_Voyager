@@ -2,10 +2,10 @@ DOTNET := dotnet
 CSC := dotnet csc
 
 SRCDFS := ../../../src/class/DFS.cs
-SRCMAP := ../../../src/class/map.cs
-SRCINPUTHANDLER := ../../../src/class/inputHandler.cs
-SRCALGO := ../../../src/class/algorithm.cs
-SRCDRIVER := driver.cs
+SRCMAP := ../../../src/class/Map.cs
+SRCINPUTHANDLER := ../../../src/class/InputHandler.cs
+SRCALGO := ../../../src/class/Algorithm.cs
+SRCDRIVER := Driver.cs
 
 DFSDLL := bin/DFS.dll
 OUTPUT := -out:$(DFSDLL)

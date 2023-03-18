@@ -1,12 +1,12 @@
 using System;
-using inputHandler;
+using InputHandler;
 
-class driverInputHandler
+class DriverInputHandler
 {
     static void Main(string[] args)
     {
-        inputHandlerFile file = new inputHandlerFile();
-        inputHandlerCommand command = new inputHandlerCommand();
+        InputHandlerFile file = new InputHandlerFile();
+        InputHandlerCommand command = new InputHandlerCommand();
         file.readFile("../../testInput2.txt");
         string[] data = file.getInputData();
         for (int i = 0; i < data.Length; i++) {

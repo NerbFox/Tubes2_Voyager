@@ -2,7 +2,7 @@ using System;
 
 namespace Algorithm
 {
-    public class TSP : algorithm
+    public class TSP : MyAlgorithm
     {
         public override void print()
         {

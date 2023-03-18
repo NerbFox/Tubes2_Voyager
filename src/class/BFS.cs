@@ -1,7 +1,7 @@
 using System;
 
 namespace Algorithm{
-    public class BFS : algorithm
+    public class BFS : MyAlgorithm
     {
         public override void print()
         {
