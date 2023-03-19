@@ -7,7 +7,7 @@ class DriverInputHandler
     {
         InputHandlerFile file = new InputHandlerFile();
         InputHandlerCommand command = new InputHandlerCommand();
-        file.readFile("../../testInput2.txt");
+        file.readFile("../../TestInput2.txt");
         string[] data = file.getInputData();
         for (int i = 0; i < data.Length; i++) {
             Console.WriteLine(data[i]);

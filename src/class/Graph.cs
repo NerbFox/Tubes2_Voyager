@@ -12,15 +12,15 @@ struct mapElmt
         this.col = col;
     }
 }
-namespace graph{
-    class Graph
+namespace Graph{
+    class MyGraph
     {
         private int v; // number of vertices
         // private List<(int,int)>[] adj; // adjacency list
         private List<mapElmt>[] adj; // adjacency list
 
         // constructor
-        public Graph(int vertices)
+        public MyGraph(int vertices)
         {
             v = vertices;
             adj = new List<mapElmt>[v];

@@ -8,7 +8,7 @@ class DriverDFS
     static void Main(string[] args)
     {
         InputHandlerFile inputHandlerFile = new InputHandlerFile();
-        inputHandlerFile.readFile("../../testInput3.txt");    
+        inputHandlerFile.readFile("../../TestInput3.txt");    
         MyMap map = new MyMap(inputHandlerFile.getInputData());
         DFS dfs = new DFS(map);
         dfs.printMap();  

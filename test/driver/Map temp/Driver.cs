@@ -7,7 +7,7 @@ class DriverMap
     static void Main(string[] args)
     {
         InputHandlerFile file = new InputHandlerFile();
-        file.readFile("../../testInput3.txt");
+        file.readFile("../../TestInput3.txt");
         MyMap map = new MyMap(file.getInputData());
         Console.WriteLine(map.getMapWidth());
         Console.WriteLine(map.getMapHeight());

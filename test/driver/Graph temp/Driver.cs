@@ -2,18 +2,20 @@ using System;
 using Algorithm;
 using InputHandler;
 using Map;
-using graph;
+using Graph;
 
-class Program
+class DriverGraph
 {
     static void Main(string[] args)
     {
         InputHandlerFile inputHandlerFile = new InputHandlerFile();
-        inputHandlerFile.readFile("../../testInput3.txt");
+        inputHandlerFile.readFile("../../TestInput3.txt");
         MyMap map = new MyMap(inputHandlerFile.getInputData());
         // DFS dfs = new DFS(map);
         int v = -1;
-        int row, col, ind;
+        int row = 0;
+        int col = 0;
+        int ind = 0;
         for (int i = 0; i < map.getMapHeight(); i++)
         {
             for (int j = 0; j < map.getMapWidth(); j++)
@@ -31,7 +33,7 @@ class Program
             Console.WriteLine();
         }
         Console.WriteLine(v);
-        Graph g = new Graph(v);
+        MyGraph g = new MyGraph(v);
         int index = 0;
         for (int i = 0; i < map.getMapHeight(); i++)
         {
@@ -68,7 +70,7 @@ class Program
         g.DFS(start);
         
         // mapElmt m = new mapElmt(i, j, map.getElement(i, j));
-        // Graph g = new Graph(4);
+        // MyGraph g = new MyGraph(4);
         // mapElmt m1 = new mapElmt(0, 90, 100);
         // mapElmt m2 = new mapElmt(1, 93, 10);
         // mapElmt m3 = new mapElmt(2, 90, 16);
