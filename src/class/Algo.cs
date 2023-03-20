@@ -255,9 +255,15 @@ namespace Algo
             for (int i = 0; i < node; i++)
                 if (visited[i])
                     c++;
+            
+            // check if get treasure
+            if (map.getElement(u.row, u.col) == 'T')
+            {
+                n_treasure--;
+            } 
 
             // If all the node is visited return;
-            if (c == node)
+            if (c == node || n_treasure == 0)
                 return;
 
             // Mark not visited node as visited
@@ -302,7 +308,7 @@ namespace Algo
             for (int i = 0; i < v; i++) {
                 visited[i] = false;
             }
-            mapElmt parent = new mapElmt(-1, -1, -1);
+            mapElmt parent = new mapElmt(1, -1, -1);
             // call the function
             dfsUtil(start, v, visited, road_used, parent, 0);
         }
