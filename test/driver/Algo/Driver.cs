@@ -9,7 +9,7 @@ class DriverAlgo
     static void Main(string[] args)
     {
         InputHandlerFile inputHandlerFile = new InputHandlerFile();
-        inputHandlerFile.readFile("../../TestInput3.txt");
+        inputHandlerFile.readFile("../../TestInput4.txt");
         MyMap map = new MyMap(inputHandlerFile.getInputData());
         // DFS dfs = new DFS(map);
         // int v = 0;
@@ -82,8 +82,13 @@ class DriverAlgo
         // // Console.WriteLine("ind = " + ind);
         // map.print();
         // Console.WriteLine("\n\nDepth-first traversal (starting from vertex start):");
+        map.print();
         MyAlgo g = new MyAlgo(map.getMapSize(), map);
         g.DFS();
+        Console.WriteLine("\nBacktracking:");
+        g.resetVisited();
+        // g.DFSBack();/
+        // g.dfs();
 
         // mapElmt m = new mapElmt(i, j, map.getElement(i, j));
         // MyAlgo g = new MyAlgo(4);

@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Map;
-namespace Algo{
+namespace Algo
+{
     struct mapElmt
     {
         public int index;
@@ -15,7 +16,7 @@ namespace Algo{
             this.col = col;
             this.n_visited = 0;
         }
-    }   
+    }
     class MyAlgo
     {
         protected int v; // number of vertices
@@ -62,7 +63,7 @@ namespace Algo{
                         // Console.WriteLine("K");
                         row = i;
                         col = j;
-                        ind = ver-1;
+                        ind = ver - 1;
                     }
                 }
                 // Console.WriteLine();
@@ -72,10 +73,14 @@ namespace Algo{
 
             // add edges to the graph from the map
             int index = 0;
+            mapElmt m = new mapElmt(0, 0, 0);
             for (int i = 0; i < map.getMapHeight(); i++)
             {
                 for (int j = 0; j < map.getMapWidth(); j++)
                 {
+                    // buat mapElmt
+
+                
                     if (map.getElement(i, j) != 'X')
                     {
                         // mapElmt m = new mapElmt(index, i, j);
@@ -119,9 +124,11 @@ namespace Algo{
         }
 
         // add an edge to the graph
-        public void AddEdge(int u, mapElmt v)
+        // public void AddEdge(int u, mapElmt v)
+        public void AddEdge(int  u, mapElmt v)
         {
             adj[u].Add(v);
+            // adj[v.index].Add(u);
             // Console.WriteLine(u + " " + v.index + " " + v.row + " " + v.col);
             // print();    
             // adj[u].Add((v1,v2));
@@ -140,7 +147,8 @@ namespace Algo{
 
         public void DFS()
         {
-            
+            // stack of path for backtracking
+            // Stack<(mapElmt, int)> path = new Stack<(mapElmt, int)>();
 
             // DFS
             Stack<(mapElmt, int)> DFSStack = new Stack<(mapElmt, int)>(); // DFSStack for DFS
@@ -149,32 +157,156 @@ namespace Algo{
             // Console.Write(DFSStack.Count);
 
             // selama DFSStack tidak kosong dan belum semua treasure terambil
-            while (DFSStack.Count != 0 && n_treasure != 0) 
+            while (DFSStack.Count != 0 && n_treasure != 0)
             {
                 (mapElmt current, int depth) = DFSStack.Pop(); // pop DFSStack
                 // if (DFSStack.Count == 0)
                 //     Console.Write(current.index  + " " + current.row + " " + current.col); // print the vertex
                 // else
                 //     Console.Write(current.index  + " " + current.row + " " + current.col + " -> "); // print the vertex
-                Console.Write(current.index  + " " + current.row + " " + current.col + " -> "); // print the vertex
+                Console.Write(current.index + " " + current.row + " " + current.col + " -> "); // print the vertex
 
                 // visit semua adjacent vertices dari vertex saat ini
                 foreach (mapElmt i in adj[current.index])
                 {
                     // jika adjacent vertex belum dikunjungi
+                    // Console.WriteLine(i.index);
+                    
                     if (!visited[i.index])
                     {
+                    // Console.WriteLine("uhuy");
                         visited[i.index] = true; // set true untuk adjacent vertex (visited)
                         DFSStack.Push((i, depth + 1)); // push the adjacent vertex ke DFSStack
-                    }
+                        // push current to stack for backtracking in DFSStack
+                        // DFSStack.Push((current, depth));
 
-                    // update treasure count
-                    if (map.getElement(i.row, i.col) == 'T')
-                    {
-                        n_treasure--;
+                        // update treasure count
+                        if (map.getElement(i.row, i.col) == 'T')
+                        {
+                            n_treasure--;
+                        }
+                        // update path
+                        // path.Push((i, depth + 1));
                     }
+                    // print i
+                    // Console.Write("b " + i.index + " " + i.row + " " + i.col + " -> ");
+                    
+                    // // print path
+                    // foreach (mapElmt j in path)
+                    // {
+                    //     Console.Write("b " + j.index + " " + j.row + " " + j.col + " -> ");
+                    // }
+
                 }
             }
         }
+
+        public void resetVisited()
+        {
+            for (int i = 0; i < v; i++)
+            {
+                visited[i] = false;
+            }
+        }
+        public void DFSBack(){
+            resetVisited();
+            // backtracking DFS
+            Console.WriteLine("Backtracking DFS");
+            bool[] visited = new bool[v];
+            List<mapElmt> path = new List<mapElmt>();
+            DFSBacktracking(start, visited, path);
+        }
+        public void DFSBacktracking(mapElmt u, bool[] visited, List<mapElmt> path)
+        {
+            visited[u.index] = true;
+            path.Add(u);
+
+            if (path.Count == v)
+            {
+                Console.WriteLine(v);
+                // Console.WriteLine(string.Join(" -> ", path)); 
+                // print the path
+                foreach (mapElmt elmt in path){
+                    Console.WriteLine(elmt.index + " " + elmt.row + " " + elmt.col + " -> ");
+                }
+            }
+            else
+            {
+                foreach (mapElmt v in adj[u.index])
+                {
+                    if (!visited[v.index])
+                    {
+                        DFSBacktracking(v, visited, path);
+                    }
+                }
+            }
+            visited[u.index] = false;
+            path.RemoveAt(path.Count - 1);
+
+        }
+        public void dfsUtil(mapElmt u, int node, bool[] visited,
+						List<List<mapElmt> > road_used,
+						mapElmt parent, int it)
+        {
+            int c = 0;
+
+            // Check if all the node is visited or not
+            // and count visited nodes  /
+            for (int i = 0; i < node; i++)
+                if (visited[i])
+                    c++;
+
+            // If all the node is visited return;
+            if (c == node)
+                return;
+
+            // Mark not visited node as visited
+            visited[u.index] = true;
+
+            // Track the current edge
+            road_used.Add(new List<mapElmt>() { parent, u });
+
+            // Print the node
+            Console.Write(u.index + " " + u.row + " " + u.col + " -> ");
+
+            // Check for not visited node and proceed with it.
+            foreach(mapElmt x in adj[u.index])
+            {
+                // call the DFs function if not visited
+                if (!visited[x.index]) {
+                    dfsUtil(x, node, visited, road_used, u,
+                            it + 1);
+                }
+            }
+            // Backtrack through the last
+            // visited nodes
+            for (int y = 0; y < road_used.Count; y++) {
+                if (road_used[y][1].index == u.index) {
+                    dfsUtil(road_used[y][0], node, visited,
+                            road_used, u, it + 1);
+                }
+            }
+        }
+
+        // Function to call the DFS function
+        // which prints the DFS-traversal stepwise
+        public void dfs()
+        {
+            // Create a array of visited node
+            bool[] visited = new bool[v];
+
+            // Vector to track last visited road
+            List<List<mapElmt> > road_used = new List<List<mapElmt> >();
+
+            // Initialize all the v with false
+            for (int i = 0; i < v; i++) {
+                visited[i] = false;
+            }
+            mapElmt parent = new mapElmt(-1, -1, -1);
+            // call the function
+            dfsUtil(start, v, visited, road_used, parent, 0);
+        }
+
+
     }
 }
