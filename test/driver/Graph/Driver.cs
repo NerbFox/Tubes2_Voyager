@@ -36,7 +36,7 @@ class DriverGraph
             Console.WriteLine();
         }
         Console.WriteLine(v);
-        MyGraph g = new MyGraph(v);
+        MyGraph g = new MyGraph(map.getMapSize());
         int index = 0;
         for (int i = 0; i < map.getMapHeight(); i++)
         {
