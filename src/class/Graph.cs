@@ -3,15 +3,30 @@ using System.Collections.Generic;
 struct mapElmt
 {
     public int index;
+    public char value;
     public int row;
     public int col;
+    public int n_visit;
     public mapElmt(int index, int row, int col)
     {
         this.index = index;
         this.row = row;
         this.col = col;
+        this.n_visit = 0;
     }
 }
+
+// struct Nodes
+// {
+//     public char value;
+//     public int n_visit;
+//     public LinkedListNode<Edge> edge;
+// }
+
+// struct Edge
+// {
+
+// }
 namespace Graph{
     class MyGraph
     {
@@ -74,5 +89,6 @@ namespace Graph{
                 }
             }
         }
+
     }
 }

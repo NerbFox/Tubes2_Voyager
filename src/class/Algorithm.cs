@@ -1,5 +1,6 @@
 using System;
 using Map;
+using System.Collections.Generic;
 
 namespace Algorithm
 {
@@ -14,6 +15,7 @@ namespace Algorithm
         protected bool[,] visited;
         // stack of visited nodes tuple (row, col)
         protected (int,int)[] stack;
+        // protected Stack<int> stacksd;
         public abstract void print();
     }
 }
