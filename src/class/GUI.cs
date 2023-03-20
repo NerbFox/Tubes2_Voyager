@@ -1,16 +1,17 @@
 using System;
+using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
-
 
 namespace GUI
 {
     public class MyGUI : Form
     {
-        int window_width = 1920;
-        int window_height = 1080;
         // Atribute
+        private string SelectedFilePath = "";
+        private string SelectedFileName = "";
         private Button VisualizeButton;
+        private Button InputFileButton;
         private RadioButton BFSButton;
         private RadioButton DFSButton;
         private RadioButton TSPButton;
@@ -24,7 +25,7 @@ namespace GUI
             this.Name = "VoyagerGUI";
             this.Text = "Voyager";
             this.MaximizeBox = false;
-            this.ClientSize = new System.Drawing.Size(window_width, window_height);
+            this.ClientSize = new System.Drawing.Size(1920, 1000);
             
             // Set the background image of the form
             this.BackgroundImage = Image.FromFile(@"UI\Background.png");
@@ -38,44 +39,59 @@ namespace GUI
             // Set the form to non-resizable
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
+            // Set the form to be in the center of the screen
+            this.StartPosition = FormStartPosition.CenterScreen;
+
             /*
-                Setup Button
+                Setup Buttons
             */
             // Create the button
             VisualizeButton = new Button();
+            InputFileButton = new Button();
 
             // Set the button text
             VisualizeButton.Text = "Visualize";
+            InputFileButton.Text = "Input txt File";
 
             // Set the button font
-            VisualizeButton.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            VisualizeButton.Font = new Font("Microsoft Sans Serif", 20, FontStyle.Bold);
+            InputFileButton.Font = new Font("Microsoft Sans Serif", 20, FontStyle.Bold);
 
             // Set the button font color
-            VisualizeButton.ForeColor = System.Drawing.Color.White;
+            VisualizeButton.ForeColor = System.Drawing.Color.SaddleBrown;
+            InputFileButton.ForeColor = System.Drawing.Color.SaddleBrown;
 
             // Set the button size
-            VisualizeButton.Size = new Size(125, 35);
+            VisualizeButton.Size = new Size(150, 50);
+            InputFileButton.Size = new Size(300, 50);
 
             // Set the button location
-            VisualizeButton.Location = new Point(150, 475);
+            VisualizeButton.Location = new Point(312, 575);
+            InputFileButton.Location = new Point(250, 250);
 
             // Add color to the button
-            VisualizeButton.BackColor = System.Drawing.Color.MediumSlateBlue;
+            VisualizeButton.BackColor = System.Drawing.Color.LightGoldenrodYellow;
+            InputFileButton.BackColor = System.Drawing.Color.LightGoldenrodYellow;
 
             // Remove the border of the button
             VisualizeButton.FlatAppearance.BorderSize = 0;
+            InputFileButton.FlatAppearance.BorderSize = 0;
 
             // Set flat style to the button
-            VisualizeButton.FlatStyle = FlatStyle.Flat;
+            VisualizeButton.FlatStyle = FlatStyle.Standard;
+            InputFileButton.FlatStyle = FlatStyle.Standard;
 
             // Add a hover effect to the button
             VisualizeButton.UseVisualStyleBackColor = false;
+            InputFileButton.UseVisualStyleBackColor = false;
 
             // Button click event
             VisualizeButton.Click += new EventHandler(StartVisualize);
+            InputFileButton.Click += new EventHandler(InputFile);
 
             // Add the button to the form
             this.Controls.Add(VisualizeButton);
+            this.Controls.Add(InputFileButton);
 
             /*
                 Setup 3 Radio Buttons
@@ -91,24 +107,24 @@ namespace GUI
             TSPButton.Text = "TSP";
 
             // Set the radio button font
-            BFSButton.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
-            DFSButton.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
-            TSPButton.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            BFSButton.Font = new Font("Microsoft Sans Serif", 20, FontStyle.Bold);
+            DFSButton.Font = new Font("Microsoft Sans Serif", 20, FontStyle.Bold);
+            TSPButton.Font = new Font("Microsoft Sans Serif", 20, FontStyle.Bold);
 
             // Set the radio button font color
-            BFSButton.ForeColor = System.Drawing.Color.White;
-            DFSButton.ForeColor = System.Drawing.Color.White;
-            TSPButton.ForeColor = System.Drawing.Color.White;
+            BFSButton.ForeColor = System.Drawing.Color.SaddleBrown;
+            DFSButton.ForeColor = System.Drawing.Color.SaddleBrown;
+            TSPButton.ForeColor = System.Drawing.Color.SaddleBrown;
 
             // Set the radio button size
-            BFSButton.Size = new Size(125, 35);
-            DFSButton.Size = new Size(125, 35);
-            TSPButton.Size = new Size(125, 35);
+            BFSButton.Size = new Size(150, 50);
+            DFSButton.Size = new Size(150, 50);
+            TSPButton.Size = new Size(150, 50);
 
             // Set the radio button location
-            BFSButton.Location = new Point(175, 350);
-            DFSButton.Location = new Point(175, 375);
-            TSPButton.Location = new Point(175, 400);
+            BFSButton.Location = new Point(343, 427);
+            DFSButton.Location = new Point(343, 467);
+            TSPButton.Location = new Point(343, 507);
 
             // Set radio button color to transparent
             BFSButton.BackColor = System.Drawing.Color.Transparent;
@@ -124,6 +140,21 @@ namespace GUI
             this.Controls.Add(BFSButton);
             this.Controls.Add(DFSButton);
             this.Controls.Add(TSPButton);
+        }
+
+        private void InputFile(object? sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog.FilterIndex = 2;
+            openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                SelectedFilePath = openFileDialog.FileName;
+                SelectedFileName = Path.GetFileName(SelectedFilePath);
+                InputFileButton.Text = SelectedFileName;
+            }
         }
 
         private void StartVisualize(object? sender, EventArgs e)
