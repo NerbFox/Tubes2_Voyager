@@ -71,20 +71,20 @@ namespace Algorithm
             mapData.print();
         }
 
-        public void printVisMatrix(){
-            // print adj matrix
-            int h = mapData.getMapHeight();
-            int w = mapData.getMapWidth();
-            Console.WriteLine("Map Height: " + h);
-            Console.WriteLine("Map Width: " + w);
-            Console.WriteLine("vis Matrix");
-            for(int i = 0; i < h; i++){
-                for (int j = 0; j < w; j++){
-                    Console.Write(visited[i,j]);
-                }
-                Console.WriteLine();
-            }
-        }
+        // public void printVisMatrix(){
+        //     // print adj matrix
+        //     int h = mapData.getMapHeight();
+        //     int w = mapData.getMapWidth();
+        //     Console.WriteLine("Map Height: " + h);
+        //     Console.WriteLine("Map Width: " + w);
+        //     Console.WriteLine("vis Matrix");
+        //     for(int i = 0; i < h; i++){
+        //         for (int j = 0; j < w; j++){
+        //             Console.Write(visited[i,j]);
+        //         }
+        //         Console.WriteLine();
+        //     }
+        // }
 
         public void DFSMethod(int row, int col)
         {

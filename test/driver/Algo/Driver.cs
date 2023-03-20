@@ -2,9 +2,9 @@ using System;
 using Algorithm;
 using InputHandler;
 using Map;
-using Graph;
+using Algo;
 
-class DriverGraph
+class DriverAlgo
 {
     static void Main(string[] args)
     {
@@ -36,7 +36,7 @@ class DriverGraph
             Console.WriteLine();
         }
         Console.WriteLine(v);
-        MyGraph g = new MyGraph(map.getMapSize());
+        MyAlgo g = new MyAlgo(map.getMapSize());
         int index = 0;
         for (int i = 0; i < map.getMapHeight(); i++)
         {
@@ -85,7 +85,7 @@ class DriverGraph
         g.DFS(start);
 
         // mapElmt m = new mapElmt(i, j, map.getElement(i, j));
-        // MyGraph g = new MyGraph(4);
+        // MyAlgo g = new MyAlgo(4);
         // mapElmt m1 = new mapElmt(0, 90, 100);
         // mapElmt m2 = new mapElmt(1, 93, 10);
         // mapElmt m3 = new mapElmt(2, 90, 16);

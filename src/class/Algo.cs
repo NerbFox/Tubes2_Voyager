@@ -1,28 +1,28 @@
 using System;
 using System.Collections.Generic;
-struct mapElmt
-{
-    public int index;
-    public int row;
-    public int col;
-    public int n_visited;
-    public mapElmt(int index, int row, int col)
+namespace Algo{
+    struct mapElmt
     {
-        this.index = index;
-        this.row = row;
-        this.col = col;
-        this.n_visited = 0;
-    }
-}
-namespace Graph{
-    class MyGraph
+        public int index;
+        public int row;
+        public int col;
+        public int n_visited;
+        public mapElmt(int index, int row, int col)
+        {
+            this.index = index;
+            this.row = row;
+            this.col = col;
+            this.n_visited = 0;
+        }
+    }   
+    class MyAlgo
     {
-        private int v; // number of vertices
+        protected int v; // number of vertices
         // private List<(int,int)>[] adj; // adjacency list
-        private List<mapElmt>[] adj; // adjacency list
+        protected List<mapElmt>[] adj; // adjacency list
 
         // constructor
-        public MyGraph(int vertices)
+        public MyAlgo(int vertices)
         {
             this.v = vertices;
             adj = new List<mapElmt>[v];
@@ -60,7 +60,6 @@ namespace Graph{
                 Console.WriteLine();
             }
         }
-
         public void DFS(mapElmt start)
         {
             bool[] visited = new bool[v]; // keep track of visited vertices
