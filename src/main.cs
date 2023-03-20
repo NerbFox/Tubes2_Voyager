@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using Algorithm;
 using InputHandler;
@@ -13,8 +14,7 @@ namespace Main
     static void Main(string[] args)
     {
       Application.EnableVisualStyles();
-      Application.SetCompatibleTextRenderingDefault(false);
-      Application.Run(new MyForm());
+      Application.Run(new MyGUI());
     }
   }
 }
