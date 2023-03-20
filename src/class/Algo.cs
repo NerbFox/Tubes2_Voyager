@@ -24,7 +24,7 @@ namespace Algo{
         protected mapElmt start;
         public bool[] visited;
         public MyMap map;
-
+        public int n_treasure;
         // constructor
         public MyAlgo(int vertices, MyMap _map)
         {
@@ -42,10 +42,16 @@ namespace Algo{
             int row = 0;
             int col = 0;
             int ind = 9;
+            n_treasure = 0;
             for (int i = 0; i < map.getMapHeight(); i++)
             {
                 for (int j = 0; j < map.getMapWidth(); j++)
                 {
+                    // count treasure
+                    if (map.getElement(i, j) == 'T')
+                    {
+                        n_treasure++;
+                    }
                     if (map.getElement(i, j) != 'X')
                     {
                         ver++;
@@ -142,7 +148,8 @@ namespace Algo{
             DFSStack.Push((start, 0)); // push start vertex ke DFSStack
             // Console.Write(DFSStack.Count);
 
-            while (DFSStack.Count != 0)
+            // selama DFSStack tidak kosong dan belum semua treasure terambil
+            while (DFSStack.Count != 0 && n_treasure != 0) 
             {
                 (mapElmt current, int depth) = DFSStack.Pop(); // pop DFSStack
                 // if (DFSStack.Count == 0)
@@ -150,15 +157,21 @@ namespace Algo{
                 // else
                 //     Console.Write(current.index  + " " + current.row + " " + current.col + " -> "); // print the vertex
                 Console.Write(current.index  + " " + current.row + " " + current.col + " -> "); // print the vertex
-                // Console.Write(   "uyy");
 
                 // visit semua adjacent vertices dari vertex saat ini
                 foreach (mapElmt i in adj[current.index])
                 {
+                    // jika adjacent vertex belum dikunjungi
                     if (!visited[i.index])
                     {
                         visited[i.index] = true; // set true untuk adjacent vertex (visited)
                         DFSStack.Push((i, depth + 1)); // push the adjacent vertex ke DFSStack
+                    }
+
+                    // update treasure count
+                    if (map.getElement(i.row, i.col) == 'T')
+                    {
+                        n_treasure--;
                     }
                 }
             }
