@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Map;
 namespace Algo{
     struct mapElmt
     {
@@ -20,14 +21,84 @@ namespace Algo{
         protected int v; // number of vertices
         // private List<(int,int)>[] adj; // adjacency list
         protected List<mapElmt>[] adj; // adjacency list
+        protected mapElmt start;
+        public bool[] visited;
+        public MyMap map;
 
         // constructor
-        public MyAlgo(int vertices)
+        public MyAlgo(int vertices, MyMap _map)
         {
             this.v = vertices;
             adj = new List<mapElmt>[v];
             for (int i = 0; i < v; ++i)
                 adj[i] = new List<mapElmt>();
+            visited = new bool[v]; // keep track of visited vertices
+            for (int i = 0; i < v; i++)
+                visited[i] = false; // set all vertices to false (not visited)
+            map = _map;
+
+            // initialize the start position from the map
+            int ver = 0;
+            int row = 0;
+            int col = 0;
+            int ind = 9;
+            for (int i = 0; i < map.getMapHeight(); i++)
+            {
+                for (int j = 0; j < map.getMapWidth(); j++)
+                {
+                    if (map.getElement(i, j) != 'X')
+                    {
+                        ver++;
+                    }
+                    // Console.Write(map.getElement(i, j) + " ");
+                    if (map.getElement(i, j) == 'K')
+                    {
+                        // Console.WriteLine("K");
+                        row = i;
+                        col = j;
+                        ind = ver-1;
+                    }
+                }
+                // Console.WriteLine();
+            }
+            start = new mapElmt(ind, row, col);
+
+
+            // add edges to the graph from the map
+            int index = 0;
+            for (int i = 0; i < map.getMapHeight(); i++)
+            {
+                for (int j = 0; j < map.getMapWidth(); j++)
+                {
+                    if (map.getElement(i, j) != 'X')
+                    {
+                        // mapElmt m = new mapElmt(index, i, j);
+                        if (i > 0 && map.getElement(i - 1, j) != 'X')
+                        {
+                            mapElmt m1 = new mapElmt(index - map.getMapWidth(), i - 1, j);
+                            AddEdge(index, m1);
+                        }
+                        if (i < map.getMapHeight() - 1 && map.getElement(i + 1, j) != 'X')
+                        {
+                            mapElmt m2 = new mapElmt(index + map.getMapWidth(), i + 1, j);
+                            AddEdge(index, m2);
+                        }
+                        if (j > 0 && map.getElement(i, j - 1) != 'X')
+                        {
+                            mapElmt m3 = new mapElmt(index - 1, i, j - 1);
+                            AddEdge(index, m3);
+                        }
+                        if (j < map.getMapWidth() - 1 && map.getElement(i, j + 1) != 'X')
+                        {
+                            mapElmt m4 = new mapElmt(index + 1, i, j + 1);
+                            AddEdge(index, m4);
+                        }
+                        // v++;
+                    }
+                    index++;
+                    // Console.WriteLine(index);
+                }
+            }
             // adj = new List<mapElmt>[4];
             // for (int i = 0; i < 4; ++i)
             //     adj[i] = new List<mapElmt>();
@@ -45,7 +116,7 @@ namespace Algo{
         public void AddEdge(int u, mapElmt v)
         {
             adj[u].Add(v);
-            Console.WriteLine(u + " " + v.index + " " + v.row + " " + v.col);
+            // Console.WriteLine(u + " " + v.index + " " + v.row + " " + v.col);
             // print();    
             // adj[u].Add((v1,v2));
         }
@@ -60,13 +131,13 @@ namespace Algo{
                 Console.WriteLine();
             }
         }
-        public void DFS(mapElmt start)
-        {
-            bool[] visited = new bool[v]; // keep track of visited vertices
-            for (int i = 0; i < v; i++)
-                visited[i] = false; // set all vertices to false (not visited
-            Stack<(mapElmt, int)> DFSStack = new Stack<(mapElmt, int)>(); // DFSStack for DFS
 
+        public void DFS()
+        {
+            
+
+            // DFS
+            Stack<(mapElmt, int)> DFSStack = new Stack<(mapElmt, int)>(); // DFSStack for DFS
             visited[start.index] = true; // set to true start vertex (visited)
             DFSStack.Push((start, 0)); // push start vertex ke DFSStack
             // Console.Write(DFSStack.Count);
@@ -74,7 +145,10 @@ namespace Algo{
             while (DFSStack.Count != 0)
             {
                 (mapElmt current, int depth) = DFSStack.Pop(); // pop DFSStack
-
+                // if (DFSStack.Count == 0)
+                //     Console.Write(current.index  + " " + current.row + " " + current.col); // print the vertex
+                // else
+                //     Console.Write(current.index  + " " + current.row + " " + current.col + " -> "); // print the vertex
                 Console.Write(current.index  + " " + current.row + " " + current.col + " -> "); // print the vertex
                 // Console.Write(   "uyy");
 
