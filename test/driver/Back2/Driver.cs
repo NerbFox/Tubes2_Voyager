@@ -109,39 +109,3 @@ public class GFG
         dfsbacktrack(node);
     }
 }
-// public void DFSBack(){
-//     resetVisited();
-//     // backtracking DFS
-//     Console.WriteLine("Backtracking DFS");
-//     bool[] visited = new bool[v];
-//     List<mapElmt> path = new List<mapElmt>();
-//     DFSBacktracking(start, visited, path);
-// }
-// public void DFSBacktracking(mapElmt u, bool[] visited, List<mapElmt> path)
-// {
-//     visited[u.index] = true;
-//     path.Add(u);
-
-//     if (path.Count == v)
-//     {
-//         Console.WriteLine(v);
-//         // Console.WriteLine(string.Join(" -> ", path)); 
-//         // print the path
-//         foreach (mapElmt elmt in path){
-//             Console.WriteLine(elmt.index + " " + elmt.row + " " + elmt.col + " -> ");
-//         }
-//     }
-//     else
-//     {
-//         foreach (mapElmt v in adj[u.index])
-//         {
-//             if (!visited[v.index])
-//             {
-//                 DFSBacktracking(v, visited, path);
-//             }
-//         }
-//     }
-//     visited[u.index] = false;
-//     path.RemoveAt(path.Count - 1);
-
-// }
