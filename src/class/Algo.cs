@@ -1,6 +1,6 @@
+using Map;
 using System;
 using System.Collections.Generic;
-using Map;
 namespace Algo
 {
     struct mapElmt
@@ -17,7 +17,7 @@ namespace Algo
             this.n_visited = 0;
         }
     }
-    partial class MyAlgo
+    class MyAlgo
     {
         protected int v; // number of vertices
         // private List<(int,int)>[] adj; // adjacency list
@@ -304,6 +304,9 @@ namespace Algo
             // call the function
             dFSBack(start, v, visited, road_used, parent, 0);
             Console.WriteLine("treasure count " + n_treasure);
+        }
+        public void printMap(){
+            map.print();
         }
     }
 }

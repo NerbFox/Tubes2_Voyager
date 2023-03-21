@@ -1,5 +1,3 @@
-using System;
-
 // namespace Algorithm{
 //     public class BFS : MyAlgorithm
 //     {
@@ -10,11 +8,20 @@ using System;
 //     }
 // }
 // mau pake partial class buat nambahin method BFS
-
+using System;
 namespace Algo{
-    public class BFS{
-        public void BFSMethod(){
+    class BFS{
+        protected MyAlgo A;
+        public BFS(MyAlgo _A){
+            A = _A;
+        }
+        public void printMap(){
             Console.WriteLine("Hello BFS");
+            A.printMap();
+        }
+        public void BFSMethod(){
+            // A.printMap();
+            Console.WriteLine("BFS method activated");
         }
     }
 }
