@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using InputHandler;
 using Map;
+using Algo;
 
 namespace GUI
 {
@@ -18,9 +19,10 @@ namespace GUI
         private RadioButton DFSButton;
         private RadioButton TSPButton;
         private DataGridView MapDataGrid;
-
+        private MyAlgo Algo;
         public MyGUI()
         {
+            Algo = new MyAlgo();
             /*
                 Setup Window
             */
@@ -197,6 +199,10 @@ namespace GUI
 
         private void InputFile(object? sender, EventArgs e)
         {
+            // reset all radio buttons to unchecked
+            BFSButton.Checked = false;
+            DFSButton.Checked = false;
+            TSPButton.Checked = false;
             // Open the file dialog in the test folder of the project ../test
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.RestoreDirectory = true;
@@ -251,6 +257,8 @@ namespace GUI
                     {
                         MapDataGrid.Font = new Font("Microsoft Sans Serif", (600/map.getMapHeight())/3, FontStyle.Bold);
                     }
+                    // initialize MyAlgo class with map data and start point
+                    Algo = new MyAlgo(map);
                 }
             }
             else
@@ -301,7 +309,10 @@ namespace GUI
 
         private void UseDFS(object? sender, EventArgs e)
         {
+            // if want to use DFS 
 
+            // if want to use DFS with backtracking
+            Algo.dfsbacktrack();
         }
 
         private void UseTSP(object? sender, EventArgs e)
