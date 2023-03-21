@@ -189,8 +189,22 @@ namespace Algo
             start = new mapElmt(ind, row, col);
         }
 
+        // getter for map 
+        public MyMap getMap()
+        {
+            return this.map;
+        }
+        // getter for the path
+        public List<(int, int)> getPath()
+        {
+            return this.path;
+        }
+        // getter for the step
+        public List<char> getStep()
+        {
+            return this.step;
+        }
         // add an edge to the graph
-        // public void AddEdge(int u, mapElmt v)
         public void AddEdge(int u, mapElmt v)
         {
             adj[u].Add(v);
@@ -307,10 +321,11 @@ namespace Algo
                 if (map.getElement(u.row, u.col) == 'T' && !visited[u.index])
                 {
                     n_treasure--;
-                    if (n_treasure == 0)
+                    if (n_treasure == 0){
                         Console.Write(u.index + " " + u.row + " " + u.col + " -> ");
                         // add to path a tuple of u.row and u.col
                         this.path.Add((u.row, u.col));
+                    }
                     Console.WriteLine("Nih " + u.index + " " + u.row + " " + u.col);
                 }
 
