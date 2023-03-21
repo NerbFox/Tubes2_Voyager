@@ -81,33 +81,6 @@ public class GFG
         adj[u].Add(v);
         // adj[v].Add(u);
     }
-    static public void Main()
-    {
-        // number of nodes and edges in the graph
-        int node = 11;
-        for (int i = 0; i < N; i++)
-        {
-            adj.Add(new List<int>());
-        }
-
-        // Function call to create the graph
-        insertEdge(0, 1);
-        insertEdge(0, 2);
-        insertEdge(1, 5);
-        insertEdge(1, 6);
-        insertEdge(2, 4);
-        insertEdge(2, 9);
-        insertEdge(6, 7);
-        insertEdge(6, 8);
-        insertEdge(7, 8);
-        insertEdge(2, 3);
-        insertEdge(3, 9);
-        insertEdge(3, 10);
-        insertEdge(9, 10);
-
-        // Call the function to print
-        dfsbacktrack(node);
-    }
 }
 // public void DFSBack(){
 //     resetVisited();
