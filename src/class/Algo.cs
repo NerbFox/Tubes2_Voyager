@@ -207,6 +207,15 @@ namespace Algo
             {
                 visited[i] = false;
             }
+            // reset treasure count
+            n_treasure = 0;
+            foreach (mapElmt i in adj[start.index])
+            {
+                if (map.getElement(i.row, i.col) == 'T')
+                {
+                    n_treasure++;
+                }
+            }
         }
         public void dFSBack(mapElmt u, int node, bool[] visited,
                         List<List<mapElmt>> road_used,
@@ -274,7 +283,7 @@ namespace Algo
 
         public void dfsbacktrack()
         {
-            Console.WriteLine("DFS");
+            Console.WriteLine("DFS Backtrack");
             // treasure count
             Console.WriteLine("treasure count " + n_treasure);
             // Create a array of visited node
