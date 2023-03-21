@@ -33,6 +33,19 @@ namespace Algo
         // list of step to take : D, U, L, R
         public List<char> step;
         // constructor
+        public MyAlgo(){
+            this.path = new List<(int, int)>();
+            this.step = new List<char>();
+            this.v = 0;
+            adj = new List<mapElmt>[v];
+            for (int i = 0; i < v; ++i)
+                adj[i] = new List<mapElmt>();
+            visited = new bool[v]; // keep track of visited vertices
+            for (int i = 0; i < v; i++)
+                visited[i] = false; // set all vertices to false (not visited)
+            map = new MyMap();
+            n_treasure = 0;
+        }
         public MyAlgo(MyMap _map)
         {
             this.path = new List<(int, int)>();
@@ -128,6 +141,53 @@ namespace Algo
             //     visited[i] = false;
             // }
         }
+        public void MyAlgoSetter(MyMap _map){
+            // delete the old path and step
+            this.path.Clear();
+            this.step.Clear();
+            this.path = new List<(int, int)>();
+            this.step = new List<char>();
+            this.v = _map.getMapSize();
+            adj = new List<mapElmt>[v];
+            for (int i = 0; i < v; ++i)
+                adj[i] = new List<mapElmt>();
+            visited = new bool[v]; // keep track of visited vertices
+            for (int i = 0; i < v; i++)
+                visited[i] = false; // set all vertices to false (not visited)
+            map = _map;
+
+            // initialize the start position from the map
+            int ver = 0;
+            int row = 0;
+            int col = 0;
+            int ind = 9;
+            n_treasure = 0;
+            for (int i = 0; i < map.getMapHeight(); i++)
+            {
+                for (int j = 0; j < map.getMapWidth(); j++)
+                {
+                    // count treasure
+                    if (map.getElement(i, j) == 'T')
+                    {
+                        n_treasure++;
+                    }
+                    if (map.getElement(i, j) != 'X')
+                    {
+                        ver++;
+                    }
+                    // Console.Write(map.getElement(i, j) + " ");
+                    if (map.getElement(i, j) == 'K')
+                    {
+                        // Console.WriteLine("K");
+                        row = i;
+                        col = j;
+                        ind = ver - 1;
+                    }
+                }
+                // Console.WriteLine();
+            }
+            start = new mapElmt(ind, row, col);
+        }
 
         // add an edge to the graph
         // public void AddEdge(int u, mapElmt v)
@@ -139,7 +199,6 @@ namespace Algo
             // print();    
             // adj[u].Add((v1,v2));
         }
-
         public void print()
         {
             for (int i = 0; i < v; ++i)
