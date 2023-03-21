@@ -1,15 +1,14 @@
 DOTNET := dotnet
 CSC := dotnet csc
 
-SRCDFS := ../../../src/class/DFS.cs
 SRCMAP := ../../../src/class/Map.cs
 SRCINPUTHANDLER := ../../../src/class/InputHandler.cs
-SRCALGO := ../../../src/class/Algorithm.cs
-SRCGRAPH := ../../../src/class/Algo.cs
+SRCALGO := ../../../src/class/Algo.cs
+SRCBFS := ../../../src/class/BFS.cs
 SRCDRIVER := Driver.cs
 
-GRAPHDLL := bin/Algo.dll
-OUTPUT := -out:$(GRAPHDLL)
+ALGODLL := bin/Algo.dll
+OUTPUT := -out:$(ALGODLL)
 
 all:
 	@make -s clean
@@ -18,10 +17,10 @@ all:
 build:
 	@echo "Compiling Algo.."
 	@if not exist bin mkdir bin
-	@$(CSC) $(SRCDFS) $(SRCMAP) $(SRCINPUTHANDLER) $(SRCALGO) $(SRCDRIVER) $(SRCGRAPH) $(OUTPUT)
+	@$(CSC) $(SRCMAP) $(SRCINPUTHANDLER) $(SRCALGO) $(SRCBFS) $(SRCDRIVER) $(OUTPUT)
 
 run:
-	@$(DOTNET) $(GRAPHDLL)
+	@$(DOTNET) $(ALGODLL)
 
 runbuild:
 	@make -s build

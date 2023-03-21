@@ -1,13 +1,19 @@
 using System;
-using Algorithm;
+using Algo;
+using System.Collections.Generic;
+using Map;
+using InputHandler;
 
-class DriverDFS
+class DriverBFS
 {
     static void Main(string[] args)
     {
-        BFS BFS = new BFS();
-        BFS.print(); 
-        BFS.print(); 
-        BFS.print(); 
+        InputHandlerFile inputHandlerFile = new InputHandlerFile();
+        inputHandlerFile.readFile("../../TestInput4.txt");
+        MyMap map = new MyMap(inputHandlerFile.getInputData());
+        MyAlgo g = new MyAlgo(map.getMapSize(), map);
+        BFS bfs = new BFS(g);
+        bfs.printMap();
+        bfs.BFSMethod();
     }
 }

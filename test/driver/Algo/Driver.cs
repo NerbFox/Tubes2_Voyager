@@ -1,8 +1,7 @@
 using System;
-using Algorithm;
 using InputHandler;
 using Map;
-using Algo;
+using Algo; 
 
 class DriverAlgo
 {
@@ -89,6 +88,8 @@ class DriverAlgo
         g.resetVisited();
         // g.DFSBack();
         g.dfsbacktrack();
+        g.setResult();
+        // BFS bfs = new BFS(map);
 
         // mapElmt m = new mapElmt(i, j, map.getElement(i, j));
         // MyAlgo g = new MyAlgo(4);

@@ -1,27 +1,27 @@
+// namespace Algorithm{
+//     public class BFS : MyAlgorithm
+//     {
+//         public override void print()
+//         {
+//             Console.WriteLine("Hello BFS");
+//         }
+//     }
+// }
+// mau pake partial class buat nambahin method BFS
 using System;
-using Map;
-
-namespace Algorithm{
-    public class BFS : MyAlgorithm
-    {
-        public BFS()
-        {
-            this.treasureFound = 0;
-            this.mapData = new MyMap();
-            this.treasure = 0;
-            this.adj = new bool[mapData.getMapHeight(), mapData.getMapWidth()];
-            this.visited = new bool[1,1];
-            this.stack = new (int,int)[1];
+namespace Algo{
+    class BFS{
+        protected MyAlgo A;
+        public BFS(MyAlgo _A){
+            A = _A;
         }
-
-        public BFS(MyMap maps)
-        {
-            this.treasureFound = 0;
-            this.mapData = maps;
-        }
-        public override void print()
-        {
+        public void printMap(){
             Console.WriteLine("Hello BFS");
+            A.printMap();
+        }
+        public void BFSMethod(){
+            // A.printMap();
+            Console.WriteLine("BFS method activated");
         }
 
 

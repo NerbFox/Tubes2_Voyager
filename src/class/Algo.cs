@@ -1,6 +1,7 @@
+using Map;
 using System;
 using System.Collections.Generic;
-using Map;
+using System.Linq;
 namespace Algo
 {
     struct mapElmt
@@ -15,6 +16,7 @@ namespace Algo
             this.row = row;
             this.col = col;
             this.n_visited = 0;
+
         }
     }
     class MyAlgo
@@ -26,9 +28,15 @@ namespace Algo
         public bool[] visited;
         public MyMap map;
         public int n_treasure;
+        // list of tuple index map
+        public List<(int, int)> path;
+        // list of step to take : D, U, L, R
+        public List<char> step;
         // constructor
         public MyAlgo(int vertices, MyMap _map)
         {
+            this.path = new List<(int, int)>();
+            this.step = new List<char>();
             this.v = vertices;
             adj = new List<mapElmt>[v];
             for (int i = 0; i < v; ++i)
@@ -242,6 +250,8 @@ namespace Algo
                     n_treasure--;
                     if (n_treasure == 0)
                         Console.Write(u.index + " " + u.row + " " + u.col + " -> ");
+                        // add to path a tuple of u.row and u.col
+                        this.path.Add((u.row, u.col));
                     Console.WriteLine("Nih " + u.index + " " + u.row + " " + u.col);
                 }
 
@@ -257,6 +267,8 @@ namespace Algo
 
                 // Print the node
                 Console.Write(u.index + " " + u.row + " " + u.col + " -> ");
+                // add to path a tuple of u.row and u.col
+                this.path.Add((u.row, u.col));
 
                 // Check for not visited node and proceed with it.
                 foreach (mapElmt x in adj[u.index])
@@ -302,6 +314,52 @@ namespace Algo
             // call the function
             dFSBack(start, v, visited, road_used, parent, 0);
             Console.WriteLine("treasure count " + n_treasure);
+        }
+        public void printMap(){
+            map.print();
+        }
+        public void setResult(){
+            // result of path list<int,int>
+            // print list of path
+            foreach (var i in path)
+            {
+                // a,b -> c,d -> e,f if end of path
+                if (i == path.Last())
+                {
+                    Console.Write(i.Item1 + "," + i.Item2 + "\n\n");
+                }
+                else
+                {
+                    Console.Write(i.Item1 + "," + i.Item2 + " -> ");
+                }
+            }
+            // set list of step : U, D, L, R (up, down, left, right)
+            foreach (var i in path){
+                if (i != path.Last()){
+                    // get next step
+                    var next = path[path.IndexOf(i) + 1];
+                    // get current step
+                    var current = path[path.IndexOf(i)];
+                    // check if next step is up
+                    if (next.Item1 < current.Item1){
+                        step.Add('U');
+                    }
+                    // check if next step is down
+                    else if (next.Item1 > current.Item1){
+                        step.Add('D');
+                    }
+                    // check if next step is left
+                    else if (next.Item2 < current.Item2){
+                        step.Add('L');
+                    }
+                    // check if next step is right
+                    else if (next.Item2 > current.Item2){
+                        step.Add('R');
+                    }
+                    Console.Write(step.Last() + " -> ");
+                }
+            }
+            
         }
     }
 }

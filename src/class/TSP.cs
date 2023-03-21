@@ -1,10 +1,10 @@
 using System;
 
-namespace Algorithm
+namespace Algo
 {
-    public class TSP : MyAlgorithm
+    public class TSP
     {
-        public override void print()
+        public void print()
         {
             Console.WriteLine("Hello TSP");
         }
