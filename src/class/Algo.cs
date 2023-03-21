@@ -33,11 +33,11 @@ namespace Algo
         // list of step to take : D, U, L, R
         public List<char> step;
         // constructor
-        public MyAlgo(int vertices, MyMap _map)
+        public MyAlgo(MyMap _map)
         {
             this.path = new List<(int, int)>();
             this.step = new List<char>();
-            this.v = vertices;
+            this.v = _map.getMapSize();
             adj = new List<mapElmt>[v];
             for (int i = 0; i < v; ++i)
                 adj[i] = new List<mapElmt>();
