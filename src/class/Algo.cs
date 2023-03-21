@@ -248,6 +248,7 @@ namespace Algo
 						List<List<mapElmt> > road_used,
 						mapElmt parent, int it)
         {
+            if(u.index != -1){
             int c = 0;
 
             // Check if all the node is visited or not
@@ -256,11 +257,24 @@ namespace Algo
                 if (visited[i])
                     c++;
             
+            // print u row and col
+            // Console.WriteLine("Nih " + u.index + " " + u.row + " " + u.col);
+
             // check if get treasure
-            if (map.getElement(u.row, u.col) == 'T')
-            {
-                n_treasure--;
-            } 
+            // check if row and col is a valid index in map
+            
+                if (map.getElement(u.row, u.col) == 'T' && !visited[u.index])
+                {
+                    n_treasure--;
+                    if (n_treasure == 0)
+                        Console.Write(u.index + " " + u.row + " " + u.col + " -> ");
+                    Console.WriteLine("Nih " + u.index + " " + u.row + " " + u.col);
+                }
+
+            // if (map.getElement(u.row, u.col) == 'T')
+            // {
+            //     n_treasure--;
+            // } 
 
             // If all the node is visited return;
             if (c == node || n_treasure == 0)
@@ -292,27 +306,32 @@ namespace Algo
                             road_used, u, it + 1);
                 }
             }
+            }
         }
 
         // Function to call the DFS function
         // which prints the DFS-traversal stepwise
         public void dfs()
         {
+            Console.WriteLine("DFS");
+            // treasure count
+            Console.WriteLine("treasure count " + n_treasure);
             // Create a array of visited node
             bool[] visited = new bool[v];
 
             // Vector to track last visited road
-            List<List<mapElmt> > road_used = new List<List<mapElmt> >();
+            List<List<mapElmt> > road_used = new List< List<mapElmt> >();
 
             // Initialize all the v with false
             for (int i = 0; i < v; i++) {
                 visited[i] = false;
             }
-            mapElmt parent = new mapElmt(1, -1, -1);
+            mapElmt parent = new mapElmt(-1, -1, -1);
             // call the function
+            // initialize parent with start that adjacent to start
+
             dfsUtil(start, v, visited, road_used, parent, 0);
+            Console.WriteLine("treasure count " + n_treasure);
         }
-
-
     }
 }

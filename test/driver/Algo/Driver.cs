@@ -84,11 +84,11 @@ class DriverAlgo
         // Console.WriteLine("\n\nDepth-first traversal (starting from vertex start):");
         map.print();
         MyAlgo g = new MyAlgo(map.getMapSize(), map);
-        g.DFS();
+        // g.DFS();
         Console.WriteLine("\nBacktracking:");
         g.resetVisited();
-        // g.DFSBack();/
-        // g.dfs();
+        // g.DFSBack();
+        g.dfs();
 
         // mapElmt m = new mapElmt(i, j, map.getElement(i, j));
         // MyAlgo g = new MyAlgo(4);
