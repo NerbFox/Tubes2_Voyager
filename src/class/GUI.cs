@@ -66,8 +66,8 @@ namespace GUI
             InputFileButton.Size = new Size(300, 50);
 
             // Set the button location
-            VisualizeButton.Location = new Point(312, 575);
-            InputFileButton.Location = new Point(250, 250);
+            VisualizeButton.Location = new Point(240, 485);
+            InputFileButton.Location = new Point(172, 200);
 
             // Add color to the button
             VisualizeButton.BackColor = System.Drawing.Color.LightGoldenrodYellow;
@@ -122,9 +122,9 @@ namespace GUI
             TSPButton.Size = new Size(150, 50);
 
             // Set the radio button location
-            BFSButton.Location = new Point(343, 427);
-            DFSButton.Location = new Point(343, 467);
-            TSPButton.Location = new Point(343, 507);
+            BFSButton.Location = new Point(270, 350);
+            DFSButton.Location = new Point(270, 390);
+            TSPButton.Location = new Point(270, 430);
 
             // Set radio button color to transparent
             BFSButton.BackColor = System.Drawing.Color.Transparent;
