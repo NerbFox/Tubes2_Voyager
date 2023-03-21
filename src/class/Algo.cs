@@ -79,8 +79,6 @@ namespace Algo
                 for (int j = 0; j < map.getMapWidth(); j++)
                 {
                     // buat mapElmt
-
-
                     if (map.getElement(i, j) != 'X')
                     {
                         // mapElmt m = new mapElmt(index, i, j);
