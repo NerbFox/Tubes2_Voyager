@@ -15,7 +15,7 @@ all:
 	@make -s runbuild
 
 build:
-	@echo "Compiling Algo.."
+	@echo "Compiling BFS.."
 	@if not exist bin mkdir bin
 	@$(CSC) $(SRCMAP) $(SRCINPUTHANDLER) $(SRCALGO) $(SRCBFS) $(SRCDRIVER) $(OUTPUT)
 
