@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
+using InputHandler;
+using Map;
 
 namespace GUI
 {
@@ -15,6 +17,7 @@ namespace GUI
         private RadioButton BFSButton;
         private RadioButton DFSButton;
         private RadioButton TSPButton;
+        private DataGridView MapDataGrid;
 
         public MyGUI()
         {
@@ -140,20 +143,98 @@ namespace GUI
             this.Controls.Add(BFSButton);
             this.Controls.Add(DFSButton);
             this.Controls.Add(TSPButton);
+
+            /*
+                Setup Data Grid View
+            */
+            // Create the data grid view
+            MapDataGrid = new DataGridView();
+
+            // Set the data grid view size
+            MapDataGrid.Size = new Size(600, 600);
+
+            // Set the data grid view location
+            MapDataGrid.Location = new Point(770, 195);
+
+            // Set the data grid view font color
+            MapDataGrid.ForeColor = System.Drawing.Color.SaddleBrown;
+
+            // Set the data grid view width to fill
+            MapDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Set the data grid view border style
+            MapDataGrid.BorderStyle = BorderStyle.None;
+
+            // Set the data grid to non scrollable
+            MapDataGrid.ScrollBars = ScrollBars.None;
+
+            // Set the data grid view border line to saddle brown
+            MapDataGrid.GridColor = System.Drawing.Color.SaddleBrown;
+
+            // Set the data grid view row headers visible
+            MapDataGrid.RowHeadersVisible = false;
+
+            // Set the data grid view column headers visible
+            MapDataGrid.ColumnHeadersVisible = false;
+
+            // Set the data grid view cell read only
+            MapDataGrid.ReadOnly = true;
+
+            // Align text to the center
+            MapDataGrid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Add the data grid view to the form
+            this.Controls.Add(MapDataGrid);
         }
 
         private void InputFile(object? sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-            openFileDialog.FilterIndex = 2;
-            openFileDialog.RestoreDirectory = true;
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 SelectedFilePath = openFileDialog.FileName;
                 SelectedFileName = Path.GetFileName(SelectedFilePath);
                 InputFileButton.Text = SelectedFileName;
+            }
+
+            InputHandlerFile file = new InputHandlerFile();
+            file.readFile(SelectedFilePath);
+            MyMap map = new MyMap(file.getInputData());
+
+            // Clear the data grid view
+            MapDataGrid.Rows.Clear();
+            MapDataGrid.Columns.Clear();
+
+            MapDataGrid.ColumnCount = map.getMapWidth();
+            MapDataGrid.RowCount = map.getMapHeight();
+
+            for (int i = 0; i < map.getMapHeight(); i++)
+            {
+                for (int j = 0; j < map.getMapWidth(); j++)
+                {
+                    if (map.getMapData()[i, j] != 'X')
+                    {
+                        MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.LightGoldenrodYellow;
+                        MapDataGrid.Rows[i].Cells[j].Value = map.getMapData()[i, j];
+                    }
+                    else
+                    {
+                        MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.SaddleBrown;
+                        MapDataGrid.Rows[i].Cells[j].Value = "";
+                    }
+                }
+                // Set the data grid view column width
+                MapDataGrid.Rows[i].Height = 600/map.getMapHeight();
+                if (map.getMapHeight() < map.getMapWidth())
+                {
+                    MapDataGrid.Font = new Font("Microsoft Sans Serif", (600/map.getMapWidth())/3, FontStyle.Bold);
+                }
+                else
+                {
+                    MapDataGrid.Font = new Font("Microsoft Sans Serif", (600/map.getMapHeight())/3, FontStyle.Bold);
+                }
             }
         }
 
