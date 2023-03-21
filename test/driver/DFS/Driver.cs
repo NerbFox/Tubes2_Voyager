@@ -10,10 +10,10 @@ class DriverDFS
         InputHandlerFile inputHandlerFile = new InputHandlerFile();
         inputHandlerFile.readFile("../../TestInput3.txt");    
         MyMap map = new MyMap(inputHandlerFile.getInputData());
-        DFS dfs = new DFS(map);
-        dfs.printMap();  
-        dfs.print();  
-        dfs.printVisMatrix();
+        DFS dfsbacktrack = new DFS(map);
+        dfsbacktrack.printMap();  
+        dfsbacktrack.print();  
+        dfsbacktrack.printVisMatrix();
         // int i = 0; 
     }
 }

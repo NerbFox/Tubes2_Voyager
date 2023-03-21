@@ -11,7 +11,7 @@ class DriverAlgo
         InputHandlerFile inputHandlerFile = new InputHandlerFile();
         inputHandlerFile.readFile("../../TestInput4.txt");
         MyMap map = new MyMap(inputHandlerFile.getInputData());
-        // DFS dfs = new DFS(map);
+        // DFS dfsbacktrack = new DFS(map);
         // int v = 0;
         // int row = 0;
         // int col = 0;
@@ -88,7 +88,7 @@ class DriverAlgo
         Console.WriteLine("\nBacktracking:");
         g.resetVisited();
         // g.DFSBack();
-        g.dfs();
+        g.dfsbacktrack();
 
         // mapElmt m = new mapElmt(i, j, map.getElement(i, j));
         // MyAlgo g = new MyAlgo(4);
