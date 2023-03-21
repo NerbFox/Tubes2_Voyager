@@ -17,7 +17,7 @@ namespace Algo
             this.n_visited = 0;
         }
     }
-    class MyAlgo
+    partial class MyAlgo
     {
         protected int v; // number of vertices
         // private List<(int,int)>[] adj; // adjacency list
