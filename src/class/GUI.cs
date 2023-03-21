@@ -180,6 +180,14 @@ namespace GUI
             // Set the data grid view cell read only
             MapDataGrid.ReadOnly = true;
 
+            // User cannot add or delete rows
+            MapDataGrid.AllowUserToAddRows = false;
+            MapDataGrid.AllowUserToDeleteRows = false;
+
+            // User cannot resize the data grid view
+            MapDataGrid.AllowUserToResizeColumns = false;
+            MapDataGrid.AllowUserToResizeRows = false;
+
             // Align text to the center
             MapDataGrid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
