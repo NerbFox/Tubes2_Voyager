@@ -5,6 +5,9 @@ using System.Windows.Forms;
 using InputHandler;
 using Map;
 using Algo;
+using System.Collections.Generic;
+using System.Linq;
+using Timer = System.Windows.Forms.Timer;
 
 namespace GUI
 {
@@ -20,9 +23,15 @@ namespace GUI
         private RadioButton TSPButton;
         private DataGridView MapDataGrid;
         private MyAlgo Algo;
+        private Timer timer;
+        private int currentIndex;
+        private List<List<bool>> visited;
         public MyGUI()
         {
+            currentIndex = 0;
+            timer = new Timer();
             Algo = new MyAlgo();
+            visited = new List<List<bool>>();
             /*
                 Setup Window
             */
@@ -199,10 +208,7 @@ namespace GUI
 
         private void InputFile(object? sender, EventArgs e)
         {
-            // reset all radio buttons to unchecked
-            BFSButton.Checked = false;
-            DFSButton.Checked = false;
-            TSPButton.Checked = false;
+            reset();
             // Open the file dialog in the test folder of the project ../test
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.RestoreDirectory = true;
@@ -284,6 +290,19 @@ namespace GUI
                 else if (DFSButton.Checked)
                 {
                     // jalankan DFS
+                    // if want to use DFS 
+
+                    // if want to use DFS with backtracking
+                    Algo.dfsbacktrack();
+                    // change the color of the path to green
+                    // foreach (var i in Algo.getPath())
+                    // {
+                    //     MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Green;
+                    //     // 
+                    // }
+                    // change the color of the path to green
+                    StartAnimation();
+                    // change the color of the visited nodes to red
                 }
                 // jika memilih TSP
                 else if (TSPButton.Checked)
@@ -304,20 +323,87 @@ namespace GUI
 
         private void UseBFS(object? sender, EventArgs e)
         {
+            Console.WriteLine("BFS");
 
         }
 
         private void UseDFS(object? sender, EventArgs e)
         {
-            // if want to use DFS 
+            Console.WriteLine("DFS");
 
-            // if want to use DFS with backtracking
-            Algo.dfsbacktrack();
         }
 
         private void UseTSP(object? sender, EventArgs e)
         {
+            // if (SelectedFilePath != "" && SelectedFileName != "")
+            // {
+                // Console.WriteLine("TSP");
+            // }
+            // else
+            //     MessageBox.Show("Please select the file first!");
+                // Reset radio button
+                // TSPButton.Checked = false;
+        }
+        
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            if (this.currentIndex < Algo.getPath().Count)
+            {
+                var i = Algo.getPath()[currentIndex];
 
+                // jika sudah pernah dikunjungi sebelumnya ubah warna menjadi merah,
+                if (visited[i.Item1][i.Item2])
+                {
+                    // Console.WriteLine("visited");
+                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Red;
+                }
+                // jika belum pernah dikunjungi sebelumnya ubah warna menjadi hijau
+                else
+                {
+                    // Console.WriteLine("not visited");
+                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Green;
+                    // set visited attribute to true
+                    visited[i.Item1][i.Item2] = true;
+                }
+                this.currentIndex++;
+            }
+            else
+            {
+                timer.Stop();
+            }
+        }
+        private void StartAnimation()
+        {
+            this.currentIndex = 0;
+            var map = Algo.getMap();
+            // clear visited list
+            this.visited.Clear();
+            // set to false all elements in visited list
+            for (int i = 0; i < map.getMapHeight(); i++)
+            {
+                List<bool> row = new List<bool>();
+                for (int j = 0; j < map.getMapWidth(); j++)
+                {
+                    row.Add(false);
+                }
+                this.visited.Add(row);
+            }
+
+            timer = new Timer();
+            timer.Interval = 500; // set the delay to 500 milliseconds
+            timer.Tick += Timer_Tick;
+            timer.Start();
+        }
+        private void reset(){
+            // reset all radio buttons to unchecked
+            BFSButton.Checked = false;
+            DFSButton.Checked = false;
+            TSPButton.Checked = false;
+            // // reset visited attribute
+            // for (int i = 0; i < Algo.getPath().Count; i++)
+            // {
+            //     visited.Add(false);
+            // }
         }
     }
 }
