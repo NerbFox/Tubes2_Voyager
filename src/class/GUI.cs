@@ -285,13 +285,18 @@ namespace GUI
             }
             else
             {
-                MessageBox.Show("Please select the file and algorithm first!");
+                if (SelectedFilePath == "" && SelectedFileName == "" && !(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
+                    MessageBox.Show("Please select the file and algorithm first!");
+                else if (SelectedFilePath == "" || SelectedFileName == "" )
+                    MessageBox.Show("Please select the file!");
+                else 
+                    MessageBox.Show("Please select the algorithm!");
             }
         }
 
         private void UseBFS(object? sender, EventArgs e)
         {
-            
+
         }
 
         private void UseDFS(object? sender, EventArgs e)
