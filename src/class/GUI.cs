@@ -197,7 +197,17 @@ namespace GUI
 
         private void InputFile(object? sender, EventArgs e)
         {
+            // Open the file dialog in the test folder of the project ../test
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.RestoreDirectory = true;
+            // openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+            // openFileDialog.InitialDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
+            
+            // openFileDialog.InitialDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).FullName + "\\test";
+
+            openFileDialog.InitialDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test");
+            // Console.WriteLine(openFileDialog.InitialDirectory);
+
             openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -205,45 +215,51 @@ namespace GUI
                 SelectedFilePath = openFileDialog.FileName;
                 SelectedFileName = Path.GetFileName(SelectedFilePath);
                 InputFileButton.Text = SelectedFileName;
-            }
+                InputHandlerFile file = new InputHandlerFile();
+                file.readFile(SelectedFilePath);
+                MyMap map = new MyMap(file.getInputData());
 
-            InputHandlerFile file = new InputHandlerFile();
-            file.readFile(SelectedFilePath);
-            MyMap map = new MyMap(file.getInputData());
+                // Clear the data grid view
+                MapDataGrid.Rows.Clear();
+                MapDataGrid.Columns.Clear();
 
-            // Clear the data grid view
-            MapDataGrid.Rows.Clear();
-            MapDataGrid.Columns.Clear();
+                MapDataGrid.ColumnCount = map.getMapWidth();
+                MapDataGrid.RowCount = map.getMapHeight();
 
-            MapDataGrid.ColumnCount = map.getMapWidth();
-            MapDataGrid.RowCount = map.getMapHeight();
-
-            for (int i = 0; i < map.getMapHeight(); i++)
-            {
-                for (int j = 0; j < map.getMapWidth(); j++)
+                for (int i = 0; i < map.getMapHeight(); i++)
                 {
-                    if (map.getMapData()[i, j] != 'X')
+                    for (int j = 0; j < map.getMapWidth(); j++)
                     {
-                        MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.LightGoldenrodYellow;
-                        MapDataGrid.Rows[i].Cells[j].Value = map.getMapData()[i, j];
+                        if (map.getMapData()[i, j] != 'X')
+                        {
+                            MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.LightGoldenrodYellow;
+                            MapDataGrid.Rows[i].Cells[j].Value = map.getMapData()[i, j];
+                        }
+                        else
+                        {
+                            MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.SaddleBrown;
+                            MapDataGrid.Rows[i].Cells[j].Value = "";
+                        }
+                    }
+                    // Set the data grid view column width
+                    MapDataGrid.Rows[i].Height = 600/map.getMapHeight();
+                    if (map.getMapHeight() < map.getMapWidth())
+                    {
+                        MapDataGrid.Font = new Font("Microsoft Sans Serif", (600/map.getMapWidth())/3, FontStyle.Bold);
                     }
                     else
                     {
-                        MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.SaddleBrown;
-                        MapDataGrid.Rows[i].Cells[j].Value = "";
+                        MapDataGrid.Font = new Font("Microsoft Sans Serif", (600/map.getMapHeight())/3, FontStyle.Bold);
                     }
                 }
-                // Set the data grid view column width
-                MapDataGrid.Rows[i].Height = 600/map.getMapHeight();
-                if (map.getMapHeight() < map.getMapWidth())
-                {
-                    MapDataGrid.Font = new Font("Microsoft Sans Serif", (600/map.getMapWidth())/3, FontStyle.Bold);
-                }
-                else
-                {
-                    MapDataGrid.Font = new Font("Microsoft Sans Serif", (600/map.getMapHeight())/3, FontStyle.Bold);
-                }
             }
+            else
+            {
+                SelectedFilePath = "";
+                SelectedFileName = "";
+                InputFileButton.Text = "Input File";
+            }
+
         }
 
         private void StartVisualize(object? sender, EventArgs e)

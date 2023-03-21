@@ -361,5 +361,9 @@ namespace Algo
             }
             
         }
+        public void tsp(){
+            // travelling salesman problem
+            // using nearest neighbour algorithm
+        }
     }
 }
