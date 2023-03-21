@@ -88,6 +88,7 @@ class DriverAlgo
         g.resetVisited();
         // g.DFSBack();
         g.dfsbacktrack();
+        g.setResult();
         // BFS bfs = new BFS(map);
 
         // mapElmt m = new mapElmt(i, j, map.getElement(i, j));
