@@ -264,12 +264,34 @@ namespace GUI
 
         private void StartVisualize(object? sender, EventArgs e)
         {
-
+            // jika sudah memilih file dan sudah memilih algoritma
+            if (SelectedFilePath != "" && SelectedFileName != "" && (BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
+            {
+                // jika memilih BFS
+                if (BFSButton.Checked)
+                {
+                    // jalankan BFS
+                }
+                // jika memilih DFS
+                else if (DFSButton.Checked)
+                {
+                    // jalankan DFS
+                }
+                // jika memilih TSP
+                else if (TSPButton.Checked)
+                {
+                    // jalankan TSP
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select the file and algorithm first!");
+            }
         }
 
         private void UseBFS(object? sender, EventArgs e)
         {
-
+            
         }
 
         private void UseDFS(object? sender, EventArgs e)
