@@ -209,11 +209,14 @@ namespace Algo
             }
             // reset treasure count
             n_treasure = 0;
-            foreach (mapElmt i in adj[start.index])
+            for (int i = 0; i < map.getMapHeight(); i++)
             {
-                if (map.getElement(i.row, i.col) == 'T')
+                for (int j = 0; j < map.getMapWidth(); j++)
                 {
-                    n_treasure++;
+                    if (map.getElement(i, j) == 'T')
+                    {
+                        n_treasure++;
+                    }
                 }
             }
         }
