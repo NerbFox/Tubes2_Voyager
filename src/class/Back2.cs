@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class GFG
 {
-    static int N = 1000;
     static List<List<int>> adj = new List<List<int>>();
 
     // Function to print the complete DFS-traversal
