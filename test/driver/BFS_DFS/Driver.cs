@@ -7,7 +7,7 @@ class DriverDFS_BFS
     {
         BFS bfs = new BFS();
         bfs.print();
-        DFS dfs = new DFS();
-        dfs.print(); 
+        DFS dfsbacktrack = new DFS();
+        dfsbacktrackrint(); 
     }
 }
