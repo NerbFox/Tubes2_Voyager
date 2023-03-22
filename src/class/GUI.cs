@@ -22,6 +22,7 @@ namespace GUI
         private RadioButton DFSButton;
         private RadioButton TSPButton;
         private DataGridView MapDataGrid;
+        private TextBox StringInputBox;
         private MyAlgo Algo;
         private Timer timer;
         private int currentIndex;
@@ -191,9 +192,8 @@ namespace GUI
             // Set the data grid view cell read only
             MapDataGrid.ReadOnly = true;
 
-            // Set the data grid view cell selection color to transparent
-            MapDataGrid.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Transparent;
-            MapDataGrid.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Transparent;
+            // Set the data grid view cell font color
+            MapDataGrid.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.SaddleBrown;
 
             // User cannot add or delete rows
             MapDataGrid.AllowUserToAddRows = false;
@@ -208,6 +208,53 @@ namespace GUI
 
             // Add the data grid view to the form
             this.Controls.Add(MapDataGrid);
+
+            /*
+                Setup string input box
+            */
+            // Create the string input box
+            StringInputBox = new TextBox();
+
+            // Set the string input box size
+            StringInputBox.Size = new Size(295, 50);
+
+            // Set the string input box location
+            StringInputBox.Location = new Point(175, 260);
+
+            // Set the string input box font
+            StringInputBox.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+
+            // Set the string input box font color
+            StringInputBox.ForeColor = System.Drawing.Color.SaddleBrown;
+
+            // Set the string input box border style
+            StringInputBox.BorderStyle = BorderStyle.None;
+
+            // Set the string input box background color
+            StringInputBox.BackColor = System.Drawing.Color.LightGoldenrodYellow;
+
+            // Set the string input box text then clear it when clicked
+            StringInputBox.Text = "Enter Delay Time (ms)";
+            StringInputBox.KeyPress += new KeyPressEventHandler(CheckInputBox);
+            StringInputBox.Click += new EventHandler(ClearStringInputBox);
+
+            // Set the string input box text alignment
+            StringInputBox.TextAlign = HorizontalAlignment.Center;
+
+            // Set the string input box to not multi line
+            StringInputBox.Multiline = false;
+
+            // Set the string input box to not scrollable
+            StringInputBox.ScrollBars = ScrollBars.None;
+
+            // Set the string input box to not word wrap
+            StringInputBox.WordWrap = false;
+
+            // Set the string input box to not accept tab
+            StringInputBox.AcceptsTab = false;
+
+            // Add the string input box to the form
+            this.Controls.Add(StringInputBox);
         }
 
         private void InputFile(object? sender, EventArgs e)
@@ -255,11 +302,13 @@ namespace GUI
                         {
                             if (map.getMapData()[i, j] != 'X')
                             {
+                                MapDataGrid.Rows[i].Cells[j].Style.SelectionBackColor = Color.LightGoldenrodYellow;
                                 MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.LightGoldenrodYellow;
                                 MapDataGrid.Rows[i].Cells[j].Value = map.getMapData()[i, j];
                             }
                             else
                             {
+                                MapDataGrid.Rows[i].Cells[j].Style.SelectionBackColor = Color.SaddleBrown;
                                 MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.SaddleBrown;
                                 MapDataGrid.Rows[i].Cells[j].Value = "";
                             }
@@ -291,7 +340,7 @@ namespace GUI
         private void StartVisualize(object? sender, EventArgs e)
         {
             // jika sudah memilih file dan sudah memilih algoritma
-            if (SelectedFilePath != "" && SelectedFileName != "" && (BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
+            if (SelectedFilePath != "" && SelectedFileName != "" && StringInputBox.Text != "" && (BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
             {
                 // jika memilih BFS
                 if (BFSButton.Checked)
@@ -325,12 +374,20 @@ namespace GUI
             }
             else
             {
-                if (SelectedFilePath == "" && SelectedFileName == "" && !(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
+                if (SelectedFilePath == "" && SelectedFileName == "" && StringInputBox.Text == "" && !(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
+                    MessageBox.Show("Please select the file, algorithm, and delay time first!");
+                else if (SelectedFilePath == "" && SelectedFileName == "" && StringInputBox.Text == "")
+                    MessageBox.Show("Please select the file and delay time first!");
+                else if (SelectedFilePath == "" && SelectedFileName == "" && !(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
                     MessageBox.Show("Please select the file and algorithm first!");
-                else if (SelectedFilePath == "" || SelectedFileName == "" )
-                    MessageBox.Show("Please select the file!");
-                else 
-                    MessageBox.Show("Please select the algorithm!");
+                else if (SelectedFilePath == "" && SelectedFileName == "")
+                    MessageBox.Show("Please select the file first!");
+                else if (StringInputBox.Text == "" && !(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
+                    MessageBox.Show("Please select the algorithm and delay time first!");
+                else if (StringInputBox.Text == "")
+                    MessageBox.Show("Please select the delay time first!");
+                else if (!(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
+                    MessageBox.Show("Please select the algorithm first!");
             }
         }
 
@@ -368,12 +425,14 @@ namespace GUI
                 if (visited[i.Item1][i.Item2])
                 {
                     // Console.WriteLine("visited");
+                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Orange;
                     MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Orange;
                 }
                 // jika belum pernah dikunjungi sebelumnya ubah warna menjadi kuning
                 else
                 {
                     // Console.WriteLine("not visited");
+                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Yellow;
                     MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Yellow;
                     // set visited attribute to true
                     visited[i.Item1][i.Item2] = true;
@@ -404,15 +463,34 @@ namespace GUI
             }
 
             timer = new Timer();
-            timer.Interval = 500; // set the delay to 500 milliseconds
+            timer.Interval = Int32.Parse(StringInputBox.Text); // set the delay to 500 milliseconds
             timer.Tick += Timer_Tick;
             timer.Start();
         }
+
+        private void ClearStringInputBox(object? sender, EventArgs e)
+        {
+            StringInputBox.Text = "";
+        }
+
+        private void CheckInputBox(object? sender, KeyPressEventArgs e)
+        {
+            // Check if the entered key is a digit or not
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '\b')
+            {
+                // If not a digit, discard the key event and play a beep sound
+                e.Handled = true;
+                Console.Beep();
+            }
+        }
+
         private void reset(){
             // reset all radio buttons to unchecked
             BFSButton.Checked = false;
             DFSButton.Checked = false;
             TSPButton.Checked = false;
+            // reset all text boxes to empty
+            StringInputBox.Text = "Enter Delay Time (ms)";
             // // reset visited attribute
             // for (int i = 0; i < Algo.getPath().Count; i++)
             // {
@@ -428,10 +506,12 @@ namespace GUI
                 {
                     if (map.getMapData()[i, j] != 'X')
                     {
+                        MapDataGrid.Rows[i].Cells[j].Style.SelectionBackColor = Color.LightGoldenrodYellow;
                         MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.LightGoldenrodYellow;
                     }
                     else
                     {
+                        MapDataGrid.Rows[i].Cells[j].Style.SelectionBackColor = Color.SaddleBrown;
                         MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.SaddleBrown;
                     }
                 }
