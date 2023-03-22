@@ -9,40 +9,43 @@ namespace Algo
         public int index;
         public int row;
         public int col;
-        public int n_visited;
+        public bool n_visited;
         public mapElmt(int index, int row, int col)
         {
             this.index = index;
             this.row = row;
             this.col = col;
-            this.n_visited = 0;
+            this.n_visited = false;
 
+        }
+
+        public override string ToString()
+        {
+            return $"{index} ({row},{col})";
         }
     }
     class MyAlgo
     {
         protected int v; // number of vertices
-        // private List<(int,int)>[] adj; // adjacency list
-        protected List<mapElmt>[] adj; // adjacency list array of list map elmt
-        protected mapElmt start;
-        public bool[] visited;
-        public MyMap map;
-        public int n_treasure;
-        // list of tuple index map
-        public List<(int, int)> path;
-        // list of step to take : D, U, L, R
-        public List<char> step;
+        protected List<mapElmt>[] adj; // adjacency list array of list mapElment
+        protected mapElmt start; // start from map
+        public bool[] visited; // keep track of visited vertices
+        public MyMap map; // map
+        public int n_treasure; // number of treasure
+        public List<(int, int)> path; // list of tuple (point map)
+        public List<char> step; // list of step to take : D, U, L, R
         // constructor
         public MyAlgo(){
             this.path = new List<(int, int)>();
             this.step = new List<char>();
             this.v = 0;
+
             adj = new List<mapElmt>[v];
-            for (int i = 0; i < v; ++i)
-                adj[i] = new List<mapElmt>();
+            for (int i = 0; i < v; ++i) adj[i] = new List<mapElmt>();
+
             visited = new bool[v]; // keep track of visited vertices
-            for (int i = 0; i < v; i++)
-                visited[i] = false; // set all vertices to false (not visited)
+            for (int i = 0; i < v; i++) visited[i] = false; // set all vertices to false (not visited)
+
             map = new MyMap();
             n_treasure = 0;
         }
@@ -51,12 +54,13 @@ namespace Algo
             this.path = new List<(int, int)>();
             this.step = new List<char>();
             this.v = _map.getMapSize();
+            
             adj = new List<mapElmt>[v];
-            for (int i = 0; i < v; ++i)
-                adj[i] = new List<mapElmt>();
+            for (int i = 0; i < v; ++i) adj[i] = new List<mapElmt>();
+
             visited = new bool[v]; // keep track of visited vertices
-            for (int i = 0; i < v; i++)
-                visited[i] = false; // set all vertices to false (not visited)
+            for (int i = 0; i < v; i++) visited[i] = false; // set all vertices to false (not visited)
+            
             map = _map;
 
             // initialize the start position from the map
@@ -223,7 +227,7 @@ namespace Algo
                 Console.WriteLine();
             }
         }
-
+        
         public void DFS()
         {
             // stack of path for backtracking
@@ -279,7 +283,81 @@ namespace Algo
                 }
             }
         }
+        // protected bool isVisited()
+        // {
+        //     return true;
+        // }
+        public void BFS()
+        {
+            // BFSQueue for BFS
+            Queue<mapElmt> BFSQueue = new Queue<mapElmt>();
+            List<mapElmt> checkedPattern  = new List<mapElmt>();
+            mapElmt startNode = this.start;
+            List<mapElmt> roadToAllTreasure = new List<mapElmt>();
+            roadToAllTreasure.Add(startNode);
 
+
+            BFSQueue.Enqueue(this.start); // enqueue start vertex ke BFSQueue
+            this.visited[this.start.index] = true; // set to true start vertex (visited)
+            checkedPattern.Add(start);
+
+            // selama BFSQueue tidak kosong dan belum semua treasure terambil
+            while (BFSQueue.Count != 0 && n_treasure != 0)
+            {
+                mapElmt currentElMap = BFSQueue.Dequeue(); // dequeue BFSQueue
+
+                // visit semua adjacent vertices dari vertex saat ini
+                foreach (mapElmt mapEl in this.adj[currentElMap.index])
+                {
+                    // jika adjacent vertex belum dikunjungi
+                    if (!this.visited[mapEl.index])
+                    {
+                        this.visited[mapEl.index] = true; // set true untuk adjacent vertex (visited)
+                        BFSQueue.Enqueue(mapEl); // enqueue the adjacent vertex ke BFSQueue
+                        checkedPattern.Add(mapEl);
+                        // update treasure count
+                        if (map.getElement(mapEl.row, mapEl.col) == 'T')
+                        {
+                            n_treasure--;
+                            // Start Finding road to all treasure
+                            BFSFindingPath(ref roadToAllTreasure, startNode, mapEl);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void BFSFindingPath(ref List<mapElmt> path, mapElmt startNode, mapElmt endNode)
+        {
+            // BFSQueue for BFS
+            Queue<mapElmt> BFSQueue = new Queue<mapElmt>();
+            List<(int, List<mapElmt>)> PossiblePath = new List<(int, List<mapElmt>)>();
+            BFSQueue.Enqueue(startNode);
+
+            // Find from start to end with bfs again
+            while (BFSQueue.Count != 0)
+            {
+                mapElmt currentElMap = BFSQueue.Dequeue(); // dequeue BFSQueue
+
+                // visit semua adjacent vertices dari vertex saat ini
+                foreach (mapElmt mapEl in this.adj[currentElMap.index])
+                {
+                    // jika adjacent vertex belum dikunjungi
+                    // logika kebalik (karena cari jalan dari pattern yang udah dikunjungi yang udah dikunjungi)
+                    if (this.visited[mapEl.index]) 
+                    {
+                        BFSQueue.Enqueue(mapEl); // enqueue the adjacent vertex ke BFSQueue
+                        // update treasure count
+                        if (map.getElement(mapEl.row, mapEl.col) == 'T')
+                        {
+                            // Start Finding road to all treasure
+                            BFSFindingPath(ref path, startNode, mapEl);
+                        }
+                    }
+                }
+            }
+
+        }
         public void resetVisited()
         {
             for (int i = 0; i < v; i++)
