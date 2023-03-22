@@ -65,7 +65,7 @@ namespace GUI
 
             // Set the button text
             VisualizeButton.Text = "Visualize";
-            InputFileButton.Text = "Input txt File";
+            InputFileButton.Text = "Input File";
 
             // Set the button font
             VisualizeButton.Font = new Font("Microsoft Sans Serif", 20, FontStyle.Bold);
@@ -226,45 +226,53 @@ namespace GUI
             {
                 SelectedFilePath = openFileDialog.FileName;
                 SelectedFileName = Path.GetFileName(SelectedFilePath);
-                InputFileButton.Text = SelectedFileName;
                 InputHandlerFile file = new InputHandlerFile();
                 file.readFile(SelectedFilePath);
-                MyMap map = new MyMap(file.getInputData());
-
-                // Clear the data grid view
-                MapDataGrid.Rows.Clear();
-                MapDataGrid.Columns.Clear();
-
-                MapDataGrid.ColumnCount = map.getMapWidth();
-                MapDataGrid.RowCount = map.getMapHeight();
-
-                for (int i = 0; i < map.getMapHeight(); i++)
+                if (file.isValidFile() == false)
                 {
-                    for (int j = 0; j < map.getMapWidth(); j++)
+                    InputFileButton.Text = "Invalid Input File!";
+                    MessageBox.Show("Invalid Input File!");
+                }
+                else
+                {
+                    InputFileButton.Text = SelectedFileName;
+                    MyMap map = new MyMap(file.getInputData());
+
+                    // Clear the data grid view
+                    MapDataGrid.Rows.Clear();
+                    MapDataGrid.Columns.Clear();
+
+                    MapDataGrid.ColumnCount = map.getMapWidth();
+                    MapDataGrid.RowCount = map.getMapHeight();
+
+                    for (int i = 0; i < map.getMapHeight(); i++)
                     {
-                        if (map.getMapData()[i, j] != 'X')
+                        for (int j = 0; j < map.getMapWidth(); j++)
                         {
-                            MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.LightGoldenrodYellow;
-                            MapDataGrid.Rows[i].Cells[j].Value = map.getMapData()[i, j];
+                            if (map.getMapData()[i, j] != 'X')
+                            {
+                                MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.LightGoldenrodYellow;
+                                MapDataGrid.Rows[i].Cells[j].Value = map.getMapData()[i, j];
+                            }
+                            else
+                            {
+                                MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.SaddleBrown;
+                                MapDataGrid.Rows[i].Cells[j].Value = "";
+                            }
+                        }
+                        // Set the data grid view column width
+                        MapDataGrid.Rows[i].Height = 600/map.getMapHeight();
+                        if (map.getMapHeight() < map.getMapWidth())
+                        {
+                            MapDataGrid.Font = new Font("Microsoft Sans Serif", (600/map.getMapWidth())/3, FontStyle.Bold);
                         }
                         else
                         {
-                            MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.SaddleBrown;
-                            MapDataGrid.Rows[i].Cells[j].Value = "";
+                            MapDataGrid.Font = new Font("Microsoft Sans Serif", (600/map.getMapHeight())/3, FontStyle.Bold);
                         }
+                        // initialize MyAlgo class with map data and start point
+                        Algo = new MyAlgo(map);
                     }
-                    // Set the data grid view column width
-                    MapDataGrid.Rows[i].Height = 600/map.getMapHeight();
-                    if (map.getMapHeight() < map.getMapWidth())
-                    {
-                        MapDataGrid.Font = new Font("Microsoft Sans Serif", (600/map.getMapWidth())/3, FontStyle.Bold);
-                    }
-                    else
-                    {
-                        MapDataGrid.Font = new Font("Microsoft Sans Serif", (600/map.getMapHeight())/3, FontStyle.Bold);
-                    }
-                    // initialize MyAlgo class with map data and start point
-                    Algo = new MyAlgo(map);
                 }
             }
             else

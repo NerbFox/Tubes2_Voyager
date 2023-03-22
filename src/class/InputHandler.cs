@@ -1,15 +1,18 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace InputHandler
 {
     public class InputHandlerFile
     {
         private string[] inputFileData;
+        private bool isValid;
 
         public InputHandlerFile()
         {
             inputFileData = new string[0];
+            isValid = true;
         }
 
         public int getNumberOfLines()
@@ -21,6 +24,11 @@ namespace InputHandler
         {
             return inputFileData[0].Length;
         }
+
+        public bool isValidFile()
+        {
+            return isValid;
+        }
         
         public string[] getInputData()
         {
@@ -30,39 +38,22 @@ namespace InputHandler
         public void readFile(string path)
         {
             if (File.Exists(path)) {
-                inputFileData = File.ReadAllLines(path);
-                for (int i = 0; i < inputFileData.Length; i++) {
-                    inputFileData[i] = inputFileData[i].Replace(" ", "");
+                // check if file contains only 'X', 'R', 'T', or 'K'
+                Regex regex = new Regex(@"^[XRTK]+$");
+                string[] lines = File.ReadAllLines(path);
+                for (int i = 0; i < lines.Length; i++) {
+                    lines[i] = lines[i].Replace(" ", "");
                 }
-            } else {
-                Console.WriteLine("File does not exist!");
-            }
-        }
-    }
-
-    public class InputHandlerCommand
-    {
-        private int command;
-
-        public InputHandlerCommand()
-        {
-            command = 0;
-        }
-
-        public int getCommand()
-        {
-            return command;
-        }
-
-        public void input(int min, int max)
-        {
-            while (true) {
-                command = Convert.ToInt32(Console.ReadLine());
-                if (command >= min && command <= max) {
-                    break;
-                } else {
-                    Console.WriteLine("Please enter a valid input! (" + min + "/" + max + ")");
+                for (int i = 0; i < lines.Length; i++) {
+                    if (!regex.IsMatch(lines[i])) {
+                        isValid = false;
+                    }
                 }
+                inputFileData = lines;
+            } 
+            else 
+            {
+                isValid = false;
             }
         }
     }
