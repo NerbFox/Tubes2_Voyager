@@ -8,7 +8,7 @@ class DriverAlgo
     static void Main(string[] args)
     {
         InputHandlerFile inputHandlerFile = new InputHandlerFile();
-        inputHandlerFile.readFile("../../TestInput4.txt");
+        inputHandlerFile.readFile("../../TestInput1.txt");
         MyMap map = new MyMap(inputHandlerFile.getInputData());
         // DFS dfsbacktrack = new DFS(map);
         
