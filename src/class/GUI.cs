@@ -351,17 +351,17 @@ namespace GUI
             {
                 var i = Algo.getPath()[currentIndex];
 
-                // jika sudah pernah dikunjungi sebelumnya ubah warna menjadi merah,
+                // jika sudah pernah dikunjungi sebelumnya ubah warna menjadi orange,
                 if (visited[i.Item1][i.Item2])
                 {
                     // Console.WriteLine("visited");
-                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Red;
+                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Orange;
                 }
-                // jika belum pernah dikunjungi sebelumnya ubah warna menjadi hijau
+                // jika belum pernah dikunjungi sebelumnya ubah warna menjadi kuning
                 else
                 {
                     // Console.WriteLine("not visited");
-                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Green;
+                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Yellow;
                     // set visited attribute to true
                     visited[i.Item1][i.Item2] = true;
                 }
