@@ -374,6 +374,7 @@ namespace GUI
         }
         private void StartAnimation()
         {
+            resetColor();
             this.currentIndex = 0;
             var map = Algo.getMap();
             // clear visited list
@@ -404,6 +405,24 @@ namespace GUI
             // {
             //     visited.Add(false);
             // }
+        }
+        private void resetColor(){
+            var map = Algo.getMap();
+            // reset all color to default color (lightgoldenrodyellow)
+            for (int i = 0; i < map.getMapHeight(); i++)
+            {
+                for (int j = 0; j < map.getMapWidth(); j++)
+                {
+                    if (map.getMapData()[i, j] != 'X')
+                    {
+                        MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.LightGoldenrodYellow;
+                    }
+                    else
+                    {
+                        MapDataGrid.Rows[i].Cells[j].Style.BackColor = Color.SaddleBrown;
+                    }
+                }
+            }
         }
     }
 }
