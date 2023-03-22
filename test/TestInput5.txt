@@ -1,100 +1,11 @@
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
-K R R R R T X X
-X R X X X X X X
-X T R R R X X X
-X R X X R R T X
+K T R X
+X T R X
+X T R X
+X T R X
+X T R X
+X T R X
+X T R X
+X T R X
+X T R X
+X T R X
+X T R X

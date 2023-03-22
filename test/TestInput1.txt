@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 K R R R
 X X X T
 X T X R
 X R X X
+=======
+X T X X
+X R R T
+K R X T
+X R X R
+X R R R
+>>>>>>> 839bb013c38f322e3e6a333f580b0cf9553842a6
