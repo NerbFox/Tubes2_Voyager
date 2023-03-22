@@ -65,7 +65,7 @@ namespace GUI
             InputFileButton = new Button();
 
             // Set the button text
-            VisualizeButton.Text = "Visualize";
+            VisualizeButton.Text = "Search!";
             InputFileButton.Text = "Input File";
 
             // Set the button font
@@ -463,8 +463,17 @@ namespace GUI
             }
 
             timer = new Timer();
-            timer.Interval = Int32.Parse(StringInputBox.Text); // set the delay to 500 milliseconds
-            timer.Tick += Timer_Tick;
+            int interval = Int32.Parse(StringInputBox.Text);
+            if (interval <= 0)
+            {
+                timer.Interval = 1;
+                timer.Tick += Timer_Tick;
+            }
+            else
+            {
+                timer.Interval = interval;
+                timer.Tick += Timer_Tick;
+            }
             timer.Start();
         }
 
