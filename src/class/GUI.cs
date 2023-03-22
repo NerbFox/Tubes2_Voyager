@@ -191,6 +191,9 @@ namespace GUI
             // Set the data grid view cell read only
             MapDataGrid.ReadOnly = true;
 
+            // Set the data grid view cell selection color to transparent
+            MapDataGrid.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Transparent;
+
             // User cannot add or delete rows
             MapDataGrid.AllowUserToAddRows = false;
             MapDataGrid.AllowUserToDeleteRows = false;
