@@ -33,11 +33,24 @@ namespace Algo
         // list of step to take : D, U, L, R
         public List<char> step;
         // constructor
-        public MyAlgo(int vertices, MyMap _map)
+        public MyAlgo(){
+            this.path = new List<(int, int)>();
+            this.step = new List<char>();
+            this.v = 0;
+            adj = new List<mapElmt>[v];
+            for (int i = 0; i < v; ++i)
+                adj[i] = new List<mapElmt>();
+            visited = new bool[v]; // keep track of visited vertices
+            for (int i = 0; i < v; i++)
+                visited[i] = false; // set all vertices to false (not visited)
+            map = new MyMap();
+            n_treasure = 0;
+        }
+        public MyAlgo(MyMap _map)
         {
             this.path = new List<(int, int)>();
             this.step = new List<char>();
-            this.v = vertices;
+            this.v = _map.getMapSize();
             adj = new List<mapElmt>[v];
             for (int i = 0; i < v; ++i)
                 adj[i] = new List<mapElmt>();
@@ -128,9 +141,70 @@ namespace Algo
             //     visited[i] = false;
             // }
         }
+        public void MyAlgoSetter(MyMap _map){
+            // delete the old path and step
+            this.path.Clear();
+            this.step.Clear();
+            this.path = new List<(int, int)>();
+            this.step = new List<char>();
+            this.v = _map.getMapSize();
+            adj = new List<mapElmt>[v];
+            for (int i = 0; i < v; ++i)
+                adj[i] = new List<mapElmt>();
+            visited = new bool[v]; // keep track of visited vertices
+            for (int i = 0; i < v; i++)
+                visited[i] = false; // set all vertices to false (not visited)
+            map = _map;
 
+            // initialize the start position from the map
+            int ver = 0;
+            int row = 0;
+            int col = 0;
+            int ind = 9;
+            n_treasure = 0;
+            for (int i = 0; i < map.getMapHeight(); i++)
+            {
+                for (int j = 0; j < map.getMapWidth(); j++)
+                {
+                    // count treasure
+                    if (map.getElement(i, j) == 'T')
+                    {
+                        n_treasure++;
+                    }
+                    if (map.getElement(i, j) != 'X')
+                    {
+                        ver++;
+                    }
+                    // Console.Write(map.getElement(i, j) + " ");
+                    if (map.getElement(i, j) == 'K')
+                    {
+                        // Console.WriteLine("K");
+                        row = i;
+                        col = j;
+                        ind = ver - 1;
+                    }
+                }
+                // Console.WriteLine();
+            }
+            start = new mapElmt(ind, row, col);
+        }
+
+        // getter for map 
+        public MyMap getMap()
+        {
+            return this.map;
+        }
+        // getter for the path
+        public List<(int, int)> getPath()
+        {
+            return this.path;
+        }
+        // getter for the step
+        public List<char> getStep()
+        {
+            return this.step;
+        }
         // add an edge to the graph
-        // public void AddEdge(int u, mapElmt v)
         public void AddEdge(int u, mapElmt v)
         {
             adj[u].Add(v);
@@ -139,7 +213,6 @@ namespace Algo
             // print();    
             // adj[u].Add((v1,v2));
         }
-
         public void print()
         {
             for (int i = 0; i < v; ++i)
@@ -248,10 +321,11 @@ namespace Algo
                 if (map.getElement(u.row, u.col) == 'T' && !visited[u.index])
                 {
                     n_treasure--;
-                    if (n_treasure == 0)
+                    if (n_treasure == 0){
                         Console.Write(u.index + " " + u.row + " " + u.col + " -> ");
                         // add to path a tuple of u.row and u.col
                         this.path.Add((u.row, u.col));
+                    }
                     Console.WriteLine("Nih " + u.index + " " + u.row + " " + u.col);
                 }
 
@@ -360,6 +434,10 @@ namespace Algo
                 }
             }
             
+        }
+        public void tsp(){
+            // travelling salesman problem
+            // using nearest neighbour algorithm
         }
     }
 }
