@@ -193,6 +193,7 @@ namespace GUI
 
             // Set the data grid view cell selection color to transparent
             MapDataGrid.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Transparent;
+            MapDataGrid.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Transparent;
 
             // User cannot add or delete rows
             MapDataGrid.AllowUserToAddRows = false;
