@@ -306,6 +306,7 @@ namespace GUI
 
                     // if want to use DFS with backtracking
                     Algo.dfsbacktrack();
+                    Algo.setResult();
                     // change the color of the path to green
                     // foreach (var i in Algo.getPath())
                     // {
