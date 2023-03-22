@@ -302,16 +302,18 @@ namespace Algo
         {
             // BFSQueue for BFS
             Queue<mapElmt> BFSQueue = new Queue<mapElmt>();
-            List<mapElmt> checkedPattern  = new List<mapElmt>();
-            mapElmt startNode = this.start;
-            List<mapElmt> roadToAllTreasure = new List<mapElmt>();
-            roadToAllTreasure.Add(startNode);
+            // List<mapElmt> checkedPattern  = new List<mapElmt>();
+            Dictionary<(int,int),(int,int)> parentOf = new Dictionary<(int,int),(int,int)>();
+            List<(int,int)> road = new List<(int,int)>();
+            List<(int,int)> subRoad = new List<(int,int)>();
 
 
             BFSQueue.Enqueue(this.start); // enqueue start vertex ke BFSQueue
             this.visited[this.start.index] = true; // set to true start vertex (visited)
-            checkedPattern.Add(start);
+            this.path.Add((start.row,start.col));
 
+            // mapElmt startNode = this.start;
+            parentOf[(this.start.row,this.start.col)] = (-1,-1);
             // selama BFSQueue tidak kosong dan belum semua treasure terambil
             while (BFSQueue.Count != 0 && n_treasure != 0)
             {
@@ -323,28 +325,51 @@ namespace Algo
                     // jika adjacent vertex belum dikunjungi
                     if (!this.visited[mapEl.index])
                     {
-                        this.visited[mapEl.index] = true; // set true untuk adjacent vertex (visited)
-                        BFSQueue.Enqueue(mapEl); // enqueue the adjacent vertex ke BFSQueue
-                        checkedPattern.Add(mapEl);
+                        BFSQueue.Enqueue(mapEl);
+                        this.visited[mapEl.index] = true;
+                        this.path.Add((mapEl.row,mapEl.col));
+                        parentOf[(mapEl.row,mapEl.col)] = (currentElMap.row,currentElMap.col);
+                        // checkedPattern.Add(mapEl);
                         // update treasure count
                         if (map.getElement(mapEl.row, mapEl.col) == 'T')
                         {
                             n_treasure--;
                             // Start Finding road to all treasure
-                            BFSFindingPath(ref roadToAllTreasure, startNode, mapEl);
+                            (int,int) tile = (mapEl.row,mapEl.col);
+                            // road from start to end (start = start or Treasure)
+                            while (parentOf[tile] != (-1,-1))
+                            {
+                                subRoad.Add(tile);
+                                tile = parentOf[tile];
+                            }
+                            subRoad.Reverse();
+                            foreach ((int,int) item in subRoad)
+                            {
+                                if (!road.Contains(item)) road.Add(item);
+                            }
+                            subRoad.Clear();
                         }
                     }
                 }
             }
+
+            this.path.AddRange(road);
+            // Console.WriteLine("\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+            // foreach ((int,int) item in this.path)
+            // {
+            //     Console.Write(item.Item1 + " " + item.Item2 + " -> ");
+            // }
+            // Console.WriteLine("\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         }
 
         private void BFSFindingPath(ref List<mapElmt> path, mapElmt startNode, mapElmt endNode)
         {
             // BFSQueue for BFS
             Queue<mapElmt> BFSQueue = new Queue<mapElmt>();
-            List<(int, List<mapElmt>)> PossiblePath = new List<(int, List<mapElmt>)>();
+            Dictionary<(int,int),(int,int)> parent = new Dictionary<(int,int),(int,int)>();
+            
             BFSQueue.Enqueue(startNode);
-
             // Find from start to end with bfs again
             while (BFSQueue.Count != 0)
             {

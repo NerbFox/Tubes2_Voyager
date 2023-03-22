@@ -346,6 +346,9 @@ namespace GUI
                 if (BFSButton.Checked)
                 {
                     // jalankan BFS
+                    Algo.BFS();
+                    Algo.setResult();
+                    StartAnimation();
                 }
                 // jika memilih DFS
                 else if (DFSButton.Checked)
@@ -364,6 +367,7 @@ namespace GUI
                     // }
                     // change the color of the path to green
                     StartAnimation();
+
                     // change the color of the visited nodes to red
                 }
                 // jika memilih TSP
