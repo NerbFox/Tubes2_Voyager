@@ -340,7 +340,7 @@ namespace GUI
         private void StartVisualize(object? sender, EventArgs e)
         {
             // jika sudah memilih file dan sudah memilih algoritma
-            if (SelectedFilePath != "" && SelectedFileName != "" && StringInputBox.Text != "" && (BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
+            if (SelectedFilePath != "" && SelectedFileName != "" && StringInputBox.Text != "" && StringInputBox.Text != "Enter Delay Time (ms)" && (BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
             {
                 // jika memilih BFS
                 if (BFSButton.Checked)
@@ -374,17 +374,17 @@ namespace GUI
             }
             else
             {
-                if (SelectedFilePath == "" && SelectedFileName == "" && StringInputBox.Text == "" && !(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
+                if (SelectedFilePath == "" && SelectedFileName == "" && (StringInputBox.Text != "" || StringInputBox.Text != "Enter Delay Time (ms)") && !(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
                     MessageBox.Show("Please select the file, algorithm, and delay time first!");
-                else if (SelectedFilePath == "" && SelectedFileName == "" && StringInputBox.Text == "")
+                else if ((StringInputBox.Text != "" || StringInputBox.Text != "Enter Delay Time (ms)") && !(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
+                    MessageBox.Show("Please select the algorithm and delay time first!");
+                else if (SelectedFilePath == "" && SelectedFileName == "" && (StringInputBox.Text != "" || StringInputBox.Text != "Enter Delay Time (ms)"))
                     MessageBox.Show("Please select the file and delay time first!");
                 else if (SelectedFilePath == "" && SelectedFileName == "" && !(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
                     MessageBox.Show("Please select the file and algorithm first!");
                 else if (SelectedFilePath == "" && SelectedFileName == "")
                     MessageBox.Show("Please select the file first!");
-                else if (StringInputBox.Text == "" && !(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
-                    MessageBox.Show("Please select the algorithm and delay time first!");
-                else if (StringInputBox.Text == "")
+                else if ((StringInputBox.Text != "" || StringInputBox.Text != "Enter Delay Time (ms)"))
                     MessageBox.Show("Please select the delay time first!");
                 else if (!(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
                     MessageBox.Show("Please select the algorithm first!");
