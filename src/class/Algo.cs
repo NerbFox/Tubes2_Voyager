@@ -64,6 +64,7 @@ namespace Algo
             int row = 0;
             int col = 0;
             int ind = 9;
+            int tempIndex = 0;
             n_treasure = 0;
             for (int i = 0; i < map.getMapHeight(); i++)
             {
@@ -84,17 +85,18 @@ namespace Algo
                         // Console.WriteLine("K");
                         row = i;
                         col = j;
-                        ind = ver - 1;
+                        ind = tempIndex;
                     }
+                    tempIndex++;
                 }
                 // Console.WriteLine();
             }
             start = new mapElmt(ind, row, col);
+            Console.WriteLine("Start at index " + start.index + " at row " + start.row + " and col " + start.col);
 
 
             // add edges to the graph from the map
             int index = 0;
-            mapElmt m = new mapElmt(0, 0, 0);
             for (int i = 0; i < map.getMapHeight(); i++)
             {
                 for (int j = 0; j < map.getMapWidth(); j++)
@@ -125,8 +127,15 @@ namespace Algo
                         }
                         // v++;
                     }
-                    index++;
                     // Console.WriteLine(index);
+                    // print the adjacency list of index
+                    Console.Write("\nAdjacency list of vertex " + index + ": ");
+                    foreach (var u in adj[index])
+                    {
+                        Console.Write(u.index + ", ");
+                    }
+                    Console.WriteLine();
+                    index++;
                 }
             }
             // adj = new List<mapElmt>[4];
@@ -161,6 +170,7 @@ namespace Algo
             int row = 0;
             int col = 0;
             int ind = 9;
+            int tempIndex = 0;
             n_treasure = 0;
             for (int i = 0; i < map.getMapHeight(); i++)
             {
@@ -181,8 +191,9 @@ namespace Algo
                         // Console.WriteLine("K");
                         row = i;
                         col = j;
-                        ind = ver - 1;
+                        ind = tempIndex;
                     }
+                    tempIndex++;
                 }
                 // Console.WriteLine();
             }
@@ -234,7 +245,7 @@ namespace Algo
             visited[start.index] = true; // set to true start vertex (visited)
             DFSStack.Push((start, 0)); // push start vertex ke DFSStack
             // Console.Write(DFSStack.Count);
-
+            Console.WriteLine("Count: " + DFSStack.Count + "T: " + n_treasure);
             // selama DFSStack tidak kosong dan belum semua treasure terambil
             while (DFSStack.Count != 0 && n_treasure != 0)
             {
@@ -330,6 +341,7 @@ namespace Algo
                 }
 
                 // If all the node is visited return;
+                Console.WriteLine("c: " + c + " T: " + n_treasure);
                 if (c == node || n_treasure == 0)
                     return;
 
@@ -343,10 +355,13 @@ namespace Algo
                 Console.Write(u.index + " " + u.row + " " + u.col + " -> ");
                 // add to path a tuple of u.row and u.col
                 this.path.Add((u.row, u.col));
-
+                
+                // print jumlah adjancent node
+                Console.WriteLine("\nCount adj: " + adj[u.index].Count);
                 // Check for not visited node and proceed with it.
                 foreach (mapElmt x in adj[u.index])
                 {
+                    Console.WriteLine(" adj: " + x.index + " " + x.row + " " + x.col );
                     // call the DFs function if not visited
                     if (!visited[x.index])
                     {
