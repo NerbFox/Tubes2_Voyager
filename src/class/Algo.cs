@@ -129,7 +129,7 @@ namespace Algo
                     }
                     // Console.WriteLine(index);
                     // print the adjacency list of index
-                    Console.Write("\nAdjacency list of vertex " + index + ": ");
+                    Console.Write("Adjacency list of vertex " + index + ": ");
                     foreach (var u in adj[index])
                     {
                         Console.Write(u.index + ", ");
@@ -341,7 +341,6 @@ namespace Algo
                 }
 
                 // If all the node is visited return;
-                Console.WriteLine("c: " + c + " T: " + n_treasure);
                 if (c == node || n_treasure == 0)
                     return;
 
@@ -357,11 +356,11 @@ namespace Algo
                 this.path.Add((u.row, u.col));
                 
                 // print jumlah adjancent node
-                Console.WriteLine("\nCount adj: " + adj[u.index].Count);
+                // Console.WriteLine("\nCount adj: " + adj[u.index].Count);
                 // Check for not visited node and proceed with it.
                 foreach (mapElmt x in adj[u.index])
                 {
-                    Console.WriteLine(" adj: " + x.index + " " + x.row + " " + x.col );
+                    // Console.WriteLine(" adj: " + x.index + " " + x.row + " " + x.col );
                     // call the DFs function if not visited
                     if (!visited[x.index])
                     {
@@ -410,6 +409,7 @@ namespace Algo
         public void setResult(){
             // result of path list<int,int>
             // print list of path
+            Console.WriteLine("\nPath: ");
             foreach (var i in path)
             {
                 // a,b -> c,d -> e,f if end of path
