@@ -1,13 +1,3 @@
-// namespace Algorithm{
-//     public class BFS : MyAlgorithm
-//     {
-//         public override void print()
-//         {
-//             Console.WriteLine("Hello BFS");
-//         }
-//     }
-// }
-// mau pake partial class buat nambahin method BFS
 using System;
 namespace Algo{
     class BFS{

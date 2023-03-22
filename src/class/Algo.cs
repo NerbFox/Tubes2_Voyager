@@ -23,7 +23,7 @@ namespace Algo
     {
         protected int v; // number of vertices
         // private List<(int,int)>[] adj; // adjacency list
-        protected List<mapElmt>[] adj; // adjacency list
+        protected List<mapElmt>[] adj; // adjacency list array of list map elmt
         protected mapElmt start;
         public bool[] visited;
         public MyMap map;
@@ -312,7 +312,7 @@ namespace Algo
             }
             mapElmt parent = new mapElmt(-1, -1, -1);
             // call the function
-            dFSBack(start, v, visited, road_used, parent, 0);
+            dFSBack(this.start, v, visited, road_used, parent, 0);
             Console.WriteLine("treasure count " + n_treasure);
         }
         public void printMap(){
