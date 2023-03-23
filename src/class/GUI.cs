@@ -259,7 +259,7 @@ namespace GUI
 
         private void InputFile(object? sender, EventArgs e)
         {
-            reset();
+            // reset();
             // Open the file dialog in the test folder of the project ../test
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.RestoreDirectory = true;
@@ -510,6 +510,7 @@ namespace GUI
             //     visited.Add(false);
             // }
         }
+        
         private void resetColor(){
             var map = Algo.getMap();
             // reset all color to default color (lightgoldenrodyellow)
