@@ -259,7 +259,7 @@ namespace GUI
 
         private void InputFile(object? sender, EventArgs e)
         {
-            // reset();
+            reset();
             // Open the file dialog in the test folder of the project ../test
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.RestoreDirectory = true;
@@ -345,6 +345,8 @@ namespace GUI
                 // jika memilih BFS
                 if (BFSButton.Checked)
                 {
+                    // reset Algo
+                    Algo.reset();
                     // jalankan BFS
                     Algo.BFSAlgorithmStrategies();
                     Algo.setResult();
@@ -353,6 +355,8 @@ namespace GUI
                 // jika memilih DFS
                 else if (DFSButton.Checked)
                 {
+                    // reset Algo
+                    Algo.reset();
                     // jalankan DFS
                     // if want to use DFS 
 
