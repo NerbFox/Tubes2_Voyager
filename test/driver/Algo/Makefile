@@ -4,7 +4,6 @@ CSC := dotnet csc
 SRCMAP := ../../../src/class/Map.cs
 SRCINPUTHANDLER := ../../../src/class/InputHandler.cs
 SRCALGO := ../../../src/class/Algo.cs
-SRCBFS := ../../../src/class/BFS.cs
 SRCDRIVER := Driver.cs
 
 ALGODLL := bin/Algo.dll
@@ -17,7 +16,7 @@ all:
 build:
 	@echo "Compiling Algo.."
 	@if not exist bin mkdir bin
-	@$(CSC) $(SRCMAP) $(SRCINPUTHANDLER) $(SRCALGO) $(SRCBFS) $(SRCDRIVER) $(OUTPUT)
+	@$(CSC) $(SRCMAP) $(SRCINPUTHANDLER) $(SRCALGO) $(SRCDRIVER) $(OUTPUT)
 
 run:
 	@$(DOTNET) $(ALGODLL)

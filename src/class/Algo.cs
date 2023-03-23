@@ -143,17 +143,6 @@ namespace Algo
                     index++;
                 }
             }
-            // adj = new List<mapElmt>[4];
-            // for (int i = 0; i < 4; ++i)
-            //     adj[i] = new List<mapElmt>();
-
-            // adj = new List<List<mapElmt>>(vertices);
-            // visited = new bool[vertices]; // set the size of the "visited" array to the total number of vertices
-            // for (int i = 0; i < vertices; i++)
-            // {
-            //     adjList.Add(new List<mapElmt>());
-            //     visited[i] = false;
-            // }
         }
         public void MyAlgoSetter(MyMap _map){
             // delete the old path and step
@@ -491,6 +480,21 @@ namespace Algo
             // check if index is valid
             if (u.index != -1)
             {
+                // check if get treasure
+                if (map.getElement(u.row, u.col) == 'T' && !visited[u.index])
+                {
+                    n_treasure--;
+                    if (n_treasure == 0){
+                        Console.Write(u.index + " " + u.row + " " + u.col + " -> ");
+                        // add to path a tuple of u.row and u.col
+                        this.path.Add((u.row, u.col));
+                        Console.WriteLine("AAAA " +n_treasure);
+                        return;
+                    }
+                    Console.WriteLine("Nih " + u.index + " " + u.row + " " + u.col);
+                }
+                // if (n_treasure == 0)
+
                 int c = 0;
 
                 // Check if all the node is visited or not
@@ -502,17 +506,6 @@ namespace Algo
                 // print u row and col
                 // Console.WriteLine("Nih " + u.index + " " + u.row + " " + u.col);
 
-                // check if get treasure
-                if (map.getElement(u.row, u.col) == 'T' && !visited[u.index])
-                {
-                    n_treasure--;
-                    if (n_treasure == 0){
-                        Console.Write(u.index + " " + u.row + " " + u.col + " -> ");
-                        // add to path a tuple of u.row and u.col
-                        this.path.Add((u.row, u.col));
-                    }
-                    Console.WriteLine("Nih " + u.index + " " + u.row + " " + u.col);
-                }
 
                 // If all the node is visited return;
                 if (c == node || n_treasure == 0)
@@ -536,7 +529,7 @@ namespace Algo
                 {
                     // Console.WriteLine(" adj: " + x.index + " " + x.row + " " + x.col );
                     // call the DFs function if not visited
-                    if (!visited[x.index])
+                    if (!visited[x.index] && n_treasure != 0)
                     {
                         dFSBack(x, node, visited, road_used, u,
                                 it + 1);
@@ -545,6 +538,7 @@ namespace Algo
 
                 // Backtrack through the last
                 // visited nodes
+                
                 for (int y = 0; y < road_used.Count; y++)
                 {
                     if (road_used[y][1].index == u.index)
@@ -576,6 +570,7 @@ namespace Algo
             // call the function
             dFSBack(this.start, v, visited, road_used, parent, 0);
             Console.WriteLine("treasure count " + n_treasure);
+            Console.WriteLine("Selesai");
         }
         public void printMap(){
             map.print();
