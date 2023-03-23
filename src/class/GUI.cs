@@ -344,6 +344,8 @@ namespace GUI
             {
                 Algo.reset();
                 // jika memilih BFS
+                // hitung waktu eksekusi algoritma
+                var watch = System.Diagnostics.Stopwatch.StartNew();
                 if (BFSButton.Checked)
                 {
                     // jalankan BFS
@@ -365,8 +367,13 @@ namespace GUI
                     // Algo.tsp();
                     Algo.TSPAlgorithmStrategies();
                 }
-
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                // tampilkan waktu eksekusi algoritma
+                // MessageBox.Show("Execution Time: " + elapsedMs + " ms");
+                // set result
                 Algo.setResult();
+                // start animation
                 StartAnimation();
             }
             else
