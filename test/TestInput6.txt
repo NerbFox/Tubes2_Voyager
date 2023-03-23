@@ -1,13 +1,6 @@
-T T T T T T T T T T T T T
-T T T T T T T T T T T T T
-T T T T T T T T T T T T T
-T T T T T T T T T T T T T
-T T T T T T T T T T T T T
-T T T T T T T T T T T T T
-T T T T T T K T T T T T T
-T T T T T T T T T T T T T
-T T T T T T T T T T T T T
-T T T T T T T T T T T T T
-T T T T T T T T T T T T T
-T T T T T T T T T T T T T
-T T T T T T T T T T T T T
+K X X X X X
+R R X X X X
+R R R T X X
+R R R R X X
+R R R R R X
+R R R R R R
