@@ -368,7 +368,12 @@ namespace GUI
                 // jika memilih TSP
                 else if (TSPButton.Checked)
                 {
+                    // reset Algo
+                    Algo.reset();
                     // jalankan TSP
+                    Algo.tsp();
+                    Algo.setResult();
+                    StartAnimation();
                 }
             }
             else
@@ -404,6 +409,7 @@ namespace GUI
 
         private void UseTSP(object? sender, EventArgs e)
         {
+            Console.WriteLine("TSP");
             // if (SelectedFilePath != "" && SelectedFileName != "")
             // {
                 // Console.WriteLine("TSP");
