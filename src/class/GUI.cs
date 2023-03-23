@@ -259,7 +259,7 @@ namespace GUI
 
         private void InputFile(object? sender, EventArgs e)
         {
-            // reset();
+            reset();
             // Open the file dialog in the test folder of the project ../test
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.RestoreDirectory = true;
@@ -342,29 +342,23 @@ namespace GUI
             // jika sudah memilih file dan sudah memilih algoritma
             if (SelectedFilePath != "" && SelectedFileName != "" && StringInputBox.Text != "" && StringInputBox.Text != "Enter Delay Time (ms)" && (BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
             {
+                Algo.reset();
                 // jika memilih BFS
                 if (BFSButton.Checked)
                 {
+                    // reset Algo
                     // jalankan BFS
                     Algo.BFSAlgorithmStrategies();
                 }
                 // jika memilih DFS
-                else if (DFSButton.Checked)
+                else if (DFSButton.Checked) 
                 {
+                    // reset Algo
                     // jalankan DFS
                     Algo.dfsbacktrack();
                     // if want to use DFS 
 
                     // if want to use DFS with backtracking
-                    // change the color of the path to green
-                    // foreach (var i in Algo.getPath())
-                    // {
-                    //     MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Green;
-                    //     // 
-                    // }
-                    // change the color of the path to green
-
-                    // change the color of the visited nodes to red
                 }
                 // jika memilih TSP
                 else if (TSPButton.Checked)
