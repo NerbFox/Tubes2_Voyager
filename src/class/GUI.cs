@@ -342,28 +342,23 @@ namespace GUI
             // jika sudah memilih file dan sudah memilih algoritma
             if (SelectedFilePath != "" && SelectedFileName != "" && StringInputBox.Text != "" && StringInputBox.Text != "Enter Delay Time (ms)" && (BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
             {
+                Algo.reset();
                 // jika memilih BFS
                 if (BFSButton.Checked)
                 {
                     // reset Algo
-                    Algo.reset();
                     // jalankan BFS
                     Algo.BFSAlgorithmStrategies();
-                    Algo.setResult();
-                    StartAnimation();
                 }
                 // jika memilih DFS
                 else if (DFSButton.Checked) 
                 {
                     // reset Algo
-                    Algo.reset();
                     // jalankan DFS
+                    Algo.dfsbacktrack();
                     // if want to use DFS 
 
                     // if want to use DFS with backtracking
-                    Algo.dfsbacktrack();
-                    Algo.setResult();
-                    StartAnimation();
                 }
                 // jika memilih TSP
                 else if (TSPButton.Checked)
@@ -371,10 +366,12 @@ namespace GUI
                     // reset Algo
                     Algo.reset();
                     // jalankan TSP
-                    Algo.tsp();
-                    Algo.setResult();
-                    StartAnimation();
+                    // Algo.tsp();
+                    Algo.TSPAlgorithmStrategies();
                 }
+
+                Algo.setResult();
+                StartAnimation();
             }
             else
             {

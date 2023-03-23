@@ -110,25 +110,25 @@ namespace Algo
                     if (map.getElement(i, j) != 'X')
                     {
                         // mapElmt m = new mapElmt(index, i, j);
-                        if (i > 0 && map.getElement(i - 1, j) != 'X')
-                        {
-                            mapElmt m1 = new mapElmt(index - map.getMapWidth(), i - 1, j);
-                            AddEdge(index, m1);
-                        }
                         if (i < map.getMapHeight() - 1 && map.getElement(i + 1, j) != 'X')
                         {
                             mapElmt m2 = new mapElmt(index + map.getMapWidth(), i + 1, j);
                             AddEdge(index, m2);
                         }
-                        if (j > 0 && map.getElement(i, j - 1) != 'X')
-                        {
-                            mapElmt m3 = new mapElmt(index - 1, i, j - 1);
-                            AddEdge(index, m3);
-                        }
                         if (j < map.getMapWidth() - 1 && map.getElement(i, j + 1) != 'X')
                         {
                             mapElmt m4 = new mapElmt(index + 1, i, j + 1);
                             AddEdge(index, m4);
+                        }
+                        if (i > 0 && map.getElement(i - 1, j) != 'X')
+                        {
+                            mapElmt m1 = new mapElmt(index - map.getMapWidth(), i - 1, j);
+                            AddEdge(index, m1);
+                        }
+                        if (j > 0 && map.getElement(i, j - 1) != 'X')
+                        {
+                            mapElmt m3 = new mapElmt(index - 1, i, j - 1);
+                            AddEdge(index, m3);
                         }
                         // v++;
                     }
@@ -239,7 +239,196 @@ namespace Algo
                 Console.WriteLine();
             }
         }
+/* ==================================================================== TSP ==================================================================== */
+        public void TSPAlgorithmStrategies()
+        {
+            LinkedList<mapElmt> TSPQueue = new LinkedList<mapElmt>();
         
+            List<(int,int)> road = new List<(int,int)>();
+            List<(int,int)> subRoad = new List<(int,int)>();
+
+
+            TSPQueue.AddLast(this.start);
+            this.visited[this.start.index] = true;
+            this.path.Add((start.row,start.col));
+
+            mapElmt startNode = this.start;
+        
+            while (TSPQueue.Count != 0 && n_treasure != 0)
+            {
+                mapElmt currentElMap = TSPQueue.First();
+                TSPQueue.RemoveFirst();
+
+            
+                foreach (mapElmt mapEl in this.adj[currentElMap.index])
+                {
+                
+                    if (!this.visited[mapEl.index])
+                    {
+                        TSPQueue.AddLast(mapEl);
+                        this.visited[mapEl.index] = true;
+                        this.path.Add((mapEl.row,mapEl.col));
+                        if (map.getElement(mapEl.row, mapEl.col) == 'T')
+                        {
+                        
+                            n_treasure--;
+
+                            GetPathBFSAlgorithmStrategies(ref subRoad, startNode, mapEl);
+                            foreach ((int,int) item in subRoad)
+                            {
+                                if (!road.Contains(item)) road.Add(item);
+                            }
+                            startNode = mapEl;
+                            subRoad.Clear();
+
+                        
+                            TSPQueue.AddFirst(mapEl);
+                        }
+                    }
+                }
+            }
+            // Perbedaan dari TSP
+            GetPathBFSAlgorithmStrategies(ref subRoad, startNode, this.start);
+            foreach ((int,int) item in subRoad)
+            {
+                if (!road.Contains(item)) road.Add(item);
+            }
+            subRoad.Clear();
+
+            this.path.Add((this.start.row,this.start.col));
+            this.path.AddRange(road);
+        }
+
+
+/* ==================================================================== BFS ==================================================================== */
+        public void BFSAlgorithmStrategies()
+        {
+            // BFSQueue for BFS
+            LinkedList<mapElmt> BFSQueue = new LinkedList<mapElmt>();
+            // List<mapElmt> checkedPattern  = new List<mapElmt>();
+            List<(int,int)> road = new List<(int,int)>();
+            List<(int,int)> subRoad = new List<(int,int)>();
+
+
+            BFSQueue.AddLast(this.start); // enqueue start vertex ke BFSQueue
+            this.visited[this.start.index] = true; // set to true start vertex (visited)
+            this.path.Add((start.row,start.col));
+
+            mapElmt startNode = this.start;
+            // selama BFSQueue tidak kosong dan belum semua treasure terambil
+            while (BFSQueue.Count != 0 && n_treasure != 0)
+            {
+                mapElmt currentElMap = BFSQueue.First(); // dequeue BFSQueue
+                BFSQueue.RemoveFirst();
+
+                // visit semua adjacent vertices dari vertex saat ini
+                foreach (mapElmt mapEl in this.adj[currentElMap.index])
+                {
+                    // jika adjacent vertex belum dikunjungi
+// Console.Write($"-> ({mapEl.row},{mapEl.col}) {visited[mapEl.index]} ");
+                    if (!this.visited[mapEl.index])
+                    {
+                        BFSQueue.AddLast(mapEl);
+                        this.visited[mapEl.index] = true;
+                        this.path.Add((mapEl.row,mapEl.col));
+                        if (map.getElement(mapEl.row, mapEl.col) == 'T')
+                        {
+                            // update treasure count
+                            n_treasure--;
+
+// Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAA");
+// Console.Write($"Start : {startNode.row},{startNode.col} -> ");
+                            GetPathBFSAlgorithmStrategies(ref subRoad, startNode, mapEl);
+                            foreach ((int,int) item in subRoad)
+                            {
+                                if (!road.Contains(item)) road.Add(item);
+                            }
+                            startNode = mapEl;
+// Console.WriteLine($"End : {mapEl.row},{mapEl.col} == ");
+// foreach (var item in subRoad)
+// {
+//     Console.Write($"({item.Item1},{item.Item2}) -> ");
+// }
+// Console.WriteLine("\nAAAAAAAAAAAAAAAAAAAAAAAA");
+                            subRoad.Clear();
+
+                            // BFSQueue.Clear();
+                            BFSQueue.AddFirst(mapEl);
+                        }
+                    }
+                }
+            }
+            this.path.Add((this.start.row,this.start.col));
+            this.path.AddRange(road);
+        }
+
+        private void GetPathBFSAlgorithmStrategies(ref List<(int,int)> subRoad, mapElmt start_tile, mapElmt end_tile)
+        {
+            // Finding path from start_tile to end_tile with BFS
+            // BFSQueue for BFS
+            Queue<mapElmt> BFSQueue = new Queue<mapElmt>();
+            Dictionary<(int,int),(int,int)> parentOf = new Dictionary<(int,int),(int,int)>();
+            bool[] CopyVisited = this.visited.ToArray();
+
+            BFSQueue.Enqueue(start_tile);
+            CopyVisited[start_tile.index] = false;
+            parentOf[(start_tile.row,start_tile.col)] = (-1,-1);
+
+// Console.WriteLine("BBBBBBBBBBBBBBBBBBBBB");
+            while (BFSQueue.Count != 0)
+            {
+                mapElmt currentElMap = BFSQueue.Dequeue(); // dequeue BFSQueue
+
+                // visit semua adjacent vertices dari vertex saat ini
+                foreach (mapElmt mapEl in this.adj[currentElMap.index])
+                {
+                    // jika adjacent vertex belum dikunjungi
+// Console.Write($"-> ({mapEl.row},{mapEl.col}) {CopyVisited[mapEl.index]} ");
+                    if (CopyVisited[mapEl.index])
+                    {
+                        BFSQueue.Enqueue(mapEl);
+                        CopyVisited[mapEl.index] = false;
+                        parentOf[(mapEl.row,mapEl.col)] = (currentElMap.row,currentElMap.col);
+    
+
+                        if (mapEl.index == end_tile.index)
+                        {
+                            // Start Finding road to all treasure
+                            (int,int) tile = (mapEl.row,mapEl.col);
+                            // road from start to end (start = start or Treasure)
+                            while (tile != (-1,-1))
+                            {
+                                subRoad.Add(tile);
+                                tile = parentOf[tile];
+                            }
+                        }
+                    }
+                }
+            }
+// Console.WriteLine("\nBBBBBBBBBBBBBBBBBBBBB");
+            subRoad.Reverse();
+        }
+
+/* ==================================================================== DFS ==================================================================== */
+        public void resetVisited()
+        {
+            for (int i = 0; i < v; i++)
+            {
+                visited[i] = false;
+            }
+            // reset treasure count
+            n_treasure = 0;
+            for (int i = 0; i < map.getMapHeight(); i++)
+            {
+                for (int j = 0; j < map.getMapWidth(); j++)
+                {
+                    if (map.getElement(i, j) == 'T')
+                    {
+                        n_treasure++;
+                    }
+                }
+            }
+        }
         public void DFS()
         {
             // stack of path for backtracking
@@ -292,171 +481,6 @@ namespace Algo
                     //     Console.Write("b " + j.index + " " + j.row + " " + j.col + " -> ");
                     // }
 
-                }
-            }
-        }
-        // protected bool isVisited()
-        // {
-        //     return true;
-        // }
-        public void BFS()
-        {
-            // BFSQueue for BFS
-            Queue<mapElmt> BFSQueue = new Queue<mapElmt>();
-            // List<mapElmt> checkedPattern  = new List<mapElmt>();
-            Dictionary<(int,int),(int,int)> parentOf = new Dictionary<(int,int),(int,int)>();
-            List<(int,int)> road = new List<(int,int)>();
-            List<(int,int)> subRoad = new List<(int,int)>();
-
-
-            BFSQueue.Enqueue(this.start); // enqueue start vertex ke BFSQueue
-            this.visited[this.start.index] = true; // set to true start vertex (visited)
-            this.path.Add((start.row,start.col));
-            parentOf[(this.start.row,this.start.col)] = (-1,-1);
-            
-            while (BFSQueue.Count != 0 && n_treasure != 0)
-            {
-                mapElmt currentElMap = BFSQueue.Dequeue(); // dequeue BFSQueue
-
-                // visit semua adjacent vertices dari vertex saat ini
-                foreach (mapElmt mapEl in this.adj[currentElMap.index])
-                {
-                    // jika adjacent vertex belum dikunjungi
-                    if (!this.visited[mapEl.index])
-                    {
-                        BFSQueue.Enqueue(mapEl);
-                        this.visited[mapEl.index] = true;
-                        this.path.Add((mapEl.row,mapEl.col));
-                        parentOf[(mapEl.row,mapEl.col)] = (currentElMap.row,currentElMap.col);
-                        // checkedPattern.Add(mapEl);
-                        // update treasure count
-                        if (map.getElement(mapEl.row, mapEl.col) == 'T')
-                        {
-                            n_treasure--;
-                            // Start Finding road to all treasure
-                            (int,int) tile = (mapEl.row,mapEl.col);
-                            // road from start to end (start = start or Treasure)
-                            while (parentOf[tile] != (-1,-1))
-                            {
-                                subRoad.Add(tile);
-                                tile = parentOf[tile];
-                            }
-                            subRoad.Reverse();
-                            foreach ((int,int) item in subRoad)
-                            {
-                                if (!road.Contains(item)) road.Add(item);
-                            }
-                            subRoad.Clear();
-                        }
-                    }
-                }
-            }
-            this.path.Add((this.start.row,this.start.col));
-            this.path.AddRange(road);
-        }
-        public void BFSAlgorithmStrategies()
-        {
-            // BFSQueue for BFS
-            Queue<mapElmt> BFSQueue = new Queue<mapElmt>();
-            // List<mapElmt> checkedPattern  = new List<mapElmt>();
-            List<(int,int)> road = new List<(int,int)>();
-            List<(int,int)> subRoad = new List<(int,int)>();
-
-
-            BFSQueue.Enqueue(this.start); // enqueue start vertex ke BFSQueue
-            this.visited[this.start.index] = true; // set to true start vertex (visited)
-            this.path.Add((start.row,start.col));
-
-            mapElmt startNode = this.start;
-            // selama BFSQueue tidak kosong dan belum semua treasure terambil
-            while (BFSQueue.Count != 0 && n_treasure != 0)
-            {
-                mapElmt currentElMap = BFSQueue.Dequeue(); // dequeue BFSQueue
-
-                // visit semua adjacent vertices dari vertex saat ini
-                foreach (mapElmt mapEl in this.adj[currentElMap.index])
-                {
-                    // jika adjacent vertex belum dikunjungi
-                    if (!this.visited[mapEl.index])
-                    {
-                        BFSQueue.Enqueue(mapEl);
-                        this.visited[mapEl.index] = true;
-                        this.path.Add((mapEl.row,mapEl.col));
-                        if (map.getElement(mapEl.row, mapEl.col) == 'T')
-                        {
-                            // update treasure count
-                            n_treasure--;
-                            GetPathBFSAlgorithmStrategies(ref subRoad, startNode, mapEl);
-                            foreach ((int,int) item in subRoad)
-                            {
-                                if (!road.Contains(item)) road.Add(item);
-                            }
-                            startNode = mapEl;
-                        }
-                    }
-                }
-            }
-            this.path.Add((this.start.row,this.start.col));
-            this.path.AddRange(road);
-        }
-
-        private void GetPathBFSAlgorithmStrategies(ref List<(int,int)> subRoad, mapElmt start_tile, mapElmt end_tile)
-        {
-            // Finding path from start_tile to end_tile with BFS
-            // BFSQueue for BFS
-            Queue<mapElmt> BFSQueue = new Queue<mapElmt>();
-            Dictionary<(int,int),(int,int)> parentOf = new Dictionary<(int,int),(int,int)>();
-            bool[] CopyVisited = this.visited.ToArray();
-
-            BFSQueue.Enqueue(end_tile);
-            CopyVisited[end_tile.index] = false;
-            parentOf[(end_tile.row,end_tile.col)] = (-1,-1);
-
-            while (BFSQueue.Count != 0)
-            {
-                mapElmt currentElMap = BFSQueue.Dequeue(); // dequeue BFSQueue
-
-                // visit semua adjacent vertices dari vertex saat ini
-                foreach (mapElmt mapEl in this.adj[currentElMap.index])
-                {
-                    // jika adjacent vertex belum dikunjungi
-                    if (CopyVisited[mapEl.index])
-                    {
-                        BFSQueue.Enqueue(mapEl);
-                        CopyVisited[mapEl.index] = false;
-                        parentOf[(mapEl.row,mapEl.col)] = (currentElMap.row,currentElMap.col);
-
-                        if (mapEl.index == start_tile.index)
-                        {
-                            // Start Finding road to all treasure
-                            (int,int) tile = (mapEl.row,mapEl.col);
-                            // road from start to end (start = start or Treasure)
-                            while (parentOf[tile] != (-1,-1))
-                            {
-                                subRoad.Add(tile);
-                                tile = parentOf[tile];
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        public void resetVisited()
-        {
-            for (int i = 0; i < v; i++)
-            {
-                visited[i] = false;
-            }
-            // reset treasure count
-            n_treasure = 0;
-            for (int i = 0; i < map.getMapHeight(); i++)
-            {
-                for (int j = 0; j < map.getMapWidth(); j++)
-                {
-                    if (map.getElement(i, j) == 'T')
-                    {
-                        n_treasure++;
-                    }
                 }
             }
         }
