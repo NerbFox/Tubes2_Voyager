@@ -427,11 +427,29 @@ namespace GUI
                 var i = Algo.getPath()[currentIndex];
 
                 // jika sudah pernah dikunjungi sebelumnya ubah warna menjadi orange,
+                // if visited shift the color darker
                 if (visited[i.Item1][i.Item2])
                 {
-                    // Console.WriteLine("visited");
-                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Orange;
-                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Orange;
+                    if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.Orange)
+                    {
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Orange;
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Orange;
+                    }
+                    else if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.Orange)
+                    {
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.OrangeRed;
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.OrangeRed;
+                    }
+                    else if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.OrangeRed)
+                    {
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.DarkRed;
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.DarkRed;
+                    }
+                    else
+                    {
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Orange;
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Orange;
+                    }
                 }
                 // jika belum pernah dikunjungi sebelumnya ubah warna menjadi kuning
                 else
