@@ -346,7 +346,7 @@ namespace GUI
                 if (BFSButton.Checked)
                 {
                     // jalankan BFS
-                    Algo.BFS();
+                    Algo.BFSAlgorithmStrategies();
                     Algo.setResult();
                     StartAnimation();
                 }
