@@ -353,7 +353,7 @@ namespace GUI
                     StartAnimation();
                 }
                 // jika memilih DFS
-                else if (DFSButton.Checked)
+                else if (DFSButton.Checked) 
                 {
                     // reset Algo
                     Algo.reset();
@@ -363,16 +363,7 @@ namespace GUI
                     // if want to use DFS with backtracking
                     Algo.dfsbacktrack();
                     Algo.setResult();
-                    // change the color of the path to green
-                    // foreach (var i in Algo.getPath())
-                    // {
-                    //     MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Green;
-                    //     // 
-                    // }
-                    // change the color of the path to green
                     StartAnimation();
-
-                    // change the color of the visited nodes to red
                 }
                 // jika memilih TSP
                 else if (TSPButton.Checked)
