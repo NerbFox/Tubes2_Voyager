@@ -30,9 +30,10 @@ namespace Algo
         protected int v; // number of vertices
         protected List<mapElmt>[] adj; // adjacency list array of list mapElment
         protected mapElmt start; // start from map
-        public bool[] visited; // keep track of visited vertices
+        public List<bool> visited; // keep track of visited vertices
         public MyMap map; // map
         public int n_treasure; // number of treasure
+        public int n_visited; // number of visited vertices
         public List<(int, int)> path; // list of tuple (point map)
         public List<char> step; // list of step to take : D, U, L, R
         // constructor
@@ -44,11 +45,14 @@ namespace Algo
             adj = new List<mapElmt>[v];
             for (int i = 0; i < v; ++i) adj[i] = new List<mapElmt>();
 
-            visited = new bool[v]; // keep track of visited vertices
+            // keep track of visited vertices
+            visited = new List<bool>();
+            
             for (int i = 0; i < v; i++) visited[i] = false; // set all vertices to false (not visited)
 
             map = new MyMap();
             n_treasure = 0;
+            n_visited = 0;
         }
         public MyAlgo(MyMap _map)
         {
@@ -59,8 +63,10 @@ namespace Algo
             adj = new List<mapElmt>[v];
             for (int i = 0; i < v; ++i) adj[i] = new List<mapElmt>();
 
-            visited = new bool[v]; // keep track of visited vertices
-            for (int i = 0; i < v; i++) visited[i] = false; // set all vertices to false (not visited)
+            visited = new List<bool>(); // keep track of visited vertices
+            for (int i = 0; i < v; i++){
+                visited.Add(false); // set all vertices to false (not visited)
+            } // set all vertices to false (not visited)
             
             map = _map;
 
@@ -71,6 +77,7 @@ namespace Algo
             int ind = 9;
             int tempIndex = 0;
             n_treasure = 0;
+            n_visited = 0;
             for (int i = 0; i < map.getMapHeight(); i++)
             {
                 for (int j = 0; j < map.getMapWidth(); j++)
@@ -154,7 +161,7 @@ namespace Algo
             adj = new List<mapElmt>[v];
             for (int i = 0; i < v; ++i)
                 adj[i] = new List<mapElmt>();
-            visited = new bool[v]; // keep track of visited vertices
+            visited = new List<bool>(); // keep track of visited vertices
             for (int i = 0; i < v; i++)
                 visited[i] = false; // set all vertices to false (not visited)
             map = _map;
@@ -166,6 +173,7 @@ namespace Algo
             int ind = 9;
             int tempIndex = 0;
             n_treasure = 0;
+            n_visited = 0;
             for (int i = 0; i < map.getMapHeight(); i++)
             {
                 for (int j = 0; j < map.getMapWidth(); j++)
@@ -458,8 +466,7 @@ namespace Algo
                 }
             }
         }
-        public void dFSBack(mapElmt current, mapElmt pred, bool[] visited,
-                        List<List<mapElmt>> pathUsed)
+        public void dFSBack(mapElmt current, mapElmt pred, List <bool> visited, List<List<mapElmt>> pathUsed)
         {
             // check if index is valid
             if (current.index != -1)
@@ -478,24 +485,17 @@ namespace Algo
                     Console.WriteLine("Nih " + current.index + " " + current.row + " " + current.col);
                 }
 
-                int ver = 0;
-                // Check if all the node is visited or not
-                // and count visited nodes  
-                for (int i = 0; i < v; i++){
-                    if (visited[i]){
-                        ver++;
-                    }
-                }
-
                 // print u row and col
                 // Console.WriteLine("Nih " + u.index + " " + u.row + " " + u.col);
 
                 // If all the node is visited return;
-                if (ver == v || n_treasure == 0){
+                if (n_visited == v || n_treasure == 0){
                     return;
                 }
                 // Mark not visited node as visited
                 visited[current.index] = true;
+                n_visited++;
+
                 // Track the current edge
                 pathUsed.Add(new List<mapElmt>() {pred, current});
                 // add to path a tuple of current.row and current.col
@@ -533,17 +533,10 @@ namespace Algo
             Console.WriteLine("DFS Backtrack");
             // treasure count
             Console.WriteLine("treasure count " + n_treasure);
-            // Create a array of visited node
-            bool[] visited = new bool[v];
 
             // Vector to track last visited road
             List<List<mapElmt>> pathUsed = new List<List<mapElmt>>();
 
-            // Initialize all the v with false
-            for (int i = 0; i < v; i++)
-            {
-                visited[i] = false;
-            }
             mapElmt pred = new mapElmt(-1, -1, -1);
             // call the function
             dFSBack(this.start, pred, visited, pathUsed);
@@ -639,6 +632,15 @@ namespace Algo
             path.Clear();
             // reset step
             step.Clear();
+            // visited
+            visited.Clear();
+            // n_visited
+            n_visited = 0;
+            // Initialize all the visited with false
+            for (int i = 0; i < v; i++)
+            {
+                visited.Add(false);
+            }
         }
     }
 }
