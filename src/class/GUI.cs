@@ -347,18 +347,15 @@ namespace GUI
                 {
                     // jalankan BFS
                     Algo.BFSAlgorithmStrategies();
-                    Algo.setResult();
-                    StartAnimation();
                 }
                 // jika memilih DFS
                 else if (DFSButton.Checked)
                 {
                     // jalankan DFS
+                    Algo.dfsbacktrack();
                     // if want to use DFS 
 
                     // if want to use DFS with backtracking
-                    Algo.dfsbacktrack();
-                    Algo.setResult();
                     // change the color of the path to green
                     // foreach (var i in Algo.getPath())
                     // {
@@ -366,7 +363,6 @@ namespace GUI
                     //     // 
                     // }
                     // change the color of the path to green
-                    StartAnimation();
 
                     // change the color of the visited nodes to red
                 }
@@ -374,7 +370,11 @@ namespace GUI
                 else if (TSPButton.Checked)
                 {
                     // jalankan TSP
+                    Algo.TSPAlgorithmStrategies();
                 }
+
+                Algo.setResult();
+                StartAnimation();
             }
             else
             {
