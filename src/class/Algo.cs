@@ -489,7 +489,7 @@ namespace Algo
                         // add to path a tuple of u.row and u.col
                         this.path.Add((u.row, u.col));
                         Console.WriteLine("AAAA " +n_treasure);
-                        return;
+                        // return;  // ga harus return di sini 
                     }
                     Console.WriteLine("Nih " + u.index + " " + u.row + " " + u.col);
                 }
@@ -646,109 +646,6 @@ namespace Algo
                 path.Add(i);
             }
         }
-
-        // public void FindMinimumPathToDestination(int destinationIndex)
-        // {
-        //     // Initialize the distances and visited arrays
-        //     int[] distances = new int[v];
-        //     for (int i = 0; i < v; i++)
-        //     {
-        //         distances[i] = int.MaxValue;
-        //     }
-        //     distances[start.index] = 0;
-
-        //     // visited matrix of bool in map
-        //     List<List<bool>> visited = new List<List<bool>>();
-
-        //     // Create a priority queue to store the vertices to be processed
-        //     PriorityQueue<int, int> pq = new PriorityQueue<int, int>();
-
-        //     // Add the start vertex to the priority queue
-        //     pq.Enqueue(start.index, 0);
-
-        //     // Process vertices until the priority queue is empty
-        //     while (pq.Count > 0)
-        //     {
-        //         // Dequeue the vertex with the smallest distance
-        //         int u, int dist = pq.Dequeue();
-
-        //         // If the vertex has already been visited, skip it
-        //         if (visited[u][dist])
-        //         {
-        //             continue;
-        //         }
-
-        //         // Mark the vertex as visited
-        //         visited[u] = true;
-
-        //         // If the destination vertex has been reached, stop processing
-        //         if (u == destinationIndex)
-        //         {
-        //             break;
-        //         }
-
-        //         // Loop through all the adjacent vertices and update their distances
-        //         foreach (mapElmt v in adj[u])
-        //         {
-        //             int alt = distances[u] + v.Item1;
-        //             if (alt < distances[v.index])
-        //             {
-        //                 distances[v.index] = alt;
-        //                 pq.Enqueue(v.index, alt);
-        //             }
-        //         }
-        //     }
-
-        //     // Construct the minimum path by following the predecessors from the destination vertex to the start vertex
-        //     var pathTemp = new List<(int, int)>();
-        //     int current = destinationIndex;
-        //     while (current != start.index)
-        //     {
-        //         pathTemp.Add((current / map.getMapWidth(), current % map.getMapWidth()));
-        //         current = visited[current];
-        //     }
-        //     pathTemp.Add((start.row, start.col));
-        //     pathTemp.Reverse();
-        // }
-
-        // private void tspRecursive(int current, bool[] visited, int[,] distances)
-        // {
-        //     // Base case: all treasures have been visited
-        //     if (Path.Count == n_tresure)
-        //     {
-        //         // Add the starting point to the path and print it
-        //         Path.Add(start.index);
-        //         foreach (mapElmt node in Path)
-        //         {
-        //             Console.Write(node.index + " " + node.row + " " + node.col + " -> ");
-        //             // add to path a tuple of node.row and node.col
-        //             this.path.Add((node.row, node.col));
-        //         }
-        //         Console.WriteLine();
-        //         return;
-        //     }
-
-        //     // Recursive case: visit the unvisited treasures and find the shortest path
-        //     for (int i = 0; i < n_tresure; i++)
-        //     {
-        //         if (!visited[i])
-        //         {
-        //             // Mark the treasure as visited and add it to the current path
-        //             visited[i] = true;
-        //             Path.Add(treasures[i]);
-
-        //             // Compute the distance between the current treasure and the next treasure
-        //             int distance = distances[current][i];
-
-        //             // Call the recursive function to visit the next treasure
-        //             tspRecursive(i, n_tresure, visited, Path, distances);
-
-        //             // Backtrack by removing the last visited treasure and marking it as unvisited
-        //             visited[i] = false;
-        //             Path.RemoveAt(Path.Count - 1);
-        //         }
-        //     }
-        // }
 
         private int getDistance(mapElmt a, mapElmt b)
         {
