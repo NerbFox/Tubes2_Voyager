@@ -421,15 +421,15 @@ namespace Algo
         public void DFS()
         {
             // DFS
-            Stack<(mapElmt, int)> DFSStack = new Stack<(mapElmt, int)>(); // DFSStack for DFS
+            Stack<mapElmt> DFSStack = new Stack<mapElmt>(); // DFSStack for DFS
             visited[start.index] = true; // set to true start vertex (visited)
-            DFSStack.Push((start, 0)); // push start vertex ke DFSStack
+            DFSStack.Push(start); // push start vertex ke DFSStack
             // Console.Write(DFSStack.Count);
             Console.WriteLine("Count: " + DFSStack.Count + "T: " + n_treasure);
             // selama DFSStack tidak kosong dan belum semua treasure terambil
             while (DFSStack.Count != 0 && n_treasure != 0)
             {
-                (mapElmt current, int depth) = DFSStack.Pop(); // pop DFSStack
+                mapElmt current = DFSStack.Pop(); // pop DFSStack
                 // if (DFSStack.Count == 0)
                 //     Console.Write(current.index  + " " + current.row + " " + current.col); // print the vertex
                 // else
@@ -446,7 +446,7 @@ namespace Algo
                     {
                         // Console.WriteLine("uhuy");
                         visited[i.index] = true; // set true untuk adjacent vertex (visited)
-                        DFSStack.Push((i, depth + 1)); // push the adjacent vertex ke DFSStack
+                        DFSStack.Push(i); // push the adjacent vertex ke DFSStack
                         // push current to stack for backtracking in DFSStack
 
                         // update treasure count
