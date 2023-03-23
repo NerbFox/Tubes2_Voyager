@@ -346,14 +346,12 @@ namespace GUI
                 // jika memilih BFS
                 if (BFSButton.Checked)
                 {
-                    // reset Algo
                     // jalankan BFS
                     Algo.BFSAlgorithmStrategies();
                 }
                 // jika memilih DFS
                 else if (DFSButton.Checked) 
                 {
-                    // reset Algo
                     // jalankan DFS
                     Algo.dfsbacktrack();
                     // if want to use DFS 
@@ -363,8 +361,6 @@ namespace GUI
                 // jika memilih TSP
                 else if (TSPButton.Checked)
                 {
-                    // reset Algo
-                    Algo.reset();
                     // jalankan TSP
                     // Algo.tsp();
                     Algo.TSPAlgorithmStrategies();
