@@ -458,24 +458,24 @@ namespace Algo
                 }
             }
         }
-        public void dFSBack(mapElmt u, mapElmt pred, bool[] visited,
+        public void dFSBack(mapElmt current, mapElmt pred, bool[] visited,
                         List<List<mapElmt>> pathUsed)
         {
             // check if index is valid
-            if (u.index != -1)
+            if (current.index != -1)
             {
                 // check if get treasure
-                if (map.getElement(u.row, u.col) == 'T' && !visited[u.index])
+                if (map.getElement(current.row, current.col) == 'T' && !visited[current.index])
                 {
                     n_treasure--;
                     if (n_treasure == 0){
-                        Console.Write(u.index + " " + u.row + " " + u.col + " -> ");
+                        Console.Write(current.index + " " + current.row + " " + current.col + " -> ");
                         // add to path a tuple of u.row and u.col
-                        this.path.Add((u.row, u.col));
+                        this.path.Add((current.row, current.col));
                         // Console.WriteLine("AAAA " +n_treasure);
                         // return;  // ga harus return di sini 
                     }
-                    Console.WriteLine("Nih " + u.index + " " + u.row + " " + u.col);
+                    Console.WriteLine("Nih " + current.index + " " + current.row + " " + current.col);
                 }
 
                 int ver = 0;
@@ -495,34 +495,34 @@ namespace Algo
                     return;
                 }
                 // Mark not visited node as visited
-                visited[u.index] = true;
+                visited[current.index] = true;
                 // Track the current edge
-                pathUsed.Add(new List<mapElmt>() {pred, u});
-                // add to path a tuple of u.row and u.col
-                this.path.Add((u.row, u.col));
+                pathUsed.Add(new List<mapElmt>() {pred, current});
+                // add to path a tuple of current.row and current.col
+                this.path.Add((current.row, current.col));
 
                 // Print the node
-                Console.Write(u.index + " " + u.row + " " + u.col + " -> ");
+                Console.Write(current.index + " " + current.row + " " + current.col + " -> ");
                 // print jumlah adjancent node
                 // Console.WriteLine("\nCount adj: " + adj[u.index].Count);
 
                 // Check for not visited node and proceed with it.
-                foreach (mapElmt x in adj[u.index])
+                foreach (mapElmt x in adj[current.index])
                 {
                     // Console.WriteLine(" adj: " + x.index + " " + x.row + " " + x.col );
                     // call the DFs function if not visited
                     if (!visited[x.index] && n_treasure != 0)
                     {
-                        dFSBack(x, u, visited, pathUsed);
+                        dFSBack(x, current, visited, pathUsed);
                     }
                 }
 
                 // Backtrack through the last visited nodes
                 for (int y = 0; y < pathUsed.Count; y++)
                 {
-                    if (pathUsed[y][1].index == u.index)
+                    if (pathUsed[y][1].index == current.index)
                     {
-                        dFSBack(pathUsed[y][0], u, visited, pathUsed);
+                        dFSBack(pathUsed[y][0], current, visited, pathUsed);
                     }
                 }
             }
