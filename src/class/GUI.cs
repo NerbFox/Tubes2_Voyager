@@ -23,6 +23,7 @@ namespace GUI
         private RadioButton TSPButton;
         private DataGridView MapDataGrid;
         private TextBox StringInputBox;
+        private Label ExecutionTimeLabel; 
         private MyAlgo Algo;
         private Timer timer;
         private int currentIndex;
@@ -255,6 +256,36 @@ namespace GUI
 
             // Add the string input box to the form
             this.Controls.Add(StringInputBox);
+
+            /*
+                Execution time label
+            */
+            // Create the execution time label
+            ExecutionTimeLabel = new Label();
+
+            // Set the execution time label size
+            ExecutionTimeLabel.Size = new Size(150, 20);
+
+            // Set the execution time label location
+            ExecutionTimeLabel.Location = new Point(390, 762);
+
+            // Set the execution time label font
+            ExecutionTimeLabel.Font = new Font("Microsoft Sans Serif", 17, FontStyle.Bold);
+
+            // Set the execution time label font color
+            ExecutionTimeLabel.ForeColor = System.Drawing.Color.SaddleBrown;
+
+            // Set the execution time label border style
+            ExecutionTimeLabel.BorderStyle = BorderStyle.None;
+
+            // Set the execution time label background color
+            ExecutionTimeLabel.BackColor = System.Drawing.Color.Transparent;
+
+            // Set the execution time label text alignment
+            ExecutionTimeLabel.TextAlign = ContentAlignment.MiddleLeft;
+
+            // Add the execution time label to the form
+            this.Controls.Add(ExecutionTimeLabel);
         }
 
         private void InputFile(object? sender, EventArgs e)
@@ -370,7 +401,7 @@ namespace GUI
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
                 // tampilkan waktu eksekusi algoritma
-                // MessageBox.Show("Execution Time: " + elapsedMs + " ms");
+                ExecutionTimeLabel.Text = elapsedMs + " ms";
                 // set result
                 Algo.setResult();
                 // start animation
@@ -432,15 +463,15 @@ namespace GUI
                 {
                     if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.Orange)
                     {
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Orange;
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Orange;
-                    }
-                    else if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.Orange)
-                    {
                         MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.OrangeRed;
                         MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.OrangeRed;
                     }
                     else if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.OrangeRed)
+                    {
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Red;
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Red;
+                    }
+                    else if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.Red)
                     {
                         MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.DarkRed;
                         MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.DarkRed;
@@ -523,6 +554,8 @@ namespace GUI
             TSPButton.Checked = false;
             // reset all text boxes to empty
             StringInputBox.Text = "Enter Delay Time (ms)";
+            // reset all labels to empty
+            ExecutionTimeLabel.Text = "";
             // // reset visited attribute
             // for (int i = 0; i < Algo.getPath().Count; i++)
             // {
