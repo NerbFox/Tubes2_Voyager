@@ -603,5 +603,15 @@ namespace Algo
             // travelling salesman problem
             // using nearest neighbour algorithm
         }
+
+        public void reset(){
+            // reset all variable
+            // reset visited
+            resetVisited();
+            // reset path
+            path.Clear();
+            // reset step
+            step.Clear();
+        }
     }
 }
