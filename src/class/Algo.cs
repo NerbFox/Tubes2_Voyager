@@ -7,14 +7,14 @@ namespace Algo
 {
     interface ICoordinate
     {
-        int row { get; set;}
-        int col { get; set;}
+        int row {get; set;}
+        int col {get; set;}
     }
     struct mapElmt : ICoordinate
     {
         public int index {get; set;}
-        public int row { get; set;}
-        public int col { get; set;}
+        public int row {get; set;}
+        public int col {get; set;}
         public mapElmt(int index, int row, int col)
         {
             this.index = index;
@@ -36,12 +36,14 @@ namespace Algo
         public MyMap map; // map
         public int n_treasure; // number of treasure
         public int n_visited; // number of visited vertices
-        public List<(int, int)> path; // list of tuple (point map)
+        public List<(int, int)> scannedPath; // list of tuple (point map)
+        private List<(int, int)> pathToTreasure;
         public List<char> step; // list of step to take : D, U, L, R
         // constructor
         public Solver(){
-            this.path = new List<(int, int)>();
+            this.scannedPath = new List<(int, int)>();
             this.step = new List<char>();
+            this.pathToTreasure = new List<(int, int)>();
             this.v = 0;
 
             adj = new List<mapElmt>[v];
@@ -58,7 +60,8 @@ namespace Algo
         }
         public Solver(MyMap _map)
         {
-            this.path = new List<(int, int)>();
+            this.scannedPath = new List<(int, int)>();
+            this.pathToTreasure = new List<(int, int)>();
             this.step = new List<char>();
             this.v = _map.getMapSize();
             
@@ -154,10 +157,10 @@ namespace Algo
             }
         }
         public void SolverSetter(MyMap _map){
-            // delete the old path and step
-            this.path.Clear();
+            // delete the old scannedPath and step
+            this.scannedPath.Clear();
             this.step.Clear();
-            this.path = new List<(int, int)>();
+            this.scannedPath = new List<(int, int)>();
             this.step = new List<char>();
             this.v = _map.getMapSize();
             adj = new List<mapElmt>[v];
@@ -209,15 +212,19 @@ namespace Algo
         {
             return this.map;
         }
-        // getter for the path
+        // getter for the scannedPath
         public List<(int, int)> getPath()
         {
-            return this.path;
+            return this.scannedPath;
         }
         // getter for the step
         public List<char> getStep()
         {
             return this.step;
+        }
+        public List<(int, int)> getPathToTreasure()
+        {
+            return this.pathToTreasure;
         }
         // add an edge to the graph
         public void AddEdge(int u, mapElmt v)
@@ -249,7 +256,7 @@ namespace Algo
 
             TSPQueue.AddLast(this.start);
             this.visited[this.start.index] = true;
-            this.path.Add((start.row,start.col));
+            this.scannedPath.Add((start.row,start.col));
 
             mapElmt startNode = this.start;
         
@@ -266,7 +273,7 @@ namespace Algo
                     {
                         TSPQueue.AddLast(mapEl);
                         this.visited[mapEl.index] = true;
-                        this.path.Add((mapEl.row,mapEl.col));
+                        this.scannedPath.Add((mapEl.row,mapEl.col));
                         if (map.getElement(mapEl.row, mapEl.col) == 'T')
                         {
                         
@@ -297,8 +304,8 @@ namespace Algo
             }
             subRoad.Clear();
 
-            // this.path.Add((this.start.row,this.start.col));
-            this.path.AddRange(road);
+            // this.scannedPath.Add((this.start.row,this.start.col));
+            this.scannedPath.AddRange(road);
         }
 
 
@@ -314,7 +321,7 @@ namespace Algo
 
             BFSQueue.AddLast(this.start); // enqueue start vertex ke BFSQueue
             this.visited[this.start.index] = true; // set to true start vertex (visited)
-            this.path.Add((start.row,start.col));
+            this.scannedPath.Add((start.row,start.col));
 
             mapElmt startNode = this.start;
             // selama BFSQueue tidak kosong dan belum semua treasure terambil
@@ -331,7 +338,7 @@ namespace Algo
                     {
                         BFSQueue.AddLast(mapEl);
                         this.visited[mapEl.index] = true;
-                        this.path.Add((mapEl.row,mapEl.col));
+                        this.scannedPath.Add((mapEl.row,mapEl.col));
                         if (map.getElement(mapEl.row, mapEl.col) == 'T')
                         {
                             // update treasure count
@@ -351,13 +358,14 @@ namespace Algo
                     }
                 }
             }
-            // this.path.Add((this.start.row,this.start.col));
-            this.path.AddRange(road);
+            // this.scannedPath.Add((this.start.row,this.start.col));
+            this.pathToTreasure.AddRange(road);
+            this.scannedPath.AddRange(road);
         }
 
         private void GetPathBFSAlgorithmStrategies(ref List<(int,int)> subRoad, mapElmt start_tile, mapElmt end_tile)
         {
-            // Finding path from start_tile to end_tile with BFS
+            // Finding scannedPath from start_tile to end_tile with BFS
             // BFSQueue for BFS
             Queue<mapElmt> BFSQueue = new Queue<mapElmt>();
             Dictionary<(int,int),(int,int)> parentOf = new Dictionary<(int,int),(int,int)>();
@@ -471,8 +479,8 @@ namespace Algo
                     n_treasure--;
                     if (n_treasure == 0){
                         Console.Write(current.index + " " + current.row + " " + current.col + " -> ");
-                        // add to path a tuple of u.row and u.col
-                        this.path.Add((current.row, current.col));
+                        // add to scannedPath a tuple of u.row and u.col
+                        this.scannedPath.Add((current.row, current.col));
                         // Console.WriteLine("AAAA " +n_treasure);
                         // return;  // ga harus return di sini 
                     }
@@ -492,8 +500,8 @@ namespace Algo
 
                 // Track the current edge
                 pathUsed.Add(new List<mapElmt>() {pred, current});
-                // add to path a tuple of current.row and current.col
-                this.path.Add((current.row, current.col));
+                // add to scannedPath a tuple of current.row and current.col
+                this.scannedPath.Add((current.row, current.col));
 
                 // Print the node
                 Console.Write(current.index + " " + current.row + " " + current.col + " -> ");
@@ -543,13 +551,13 @@ namespace Algo
             map.print();
         }
         public void setResult(){
-            // result of path list<int,int>
-            // print list of path
+            // result of scannedPath list<int,int>
+            // print list of scannedPath
             Console.WriteLine("\nPath: ");
-            foreach (var i in path)
+            foreach (var i in scannedPath)
             {
-                // a,b -> c,d -> e,f if end of path
-                if (i == path.Last())
+                // a,b -> c,d -> e,f if end of scannedPath
+                if (i == scannedPath.Last())
                 {
                     Console.Write(i.Item1 + "," + i.Item2 + "\n\n");
                 }
@@ -559,12 +567,12 @@ namespace Algo
                 }
             }
             // set list of step : U, D, L, R (up, down, left, right)
-            foreach (var i in path){
-                if (i != path.Last()){
+            foreach (var i in scannedPath){
+                if (i != scannedPath.Last()){
                     // get next step
-                    var next = path[path.IndexOf(i) + 1];
+                    var next = scannedPath[scannedPath.IndexOf(i) + 1];
                     // get current step
-                    var current = path[path.IndexOf(i)];
+                    var current = scannedPath[scannedPath.IndexOf(i)];
                     // check if next step is up
                     if (next.Item1 < current.Item1){
                         step.Add('U');
@@ -593,24 +601,24 @@ namespace Algo
             // using dfs backtrack
             dfsbacktrack();
             // continue move to start point
-            // find the next path to start point that is the shortest
-            // get the last path
-            var last = path.Last();
-            // initialize new path with path in reverse order
+            // find the next scannedPath to start point that is the shortest
+            // get the last scannedPath
+            var last = scannedPath.Last();
+            // initialize new scannedPath with scannedPath in reverse order
             List<(int, int)> new_path = new List<(int, int)>();
-            foreach (var i in path){
+            foreach (var i in scannedPath){
                 new_path.Add(i);
             }
             new_path.Reverse();
-            // remove the first path in new path
+            // remove the first scannedPath in new scannedPath
             new_path.RemoveAt(0);
 
-            // find the path from last to start point
-            // iterate the path from last to start point (backwards)
+            // find the scannedPath from last to start point
+            // iterate the scannedPath from last to start point (backwards)
                   
-            // concat the path with the new_path
+            // concat the scannedPath with the new_path
             foreach (var i in new_path){
-                path.Add(i);
+                scannedPath.Add(i);
             }
         }
 
@@ -624,8 +632,8 @@ namespace Algo
             // reset all variable
             // reset visited
             resetVisited();
-            // reset path
-            path.Clear();
+            // reset scannedPath
+            scannedPath.Clear();
             // reset step
             step.Clear();
             // visited
