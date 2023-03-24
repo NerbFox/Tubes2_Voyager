@@ -734,21 +734,20 @@ namespace Algo
             }
             
         }
-        public void tsp(){
+        public void DFSTsp(){
             // travelling salesman problem
             // end point is start point
 
             // using dfs backtrack
             dfsbacktrack();
+            // set path to treasure
+            setPathToTreasure();   
+ 
             // continue move to start point
             // find the next scannedPath to start point that is the shortest
-            // get the last scannedPath
-            var last = scannedPath.Last();
+
             // initialize new scannedPath with scannedPath in reverse order
-            List<(int, int)> new_path = new List<(int, int)>();
-            foreach (var i in scannedPath){
-                new_path.Add(i);
-            }
+            List<(int, int)> new_path = pathToTreasure.ToList();
             new_path.Reverse();
             // remove the first scannedPath in new scannedPath
             new_path.RemoveAt(0);
@@ -757,8 +756,9 @@ namespace Algo
             // iterate the scannedPath from last to start point (backwards)
                   
             // concat the scannedPath with the new_path
+            // pathToTreasure.Concat(new_path);
             foreach (var i in new_path){
-                scannedPath.Add(i);
+                pathToTreasure.Add(i);
             }
         }
         private int getDistance(mapElmt a, mapElmt b)

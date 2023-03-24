@@ -446,7 +446,8 @@ namespace GUI
                 }
                 else if (TSPToggle.Checked && DFSButton.Checked)
                 {
-                    // Algo.();
+                     // using dfs backtrack
+                    Algo.DFSTsp();
                 }
                 // BFS
                 else if (BFSButton.Checked)
@@ -463,12 +464,12 @@ namespace GUI
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
 
-                if (DFSButton.Checked) 
+                if (DFSButton.Checked && !TSPToggle.Checked) 
                 {
                     // set path to treasure 
                     Algo.setPathToTreasure();                    
                 }
-                
+        
                 // Show the execution time
                 ExecutionTimeLabel.Text = elapsedMs + " ms";
 
