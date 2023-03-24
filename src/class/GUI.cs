@@ -20,20 +20,30 @@ namespace GUI
         private Button InputFileButton;
         private RadioButton BFSButton;
         private RadioButton DFSButton;
-        private RadioButton TSPButton;
+        private CheckBox TSPToggle;
         private DataGridView MapDataGrid;
         private TextBox StringInputBox;
+        private TextBox RouteBox;
         private Label ExecutionTimeLabel; 
+        private Label StepsLabel;
+        private Label NodesLabel;
         private Solver Algo;
         private Timer timer;
         private int currentIndex;
+        private int totalNodes;
+        private int totalSteps;
+        private string route;
         private List<List<bool>> visited;
         public MyGUI()
         {
             currentIndex = 0;
+            totalNodes = 0;
+            totalSteps = 0;
+            route = "";
             timer = new Timer();
             Algo = new Solver();
             visited = new List<List<bool>>();
+            
             /*
                 Setup Window
             */
@@ -115,42 +125,61 @@ namespace GUI
             // Create the radio buttons
             BFSButton = new RadioButton();
             DFSButton = new RadioButton();
-            TSPButton = new RadioButton();
 
             // Set the radio button text
             BFSButton.Text = "BFS";
             DFSButton.Text = "DFS";
-            TSPButton.Text = "TSP";
 
             // Set the radio button font
             BFSButton.Font = new Font("Microsoft Sans Serif", 20, FontStyle.Bold);
             DFSButton.Font = new Font("Microsoft Sans Serif", 20, FontStyle.Bold);
-            TSPButton.Font = new Font("Microsoft Sans Serif", 20, FontStyle.Bold);
 
             // Set the radio button font color
             BFSButton.ForeColor = System.Drawing.Color.SaddleBrown;
             DFSButton.ForeColor = System.Drawing.Color.SaddleBrown;
-            TSPButton.ForeColor = System.Drawing.Color.SaddleBrown;
 
             // Set the radio button size
             BFSButton.Size = new Size(150, 50);
             DFSButton.Size = new Size(150, 50);
-            TSPButton.Size = new Size(150, 50);
 
             // Set the radio button location
             BFSButton.Location = new Point(270, 350);
             DFSButton.Location = new Point(270, 390);
-            TSPButton.Location = new Point(270, 430);
 
             // Set radio button color to transparent
             BFSButton.BackColor = System.Drawing.Color.Transparent;
             DFSButton.BackColor = System.Drawing.Color.Transparent;
-            TSPButton.BackColor = System.Drawing.Color.Transparent;
 
             // Add the radio buttons to the form
             this.Controls.Add(BFSButton);
             this.Controls.Add(DFSButton);
-            this.Controls.Add(TSPButton);
+
+            /*
+                Setup toggle button
+            */
+            // Create the toggle button
+            TSPToggle = new CheckBox();
+
+            // Set the toggle button text
+            TSPToggle.Text = "TSP";
+
+            // Set the toggle button font
+            TSPToggle.Font = new Font("Microsoft Sans Serif", 20, FontStyle.Bold);
+
+            // Set the toggle button font color
+            TSPToggle.ForeColor = System.Drawing.Color.SaddleBrown;
+
+            // Set the toggle button size
+            TSPToggle.Size = new Size(150, 50);
+
+            // Set the toggle button location
+            TSPToggle.Location = new Point(270, 430);
+
+            // Set the toggle button color to transparent
+            TSPToggle.BackColor = System.Drawing.Color.Transparent;
+
+            // Add the toggle button to the form
+            this.Controls.Add(TSPToggle);
 
             /*
                 Setup Data Grid View
@@ -206,81 +235,118 @@ namespace GUI
             this.Controls.Add(MapDataGrid);
 
             /*
-                Setup string input box
+                Setup text box
             */
-            // Create the string input box
+            // Create the text box
             StringInputBox = new TextBox();
+            RouteBox = new TextBox();
 
-            // Set the string input box size
+            // Set the text box size
             StringInputBox.Size = new Size(295, 50);
+            RouteBox.Size = new Size(390, 65);
 
-            // Set the string input box location
+            // Set the text box location
             StringInputBox.Location = new Point(175, 260);
+            RouteBox.Location = new Point(185, 600);
 
-            // Set the string input box font
+            // Set the text box font
             StringInputBox.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+            RouteBox.Font = new Font("Microsoft Sans Serif", 14, FontStyle.Bold);
 
-            // Set the string input box font color
+            // Add gap between the text and the border
+            RouteBox.Margin = new Padding(100, 100, 100, 100);
+
+            // Set the text box font color
             StringInputBox.ForeColor = System.Drawing.Color.SaddleBrown;
+            RouteBox.ForeColor = System.Drawing.Color.SaddleBrown;
 
-            // Set the string input box border style
+            // Set the text box border style
             StringInputBox.BorderStyle = BorderStyle.None;
+            RouteBox.BorderStyle = BorderStyle.None;
 
-            // Set the string input box background color
+            // Set the text box background color
             StringInputBox.BackColor = System.Drawing.Color.LightGoldenrodYellow;
+            RouteBox.BackColor = System.Drawing.Color.LightGoldenrodYellow;
 
-            // Set the string input box text then clear it when clicked
+            // Set the text box text then clear it when clicked
             StringInputBox.Text = "Enter Delay Time (ms)";
             StringInputBox.KeyPress += new KeyPressEventHandler(CheckInputBox);
             StringInputBox.Click += new EventHandler(ClearStringInputBox);
 
-            // Set the string input box text alignment
+            // Set the text box text alignment
             StringInputBox.TextAlign = HorizontalAlignment.Center;
+            RouteBox.TextAlign = HorizontalAlignment.Center;
 
-            // Set the string input box to not multi line
+            // Set the text box to read only
+            RouteBox.ReadOnly = true;
+
+            // Set the text box to not multi line
             StringInputBox.Multiline = false;
+            RouteBox.Multiline = true;
 
-            // Set the string input box to not scrollable
+            // Set the text box to not scrollable
             StringInputBox.ScrollBars = ScrollBars.None;
+            RouteBox.ScrollBars = ScrollBars.Vertical;
 
-            // Set the string input box to not word wrap
+            // Set the text box to not word wrap
             StringInputBox.WordWrap = false;
+            RouteBox.WordWrap = true;
 
-            // Set the string input box to not accept tab
+            // Set the text box to not accept tab
             StringInputBox.AcceptsTab = false;
+            RouteBox.AcceptsTab = false;
 
-            // Add the string input box to the form
+            // Add the text box to the form
             this.Controls.Add(StringInputBox);
+            this.Controls.Add(RouteBox);
 
             /*
                 Execution time label
             */
             // Create the execution time label
             ExecutionTimeLabel = new Label();
+            StepsLabel = new Label();
+            NodesLabel = new Label();
 
             // Set the execution time label size
             ExecutionTimeLabel.Size = new Size(150, 20);
+            StepsLabel.Size = new Size(150, 20);
+            NodesLabel.Size = new Size(150, 20);
 
             // Set the execution time label location
             ExecutionTimeLabel.Location = new Point(390, 762);
+            StepsLabel.Location = new Point(275, 722);
+            NodesLabel.Location = new Point(275, 678);
 
             // Set the execution time label font
             ExecutionTimeLabel.Font = new Font("Microsoft Sans Serif", 17, FontStyle.Bold);
+            StepsLabel.Font = new Font("Microsoft Sans Serif", 17, FontStyle.Bold);
+            NodesLabel.Font = new Font("Microsoft Sans Serif", 17, FontStyle.Bold);
 
             // Set the execution time label font color
             ExecutionTimeLabel.ForeColor = System.Drawing.Color.SaddleBrown;
+            StepsLabel.ForeColor = System.Drawing.Color.SaddleBrown;
+            NodesLabel.ForeColor = System.Drawing.Color.SaddleBrown;
 
             // Set the execution time label border style
             ExecutionTimeLabel.BorderStyle = BorderStyle.None;
+            StepsLabel.BorderStyle = BorderStyle.None;
+            NodesLabel.BorderStyle = BorderStyle.None;
 
             // Set the execution time label background color
             ExecutionTimeLabel.BackColor = System.Drawing.Color.Transparent;
+            StepsLabel.BackColor = System.Drawing.Color.Transparent;
+            NodesLabel.BackColor = System.Drawing.Color.Transparent;
 
             // Set the execution time label text alignment
             ExecutionTimeLabel.TextAlign = ContentAlignment.MiddleLeft;
+            StepsLabel.TextAlign = ContentAlignment.MiddleLeft;
+            NodesLabel.TextAlign = ContentAlignment.MiddleLeft;
 
             // Add the execution time label to the form
             this.Controls.Add(ExecutionTimeLabel);
+            this.Controls.Add(StepsLabel);
+            this.Controls.Add(NodesLabel);
         }
 
         private void InputFile(object? sender, EventArgs e)
@@ -360,30 +426,33 @@ namespace GUI
         private void StartVisualize(object? sender, EventArgs e)
         {
             // Check if the input file is selected, the string input box is not empty, the string input box is not the default text, and one of the radio buttons is checked
-            if (SelectedFilePath != "" && SelectedFileName != "" && StringInputBox.Text != "" && StringInputBox.Text != "Enter Delay Time (ms)" && (BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
+            if (SelectedFilePath != "" && SelectedFileName != "" && StringInputBox.Text != "" && StringInputBox.Text != "Enter Delay Time (ms)" && (BFSButton.Checked || DFSButton.Checked))
             {
                 Algo.reset();
+                totalNodes = 0;
+                totalSteps = 0;
+                route = "";
+                reset2();
 
                 // Make new stopwatch
                 var watch = System.Diagnostics.Stopwatch.StartNew();
 
+                // TSP
+                if (TSPToggle.Checked && BFSButton.Checked)
+                {
+                    Algo.TSPAlgorithmStrategies();
+                }
                 // BFS
-                if (BFSButton.Checked)
+                else if (BFSButton.Checked)
                 {
                     Algo.BFSAlgorithmStrategies();
                 }
-
                 // DFS
                 else if (DFSButton.Checked) 
                 {
                     Algo.dfsbacktrack();
                 }
 
-                // TSP
-                else if (TSPButton.Checked)
-                {
-                    Algo.TSPAlgorithmStrategies();
-                }
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
 
@@ -391,75 +460,84 @@ namespace GUI
                 ExecutionTimeLabel.Text = elapsedMs + " ms";
 
                 // Set result
-                Algo.setResult();
+                printNodes();
+                printSteps();
+                printRoute();
 
                 // Start animation
                 StartAnimation();
             }
             else
             {
-                if (SelectedFilePath == "" && SelectedFileName == "" && (StringInputBox.Text == "" || StringInputBox.Text == "Enter Delay Time (ms)") && !(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
+                if (SelectedFilePath == "" && SelectedFileName == "" && (StringInputBox.Text == "" || StringInputBox.Text == "Enter Delay Time (ms)") && !(BFSButton.Checked || DFSButton.Checked))
                     MessageBox.Show("Please select the file, algorithm, and delay time!");
-                else if ((StringInputBox.Text == "" || StringInputBox.Text == "Enter Delay Time (ms)") && !(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
+                else if ((StringInputBox.Text == "" || StringInputBox.Text == "Enter Delay Time (ms)") && !(BFSButton.Checked || DFSButton.Checked))
                     MessageBox.Show("Please select the algorithm and delay time!");
                 else if (SelectedFilePath == "" && SelectedFileName == "" && (StringInputBox.Text == "" || StringInputBox.Text == "Enter Delay Time (ms)"))
                     MessageBox.Show("Please select the file and delay time!");
-                else if (SelectedFilePath == "" && SelectedFileName == "" && !(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
+                else if (SelectedFilePath == "" && SelectedFileName == "" && !(BFSButton.Checked || DFSButton.Checked))
                     MessageBox.Show("Please select the file and algorithm!");
                 else if (SelectedFilePath == "" && SelectedFileName == "")
                     MessageBox.Show("Please select the file!");
                 else if ((StringInputBox.Text == "" || StringInputBox.Text == "Enter Delay Time (ms)"))
                     MessageBox.Show("Please select the delay time!");
-                else if (!(BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
+                else if (!(BFSButton.Checked || DFSButton.Checked))
                     MessageBox.Show("Please select the algorithm!");
             }
         }
         
-        private void Timer_Tick(object? sender, EventArgs e)
+        private void DataGridViewAnimation(object? sender, EventArgs e)
         {
-            if (this.currentIndex < Algo.getPath().Count)
+            if (this.currentIndex < Algo.getScannedPath().Count)
             {
-                var i = Algo.getPath()[currentIndex];
+                var i = Algo.getScannedPath()[currentIndex];
 
-                // If visited shift the color darker
-                if (visited[i.Item1][i.Item2])
-                {
-                    if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.Orange)
-                    {
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.OrangeRed;
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.OrangeRed;
-                    }
-                    else if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.OrangeRed)
-                    {
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Red;
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Red;
-                    }
-                    else if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.Red)
-                    {
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.DarkRed;
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.DarkRed;
-                    }
-                    else
-                    {
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Orange;
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Orange;
-                    }
-                }
+                // Set scanning color to yellow
+                MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Yellow;
+                MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Yellow;
 
-                // If not visited shift the initial color to yellow
-                else
-                {
-                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Yellow;
-                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Yellow;
-
-                    // Set visited attribute to true
-                    visited[i.Item1][i.Item2] = true;
-                }
                 this.currentIndex++;
             }
             else
             {
-                timer.Stop();
+                if (this.currentIndex < (Algo.getPathToTreasure().Count + Algo.getScannedPath().Count))
+                {
+                    var j = Algo.getPathToTreasure()[currentIndex - Algo.getScannedPath().Count];
+
+                    if (visited[j.Item1][j.Item2])
+                    {
+                        if (MapDataGrid.Rows[j.Item1].Cells[j.Item2].Style.SelectionBackColor == Color.OrangeRed)
+                        {
+                            MapDataGrid.Rows[j.Item1].Cells[j.Item2].Style.SelectionBackColor = Color.Red;
+                            MapDataGrid.Rows[j.Item1].Cells[j.Item2].Style.BackColor = Color.Red;
+                        }
+                        else if (MapDataGrid.Rows[j.Item1].Cells[j.Item2].Style.SelectionBackColor == Color.Red)
+                        {
+                            MapDataGrid.Rows[j.Item1].Cells[j.Item2].Style.SelectionBackColor = Color.DarkRed;
+                            MapDataGrid.Rows[j.Item1].Cells[j.Item2].Style.BackColor = Color.DarkRed;
+                        }
+                        else
+                        {
+                            MapDataGrid.Rows[j.Item1].Cells[j.Item2].Style.SelectionBackColor = Color.OrangeRed;
+                            MapDataGrid.Rows[j.Item1].Cells[j.Item2].Style.BackColor = Color.OrangeRed;
+                        }
+                    }
+                    else
+                    {
+                        // Set default final path color to orange
+                        MapDataGrid.Rows[j.Item1].Cells[j.Item2].Style.SelectionBackColor = Color.Orange;
+                        MapDataGrid.Rows[j.Item1].Cells[j.Item2].Style.BackColor = Color.Orange;
+
+                        // Set visited attribute to true
+                        visited[j.Item1][j.Item2] = true;
+                    }
+                    this.currentIndex++;
+                }
+                else
+                {
+                    // Stop the timer
+                    timer.Stop();
+                }
             }
         }
         private void StartAnimation()
@@ -482,17 +560,17 @@ namespace GUI
                 this.visited.Add(row);
             }
 
-            timer = new Timer();
             int interval = Int32.Parse(StringInputBox.Text);
+            timer = new Timer();
             if (interval <= 0)
             {
                 timer.Interval = 1;
-                timer.Tick += Timer_Tick;
+                timer.Tick += DataGridViewAnimation;
             }
             else
             {
                 timer.Interval = interval;
-                timer.Tick += Timer_Tick;
+                timer.Tick += DataGridViewAnimation;
             }
             timer.Start();
         }
@@ -517,13 +595,20 @@ namespace GUI
             // Reset all radio buttons to unchecked
             BFSButton.Checked = false;
             DFSButton.Checked = false;
-            TSPButton.Checked = false;
+            TSPToggle.Checked = false;
 
             // Reset all text boxes to empty
             StringInputBox.Text = "Enter Delay Time (ms)";
 
+            reset2();
+        }
+
+        private void reset2(){
             // Reset all labels to empty
+            RouteBox.Text = "";
             ExecutionTimeLabel.Text = "";
+            StepsLabel.Text = "";
+            NodesLabel.Text = "";
         }
         
         private void resetColor(){
@@ -547,5 +632,51 @@ namespace GUI
                 }
             }
         }
+
+        private void printRoute()
+        {
+            var path = Algo.getPathToTreasure();
+            route = "";
+            for (int i = 0; i < path.Count; i++)
+            {
+                if (i < path.Count - 1)
+                {
+                    if (path[i].Item1 < path[i + 1].Item1)
+                    {
+                        route += "D";
+                    }
+                    else if (path[i].Item1 > path[i + 1].Item1)
+                    {
+                        route += "U";
+                    }
+                    else if (path[i].Item2 < path[i + 1].Item2)
+                    {
+                        route += "R";
+                    }
+                    else if (path[i].Item2 > path[i + 1].Item2)
+                    {
+                        route += "L";
+                    }
+                }
+
+                if (i < path.Count - 2)
+                {
+                    route += " -> ";
+                }
+            }
+            RouteBox.Text = route;   
+        }
+
+        private void printNodes()
+        {
+            totalNodes = Algo.getScannedPath().Count;
+            NodesLabel.Text = totalNodes.ToString();
+        }
+
+        private void printSteps()
+        {
+            totalSteps = Algo.getPathToTreasure().Count - 1;
+            StepsLabel.Text = totalSteps.ToString();
+        }        
     }
 }
