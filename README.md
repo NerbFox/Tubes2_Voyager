@@ -70,18 +70,17 @@ In this project, the authors was tasked to develop an application with a simple 
 ```
 
 ## How To Run
-To run the program in the terminal _root directory_ using make, run the command __make__. If you're not using make, change directory to _src_, then run command __dotnet build__. After done generating bin files, run the command __dotnet run__ to run the program.
+To run the program in the terminal _root directory_ using make, run the command __make run__. If you're not using make, change directory to _src_, then run command __dotnet run__ to run the program.
 ```
 make
 
 or
 
-dotnet build (inside src folder)
 dotnet run (inside src folder)
 ```
-The program can also be run by directly compiling _main.cs_ while including all of the class files using dotnet framework. This step can be done just like compiling C++ program (g++ for c++, csc for c#).
+The program can also be run by directly compiling _main.cs_ while including all of the class files using dotnet framework then run the dll or exe file. This step can be done just like compiling C++ program (g++ for c++, csc for c#).
 
-However, it is better to run the program using __make__ because it is easier to use and more convenient.
+However, it is better to run the program using __make run__ because it is easier to use and more convenient.
 
 ## Project Status
 Project progress: ![100%](https://geps.dev/progress/100)
