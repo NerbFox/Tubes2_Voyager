@@ -468,6 +468,27 @@ namespace Algo
                 }
             }
         }
+        
+        public void printMap(){
+            map.print();
+        }
+        public void dfsbacktrack()
+        {
+            Console.WriteLine("DFS Backtrack");
+            // treasure count
+            Console.WriteLine("treasure count " + n_treasure);
+
+            // Vector to track last visited road
+            List<List<mapElmt>> pathUsed = new List<List<mapElmt>>();
+
+            // initialize pred to -1 (dummy value)
+            mapElmt pred = new mapElmt(-1, -1, -1);
+
+            // call the function
+            dFSBack(this.start, pred, visited, pathUsed);
+            Console.WriteLine("treasure count " + n_treasure);
+            Console.WriteLine("Selesai");
+        }
         public void dFSBack(mapElmt current, mapElmt pred, List <bool> visited, List<List<mapElmt>> pathUsed)
         {
             // check if index is valid
@@ -530,26 +551,6 @@ namespace Algo
             }
         }
 
-        public void dfsbacktrack()
-        {
-            Console.WriteLine("DFS Backtrack");
-            // treasure count
-            Console.WriteLine("treasure count " + n_treasure);
-
-            // Vector to track last visited road
-            List<List<mapElmt>> pathUsed = new List<List<mapElmt>>();
-
-            // initialize pred to -1 (dummy value)
-            mapElmt pred = new mapElmt(-1, -1, -1);
-
-            // call the function
-            dFSBack(this.start, pred, visited, pathUsed);
-            Console.WriteLine("treasure count " + n_treasure);
-            Console.WriteLine("Selesai");
-        }
-        public void printMap(){
-            map.print();
-        }
         public void setResult(){
             // result of scannedPath list<int,int>
             // print list of scannedPath

@@ -147,11 +147,6 @@ namespace GUI
             DFSButton.BackColor = System.Drawing.Color.Transparent;
             TSPButton.BackColor = System.Drawing.Color.Transparent;
 
-            // Set the radio button to checked
-            BFSButton.CheckedChanged += new System.EventHandler(UseBFS);
-            DFSButton.CheckedChanged += new System.EventHandler(UseDFS);
-            TSPButton.CheckedChanged += new System.EventHandler(UseTSP);
-
             // Add the radio buttons to the form
             this.Controls.Add(BFSButton);
             this.Controls.Add(DFSButton);
@@ -291,16 +286,11 @@ namespace GUI
         private void InputFile(object? sender, EventArgs e)
         {
             reset();
+
             // Open the file dialog in the test folder of the project ../test
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.RestoreDirectory = true;
-            // openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
-            // openFileDialog.InitialDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
-            
-            // openFileDialog.InitialDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).FullName + "\\test";
-
             openFileDialog.InitialDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test");
-            // Console.WriteLine(openFileDialog.InitialDirectory);
 
             openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
 
@@ -365,46 +355,45 @@ namespace GUI
                 SelectedFileName = "";
                 InputFileButton.Text = "Input File";
             }
-
         }
 
         private void StartVisualize(object? sender, EventArgs e)
         {
-            // jika sudah memilih file dan sudah memilih algoritma
+            // Check if the input file is selected, the string input box is not empty, the string input box is not the default text, and one of the radio buttons is checked
             if (SelectedFilePath != "" && SelectedFileName != "" && StringInputBox.Text != "" && StringInputBox.Text != "Enter Delay Time (ms)" && (BFSButton.Checked || DFSButton.Checked || TSPButton.Checked))
             {
                 Algo.reset();
-                // jika memilih BFS
-                // hitung waktu eksekusi algoritma
+
+                // Make new stopwatch
                 var watch = System.Diagnostics.Stopwatch.StartNew();
+
+                // BFS
                 if (BFSButton.Checked)
                 {
-                    // jalankan BFS
                     Algo.BFSAlgorithmStrategies();
                 }
-                // jika memilih DFS
+
+                // DFS
                 else if (DFSButton.Checked) 
                 {
-                    // jalankan DFS
                     Algo.dfsbacktrack();
-                    // if want to use DFS 
-
-                    // if want to use DFS with backtracking
                 }
-                // jika memilih TSP
+
+                // TSP
                 else if (TSPButton.Checked)
                 {
-                    // jalankan TSP
-                    // Algo.tsp();
                     Algo.TSPAlgorithmStrategies();
                 }
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
-                // tampilkan waktu eksekusi algoritma
+
+                // Show the execution time
                 ExecutionTimeLabel.Text = elapsedMs + " ms";
-                // set result
+
+                // Set result
                 Algo.setResult();
-                // start animation
+
+                // Start animation
                 StartAnimation();
             }
             else
@@ -425,31 +414,6 @@ namespace GUI
                     MessageBox.Show("Please select the algorithm!");
             }
         }
-
-        private void UseBFS(object? sender, EventArgs e)
-        {
-            Console.WriteLine("BFS");
-
-        }
-
-        private void UseDFS(object? sender, EventArgs e)
-        {
-            Console.WriteLine("DFS");
-
-        }
-
-        private void UseTSP(object? sender, EventArgs e)
-        {
-            Console.WriteLine("TSP");
-            // if (SelectedFilePath != "" && SelectedFileName != "")
-            // {
-                // Console.WriteLine("TSP");
-            // }
-            // else
-            //     MessageBox.Show("Please select the file first!");
-                // Reset radio button
-                // TSPButton.Checked = false;
-        }
         
         private void Timer_Tick(object? sender, EventArgs e)
         {
@@ -457,8 +421,7 @@ namespace GUI
             {
                 var i = Algo.getPath()[currentIndex];
 
-                // jika sudah pernah dikunjungi sebelumnya ubah warna menjadi orange,
-                // if visited shift the color darker
+                // If visited shift the color darker
                 if (visited[i.Item1][i.Item2])
                 {
                     if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.Orange)
@@ -482,13 +445,14 @@ namespace GUI
                         MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Orange;
                     }
                 }
-                // jika belum pernah dikunjungi sebelumnya ubah warna menjadi kuning
+
+                // If not visited shift the initial color to yellow
                 else
                 {
-                    // Console.WriteLine("not visited");
                     MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Yellow;
                     MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Yellow;
-                    // set visited attribute to true
+
+                    // Set visited attribute to true
                     visited[i.Item1][i.Item2] = true;
                 }
                 this.currentIndex++;
@@ -503,9 +467,11 @@ namespace GUI
             resetColor();
             this.currentIndex = 0;
             var map = Algo.getMap();
-            // clear visited list
+
+            // Clear visited list
             this.visited.Clear();
-            // set to false all elements in visited list
+
+            // Set to false all elements in visited list
             for (int i = 0; i < map.getMapHeight(); i++)
             {
                 List<bool> row = new List<bool>();
@@ -548,24 +514,22 @@ namespace GUI
         }
 
         private void reset(){
-            // reset all radio buttons to unchecked
+            // Reset all radio buttons to unchecked
             BFSButton.Checked = false;
             DFSButton.Checked = false;
             TSPButton.Checked = false;
-            // reset all text boxes to empty
+
+            // Reset all text boxes to empty
             StringInputBox.Text = "Enter Delay Time (ms)";
-            // reset all labels to empty
+
+            // Reset all labels to empty
             ExecutionTimeLabel.Text = "";
-            // // reset visited attribute
-            // for (int i = 0; i < Algo.getPath().Count; i++)
-            // {
-            //     visited.Add(false);
-            // }
         }
         
         private void resetColor(){
             var map = Algo.getMap();
-            // reset all color to default color (lightgoldenrodyellow)
+
+            // Reset all color to default color (lightgoldenrodyellow)
             for (int i = 0; i < map.getMapHeight(); i++)
             {
                 for (int j = 0; j < map.getMapWidth(); j++)
