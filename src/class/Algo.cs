@@ -477,16 +477,12 @@ namespace Algo
 
             // Vector to track last visited road
             List<List<mapElmt>> pathUsed = new List<List<mapElmt>>();
-            
-            // stack for DFS from start to treasures
-            Stack<mapElmt> DFSStack = new Stack<mapElmt>();
-
 
             // initialize pred to -1 (dummy value)
             mapElmt pred = new mapElmt(-1, -1, -1);
 
             // call the function
-            dFSBack(this.start, pred, visited, pathUsed, DFSStack);
+            dFSBack(this.start, pred, visited, pathUsed);
             Console.WriteLine("treasure count " + n_treasure);
             Console.WriteLine("Selesai");
 
