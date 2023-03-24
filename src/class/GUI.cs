@@ -30,6 +30,7 @@ namespace GUI
         private Solver Algo;
         private Timer timer;
         private int currentIndex;
+        private int afterIndex;
         private int totalNodes;
         private int totalSteps;
         private string route;
@@ -37,6 +38,7 @@ namespace GUI
         public MyGUI()
         {
             currentIndex = 0;
+            afterIndex = 0;
             totalNodes = 0;
             totalSteps = 0;
             route = "";
@@ -490,13 +492,22 @@ namespace GUI
         {
             if (this.currentIndex < Algo.getScannedPath().Count)
             {
-                var i = Algo.getScannedPath()[currentIndex];
-
-                // Set scanning color to yellow
-                MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Yellow;
-                MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Yellow;
-
-                this.currentIndex++;
+                if (this.afterIndex < Algo.getScannedPath().Count)
+                {
+  
+                    var after = Algo.getScannedPath()[afterIndex];
+                    MapDataGrid.Rows[after.Item1].Cells[after.Item2].Style.SelectionBackColor = Color.SkyBlue;
+                    MapDataGrid.Rows[after.Item1].Cells[after.Item2].Style.BackColor = Color.SkyBlue;
+                }
+                if (this.afterIndex > 0)
+                {
+                    var i = Algo.getScannedPath()[currentIndex];
+                    // Set scanning color to yellow
+                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Yellow;
+                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Yellow;
+                    this.currentIndex++;
+                }
+                this.afterIndex++;
             }
             else
             {
@@ -543,6 +554,7 @@ namespace GUI
         private void StartAnimation()
         {
             resetColor();
+            this.afterIndex = 0;
             this.currentIndex = 0;
             var map = Algo.getMap();
 
