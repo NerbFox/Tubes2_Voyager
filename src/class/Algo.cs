@@ -213,7 +213,7 @@ namespace Algo
             return this.map;
         }
         // getter for the scannedPath
-        public List<(int, int)> getPath()
+        public List<(int, int)> getScannedPath()
         {
             return this.scannedPath;
         }
@@ -360,7 +360,6 @@ namespace Algo
             }
             // this.scannedPath.Add((this.start.row,this.start.col));
             this.pathToTreasure.AddRange(road);
-            this.scannedPath.AddRange(road);
         }
 
         private void GetPathBFSAlgorithmStrategies(ref List<(int,int)> subRoad, mapElmt start_tile, mapElmt end_tile)
