@@ -489,18 +489,9 @@ namespace Algo
             dFSBack(this.start, pred, visited, pathUsed, DFSStack);
             Console.WriteLine("treasure count " + n_treasure);
             Console.WriteLine("Selesai");
-            // print pathUsed
-            // foreach (List<mapElmt> path in pathUsed)
-            // {
-            //     Console.WriteLine("Pathhhh");
-            //     foreach (mapElmt mapEl in path)
-            //     {
-            //         Console.Write(mapEl.index + " " + mapEl.row + " " + mapEl.col + " -> ");
-            //     }
-            //     Console.WriteLine();
-            // }
+
         }
-        public void dFSBack(mapElmt current, mapElmt pred, List <bool> visited, List<List<mapElmt>> pathUsed, Stack<mapElmt> DFSStack)
+        public void dFSBack(mapElmt current, mapElmt pred, List <bool> visited, List<List<mapElmt>> pathUsed)
         {
             // check if index is valid
             if (current.index != -1)
@@ -513,39 +504,17 @@ namespace Algo
                         Console.Write(current.index + " " + current.row + " " + current.col + " -> ");
                         // add to scannedPath a tuple of u.row and u.col
                         this.scannedPath.Add((current.row, current.col));
-                        DFSStack.Push(current);
-                        // Console.WriteLine("AAAA " +n_treasure);
-                        // return;  // ga harus return di sini 
                     }
-                    // treasureIndex.Add(scannedPath.Count - 1);
                     Console.WriteLine("Nih " + current.index + " " + current.row + " " + current.col);
-                    // add stack to pathToTreasure
-                    // while (DFSStack.Count != 0)
-                    // {
-                    //     mapElmt mapEl = DFSStack.Pop();
-                    //     // Console.Write(mapEl.index + " " + mapEl.row + " " + mapEl.col + " -> ");
-                    //     // add to scannedPath a tuple of u.row and u.col
-                    //     this.scannedPath.Add((mapEl.row, mapEl.col));
-                    // }
-                    // (int,int) i1 = (start.row,start.col);
-                    // (int,int) i2 = (current.row,current.col);
-                    // add treasure index to treasureIndex
-                    // int i1 = 0;
-                    // int i2 = scannedPath.Count - 1;
-                    // update treasurePath
                     // print jumlah scannedPath
                     Console.WriteLine("Jumlah scannedPath " + scannedPath.Count);
-                    // getPathToTreasureDFS(i1, i2);
-                    // pathToTreasure.Reverse();
                 }
-
-                // print u row and col
-                // Console.WriteLine("Nih " + u.index + " " + u.row + " " + u.col);
 
                 // If all the node is visited return;
                 if (this.n_visited == v || n_treasure == 0){
                     return;
                 }
+
                 // Mark not visited node as visited
                 visited[current.index] = true;
                 this.n_visited++;
@@ -554,13 +523,9 @@ namespace Algo
                 pathUsed.Add(new List<mapElmt>() {pred, current});
                 // add to scannedPath a tuple of current.row and current.col
                 this.scannedPath.Add((current.row, current.col));
-                // add to DFSStack
-                DFSStack.Push(current);
 
                 // Print the node
                 Console.Write(current.index + " " + current.row + " " + current.col + " -> ");
-                // print jumlah adjancent node
-                // Console.WriteLine("\nCount adj: " + adj[u.index].Count);
 
                 // Check for not visited node and proceed with it.
                 foreach (mapElmt x in adj[current.index])
@@ -569,30 +534,20 @@ namespace Algo
                     // call the DFs function if not visited
                     if (!visited[x.index] && n_treasure != 0)
                     {
-                        dFSBack(x, current, visited, pathUsed, DFSStack);
+                        dFSBack(x, current, visited, pathUsed);
                     }
                 }
 
-                // int nPathUsed = 0;
                 // Backtrack through the last visited nodes
                 for (int y = 0; y < pathUsed.Count; y++)
                 {
+                    // jika pathUsed[y][1] sama dengan current maka panggil lagi dFSBack 
+                    // dengan pathUsed[y][0] sebagai current dan pathUsed[y][1] sebagai pred
                     if (pathUsed[y][1].index == current.index)
                     {
-                        // nPathUsed++;
-                        dFSBack(pathUsed[y][0], current, visited, pathUsed, DFSStack);
-                        // DFSStack.Pop();
+                        dFSBack(pathUsed[y][0], current, visited, pathUsed);
                     }
                 }
-                // // if backtracking is done, pop the current node from the 
-                // for (int y = 0; y < nPathUsed ; y++)
-                // {
-                //     // DFSStack.Pop();
-                //     // if (pathUsed[y][1].index == current.index)
-                //     // {
-                //     //     DFSStack.Pop();
-                //     // }
-                // }
             }
         }
         public void getPathToTreasureDFS(int i1, int i2, List<(int,int)> subPath){
