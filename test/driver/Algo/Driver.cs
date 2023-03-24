@@ -34,6 +34,7 @@ class DriverAlgo
         // g.DFS();
         g.setResult();
         // g.getPathToTreasureDFS();
+        g.setPathToTreasure();
         g.printPathToTreasure();
 
         // BFS bfs = new BFS(map);

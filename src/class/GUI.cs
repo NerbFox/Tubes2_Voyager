@@ -463,6 +463,12 @@ namespace GUI
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
 
+                if (DFSButton.Checked) 
+                {
+                    // set path to treasure 
+                    Algo.setPathToTreasure();                    
+                }
+                
                 // Show the execution time
                 ExecutionTimeLabel.Text = elapsedMs + " ms";
 
