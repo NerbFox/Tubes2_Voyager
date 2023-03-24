@@ -211,7 +211,7 @@ namespace Algo
             return this.map;
         }
         // getter for the scannedPath
-        public List<(int, int)> getPath()
+        public List<(int, int)> getScannedPath()
         {
             return this.scannedPath;
         }
@@ -248,7 +248,7 @@ namespace Algo
         {
             LinkedList<mapElmt> TSPQueue = new LinkedList<mapElmt>();
         
-            List<(int,int)> road = new List<(int,int)>();
+            LinkedList<(int,int)> road = new LinkedList<(int,int)>();
             List<(int,int)> subRoad = new List<(int,int)>();
 
 
@@ -280,7 +280,7 @@ namespace Algo
                             GetPathBFSAlgorithmStrategies(ref subRoad, startNode, mapEl);
                             foreach ((int,int) item in subRoad)
                             {
-                                if (!road.Contains(item)) road.Add(item);
+                                if (!road.Contains(item)) road.AddLast(item);
                             }
                             startNode = mapEl;
 
@@ -295,15 +295,16 @@ namespace Algo
             // Perbedaan dari TSP
             
             GetPathBFSAlgorithmStrategies(ref subRoad, startNode, this.start);
-
+            subRoad.RemoveAt(0);
             foreach ((int,int) item in subRoad)
             {
-               road.Add(item);
+               road.AddLast(item);
             }
             subRoad.Clear();
 
             // this.scannedPath.Add((this.start.row,this.start.col));
-            this.scannedPath.AddRange(road);
+            // road.RemoveFirst();
+            this.pathToTreasure.AddRange(road);
         }
 
 
@@ -358,7 +359,6 @@ namespace Algo
             }
             // this.scannedPath.Add((this.start.row,this.start.col));
             this.pathToTreasure.AddRange(road);
-            this.scannedPath.AddRange(road);
         }
 
         private void GetPathBFSAlgorithmStrategies(ref List<(int,int)> subRoad, mapElmt start_tile, mapElmt end_tile)
@@ -631,6 +631,8 @@ namespace Algo
             // reset all variable
             // reset visited
             resetVisited();
+            // reset pathToTreasure
+            pathToTreasure.Clear();
             // reset scannedPath
             scannedPath.Clear();
             // reset step
