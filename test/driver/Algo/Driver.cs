@@ -32,7 +32,7 @@ class DriverAlgo
         g.resetVisited();
         g.dfsbacktrack();
         // g.DFS();
-        // g.setResult();
+        g.setResult();
 
         // BFS bfs = new BFS(map);
 
