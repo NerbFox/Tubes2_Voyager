@@ -29,16 +29,16 @@ namespace Algo
     }
     class Solver
     {
-        protected int v; // number of vertices
-        protected List<mapElmt>[] adj; // adjacency list array of list mapElment
-        protected mapElmt start; // start from map
-        public List<bool> visited; // keep track of visited vertices
-        public MyMap map; // map
-        public int n_treasure; // number of treasure
-        public int n_visited; // number of visited vertices
-        public List<(int, int)> scannedPath; // list of tuple (point map)
+        private int v; // number of vertices
+        private List<mapElmt>[] adj; // adjacency list array of list mapElment
+        private mapElmt start; // start from map
+        private List<bool> visited; // keep track of visited vertices
+        private MyMap map; // map
+        private int n_treasure; // number of treasure
+        private int n_visited; // number of visited vertices
+        private List<(int, int)> scannedPath; // list of tuple (point map)
         private List<(int, int)> pathToTreasure;
-        public List<char> step; // list of step to take : D, U, L, R
+        private List<char> step; // list of step to take : D, U, L, R
         // constructor
         public Solver(){
             this.scannedPath = new List<(int, int)>();
@@ -49,14 +49,12 @@ namespace Algo
             adj = new List<mapElmt>[v];
             for (int i = 0; i < v; ++i) adj[i] = new List<mapElmt>();
 
-            // keep track of visited vertices
             visited = new List<bool>();
-            
             for (int i = 0; i < v; i++) visited[i] = false; // set all vertices to false (not visited)
 
             map = new MyMap();
             n_treasure = 0;
-            n_visited = 0;
+            this.n_visited = 0;
         }
         public Solver(MyMap _map)
         {
@@ -82,7 +80,7 @@ namespace Algo
             int ind = 9;
             int tempIndex = 0;
             n_treasure = 0;
-            n_visited = 0;
+            this.n_visited = 0;
             for (int i = 0; i < map.getMapHeight(); i++)
             {
                 for (int j = 0; j < map.getMapWidth(); j++)
@@ -178,7 +176,7 @@ namespace Algo
             int ind = 9;
             int tempIndex = 0;
             n_treasure = 0;
-            n_visited = 0;
+            this.n_visited = 0;
             for (int i = 0; i < map.getMapHeight(); i++)
             {
                 for (int j = 0; j < map.getMapWidth(); j++)
@@ -512,12 +510,12 @@ namespace Algo
                 // Console.WriteLine("Nih " + u.index + " " + u.row + " " + u.col);
 
                 // If all the node is visited return;
-                if (n_visited == v || n_treasure == 0){
+                if (this.n_visited == v || n_treasure == 0){
                     return;
                 }
                 // Mark not visited node as visited
                 visited[current.index] = true;
-                n_visited++;
+                this.n_visited++;
 
                 // Track the current edge
                 pathUsed.Add(new List<mapElmt>() {pred, current});
@@ -639,8 +637,8 @@ namespace Algo
             step.Clear();
             // visited
             visited.Clear();
-            // n_visited
-            n_visited = 0;
+            // this.n_visited
+            this.n_visited = 0;
             // Initialize all the visited with false
             for (int i = 0; i < v; i++)
             {
