@@ -8,8 +8,8 @@ class DriverAlgo
     static void Main(string[] args)
     {
         InputHandlerFile inputHandlerFile = new InputHandlerFile();
-        // inputHandlerFile.readFile("../../TestInput1.txt");
-        inputHandlerFile.readFile("../../TestMaze.txt");
+        inputHandlerFile.readFile("../../TestInput1.txt");
+        // inputHandlerFile.readFile("../../TestMaze.txt");
         MyMap map = new MyMap(inputHandlerFile.getInputData());
         // DFS dfsbacktrack = new DFS(map);
         
@@ -33,6 +33,8 @@ class DriverAlgo
         g.dfsbacktrack();
         // g.DFS();
         g.setResult();
+        // g.getPathToTreasureDFS();
+        g.printPathToTreasure();
 
         // BFS bfs = new BFS(map);
 
