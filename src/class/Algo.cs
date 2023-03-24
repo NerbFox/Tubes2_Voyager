@@ -444,10 +444,6 @@ namespace Algo
             {
                 // pop DFSStack 
                 mapElmt current = DFSStack.Pop(); 
-                // if (DFSStack.Count == 0)
-                //     Console.Write(current.index  + " " + current.row + " " + current.col); // print the vertex
-                // else
-                //     Console.Write(current.index  + " " + current.row + " " + current.col + " -> "); // print the vertex
                 Console.Write(current.index + " " + current.row + " " + current.col + " -> "); // print the vertex
 
                 // visit semua adjacent vertices dari vertex saat ini
