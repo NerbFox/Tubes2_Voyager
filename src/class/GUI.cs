@@ -30,6 +30,7 @@ namespace GUI
         private Solver Algo;
         private Timer timer;
         private int currentIndex;
+        private int afterIndex;
         private int totalNodes;
         private int totalSteps;
         private string route;
@@ -37,6 +38,7 @@ namespace GUI
         public MyGUI()
         {
             currentIndex = 0;
+            afterIndex = 0;
             totalNodes = 0;
             totalSteps = 0;
             route = "";
@@ -495,42 +497,46 @@ namespace GUI
         {
             if (this.currentIndex < Algo.getScannedPath().Count)
             {
-                var i = Algo.getScannedPath()[currentIndex];
-
-                if (visited[i.Item1][i.Item2])
+                if (this.afterIndex < Algo.getScannedPath().Count)
                 {
-                    if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.Yellow)
+                    var after = Algo.getScannedPath()[afterIndex];
+                    MapDataGrid.Rows[after.Item1].Cells[after.Item2].Style.SelectionBackColor = Color.SkyBlue;
+                    MapDataGrid.Rows[after.Item1].Cells[after.Item2].Style.BackColor = Color.SkyBlue;
+                }
+                if (this.afterIndex > 0)
+                {
+                    var i = Algo.getScannedPath()[currentIndex];
+
+                    if (visited[i.Item1][i.Item2])
                     {
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.OrangeRed;
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.OrangeRed;
-                    }
-                    else if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.OrangeRed)
-                    {
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Red;
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Red;
-                    }
-                    else if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.Red)
-                    {
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.DarkRed;
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.DarkRed;
+                        if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.OrangeRed)
+                        {
+                            MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Red;
+                            MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Red;
+                        }
+                        else if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.Red)
+                        {
+                            MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.DarkRed;
+                            MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.DarkRed;
+                        }
+                        else
+                        {
+                            MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.OrangeRed;
+                            MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.OrangeRed;
+                        }
                     }
                     else
                     {
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.OrangeRed;
-                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.OrangeRed;
+                        // Set scanning color to yellow
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Yellow;
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Yellow;
+
+                        // Set visited attribute to true
+                        visited[i.Item1][i.Item2] = true;
                     }
+                    this.currentIndex++;
                 }
-                else
-                {
-                    // Set scanning color to yellow
-                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Yellow;
-                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Yellow;
-
-                    // Set visited attribute to true
-                    visited[i.Item1][i.Item2] = true;
-                }
-
-                this.currentIndex++;
+                this.afterIndex++;
             }
             else if (this.currentIndex == Algo.getScannedPath().Count)
             {
@@ -603,6 +609,7 @@ namespace GUI
         private void StartAnimation()
         {
             resetColor();
+            this.afterIndex = 0;
             this.currentIndex = 0;
             var map = Algo.getMap();
 
