@@ -68,10 +68,9 @@ namespace Algo
             adj = new List<mapElmt>[v];
             for (int i = 0; i < v; ++i) adj[i] = new List<mapElmt>();
 
-            visited = new List<bool>(); // keep track of visited vertices
-            for (int i = 0; i < v; i++){
-                visited.Add(false); // set all vertices to false (not visited)
-            } // set all vertices to false (not visited)
+            visited = new List<bool>();
+            for (int i = 0; i < v; i++) visited.Add(false);
+            
             
             map = _map;
 
