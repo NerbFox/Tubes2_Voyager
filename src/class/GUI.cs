@@ -7,7 +7,7 @@ using Map;
 using Algo;
 using System.Collections.Generic;
 using System.Linq;
-using Timer = System.Windows.Forms.Timer;
+using Timer = System.Timers.Timer;
 
 namespace GUI
 {
@@ -492,17 +492,72 @@ namespace GUI
             {
                 var i = Algo.getScannedPath()[currentIndex];
 
-                // Set scanning color to yellow
-                MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Yellow;
-                MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Yellow;
+                if (visited[i.Item1][i.Item2])
+                {
+                    if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.Yellow)
+                    {
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.OrangeRed;
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.OrangeRed;
+                    }
+                    else if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.OrangeRed)
+                    {
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Red;
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Red;
+                    }
+                    else if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.Red)
+                    {
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.DarkRed;
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.DarkRed;
+                    }
+                    else
+                    {
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.OrangeRed;
+                        MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.OrangeRed;
+                    }
+                }
+                else
+                {
+                    // Set scanning color to yellow
+                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Yellow;
+                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Yellow;
+
+                    // Set visited attribute to true
+                    visited[i.Item1][i.Item2] = true;
+                }
+
+                this.currentIndex++;
+            }
+            else if (this.currentIndex == Algo.getScannedPath().Count)
+            {
+                foreach (var i in Algo.getScannedPath())
+                {
+                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Yellow;
+                    MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Yellow;
+                }
+                
+                var map = Algo.getMap();
+
+                // Clear visited list
+                this.visited.Clear();
+
+                // Set to false all elements in visited list
+                for (int i = 0; i < map.getMapHeight(); i++)
+                {
+                    List<bool> row = new List<bool>();
+                    for (int j = 0; j < map.getMapWidth(); j++)
+                    {
+                        row.Add(false);
+                    }
+                    this.visited.Add(row);
+                }
 
                 this.currentIndex++;
             }
             else
             {
-                if (this.currentIndex < (Algo.getPathToTreasure().Count + Algo.getScannedPath().Count))
+                if (this.currentIndex <= (Algo.getPathToTreasure().Count + Algo.getScannedPath().Count))
                 {
-                    var j = Algo.getPathToTreasure()[currentIndex - Algo.getScannedPath().Count];
+                    var j = Algo.getPathToTreasure()[currentIndex - Algo.getScannedPath().Count - 1];
 
                     if (visited[j.Item1][j.Item2])
                     {
@@ -561,16 +616,15 @@ namespace GUI
             }
 
             int interval = Int32.Parse(StringInputBox.Text);
-            timer = new Timer();
             if (interval <= 0)
             {
-                timer.Interval = 1;
-                timer.Tick += DataGridViewAnimation;
+                timer = new Timer(double.Epsilon);
+                timer.Elapsed += DataGridViewAnimation;
             }
             else
             {
-                timer.Interval = interval;
-                timer.Tick += DataGridViewAnimation;
+                timer = new Timer(interval);
+                timer.Elapsed += DataGridViewAnimation;
             }
             timer.Start();
         }
