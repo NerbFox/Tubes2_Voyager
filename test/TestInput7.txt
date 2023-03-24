@@ -1,6 +1,6 @@
-K X X R X X R X R
-R X R R R R R R R
-R R R X X X X R X
+K R R R X X R X R
+R R R R R R R R R
+R X R X X X X R X
 R X X X T X X R R
 R R R X R R R R X
 R X R R X X X X R

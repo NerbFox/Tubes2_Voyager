@@ -278,8 +278,9 @@ namespace Algo
                                 if (!road.Contains(item)) road.Add(item);
                             }
                             startNode = mapEl;
-                            subRoad.Clear();
 
+                            
+                            subRoad.Clear();
                         
                             TSPQueue.AddFirst(mapEl);
                         }
@@ -287,14 +288,16 @@ namespace Algo
                 }
             }
             // Perbedaan dari TSP
+            
             GetPathBFSAlgorithmStrategies(ref subRoad, startNode, this.start);
+
             foreach ((int,int) item in subRoad)
             {
-                if (!road.Contains(item)) road.Add(item);
+               road.Add(item);
             }
             subRoad.Clear();
 
-            this.path.Add((this.start.row,this.start.col));
+            // this.path.Add((this.start.row,this.start.col));
             this.path.AddRange(road);
         }
 
@@ -324,7 +327,6 @@ namespace Algo
                 foreach (mapElmt mapEl in this.adj[currentElMap.index])
                 {
                     // jika adjacent vertex belum dikunjungi
-// Console.Write($"-> ({mapEl.row},{mapEl.col}) {visited[mapEl.index]} ");
                     if (!this.visited[mapEl.index])
                     {
                         BFSQueue.AddLast(mapEl);
@@ -335,20 +337,12 @@ namespace Algo
                             // update treasure count
                             n_treasure--;
 
-// Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAA");
-// Console.Write($"Start : {startNode.row},{startNode.col} -> ");
                             GetPathBFSAlgorithmStrategies(ref subRoad, startNode, mapEl);
                             foreach ((int,int) item in subRoad)
                             {
                                 if (!road.Contains(item)) road.Add(item);
                             }
                             startNode = mapEl;
-// Console.WriteLine($"End : {mapEl.row},{mapEl.col} == ");
-// foreach (var item in subRoad)
-// {
-//     Console.Write($"({item.Item1},{item.Item2}) -> ");
-// }
-// Console.WriteLine("\nAAAAAAAAAAAAAAAAAAAAAAAA");
                             subRoad.Clear();
 
                             // BFSQueue.Clear();
@@ -357,7 +351,7 @@ namespace Algo
                     }
                 }
             }
-            this.path.Add((this.start.row,this.start.col));
+            // this.path.Add((this.start.row,this.start.col));
             this.path.AddRange(road);
         }
 
@@ -373,7 +367,6 @@ namespace Algo
             CopyVisited[start_tile.index] = false;
             parentOf[(start_tile.row,start_tile.col)] = (-1,-1);
 
-// Console.WriteLine("BBBBBBBBBBBBBBBBBBBBB");
             while (BFSQueue.Count != 0)
             {
                 mapElmt currentElMap = BFSQueue.Dequeue(); // dequeue BFSQueue
@@ -382,7 +375,6 @@ namespace Algo
                 foreach (mapElmt mapEl in this.adj[currentElMap.index])
                 {
                     // jika adjacent vertex belum dikunjungi
-// Console.Write($"-> ({mapEl.row},{mapEl.col}) {CopyVisited[mapEl.index]} ");
                     if (CopyVisited[mapEl.index])
                     {
                         BFSQueue.Enqueue(mapEl);
@@ -404,7 +396,6 @@ namespace Algo
                     }
                 }
             }
-// Console.WriteLine("\nBBBBBBBBBBBBBBBBBBBBB");
             subRoad.Reverse();
         }
 
