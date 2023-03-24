@@ -1,8 +1,8 @@
 using Map;
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Collections;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Collections;
 namespace Algo
 {
     interface ICoordinate
@@ -434,12 +434,15 @@ namespace Algo
             Stack<mapElmt> DFSStack = new Stack<mapElmt>(); // DFSStack for DFS
             visited[start.index] = true; // set to true start vertex (visited)
             DFSStack.Push(start); // push start vertex ke DFSStack
+
             // Console.Write(DFSStack.Count);
             Console.WriteLine("Count: " + DFSStack.Count + "T: " + n_treasure);
+            
             // selama DFSStack tidak kosong dan belum semua treasure terambil
             while (DFSStack.Count != 0 && n_treasure != 0)
             {
-                mapElmt current = DFSStack.Pop(); // pop DFSStack
+                // pop DFSStack 
+                mapElmt current = DFSStack.Pop(); 
                 // if (DFSStack.Count == 0)
                 //     Console.Write(current.index  + " " + current.row + " " + current.col); // print the vertex
                 // else
@@ -454,12 +457,10 @@ namespace Algo
 
                     if (!visited[i.index])
                     {
-                        // Console.WriteLine("uhuy");
                         visited[i.index] = true; // set true untuk adjacent vertex (visited)
-                        DFSStack.Push(i); // push the adjacent vertex ke DFSStack
-                        // push current to stack for backtracking in DFSStack
+                        DFSStack.Push(i); // push adjacent vertex ke DFSStack
 
-                        // update treasure count
+                        // update treasure count jika adjacent vertex adalah treasure
                         if (map.getElement(i.row, i.col) == 'T')
                         {
                             n_treasure--;
@@ -539,7 +540,9 @@ namespace Algo
             // Vector to track last visited road
             List<List<mapElmt>> pathUsed = new List<List<mapElmt>>();
 
+            // initialize pred to -1 (dummy value)
             mapElmt pred = new mapElmt(-1, -1, -1);
+
             // call the function
             dFSBack(this.start, pred, visited, pathUsed);
             Console.WriteLine("treasure count " + n_treasure);
