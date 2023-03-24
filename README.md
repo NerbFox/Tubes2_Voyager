@@ -1,5 +1,9 @@
 # Maze Treasure Hunt with _BFS and DFS_ Algorithm
 
+<p align="center">
+    <img src= https://drive.google.com/uc?id=1AqT6N7TSQ9cNrc6G4aP71YPvLK8BN2Kp
+</p>
+
 ## Table of Contents
 - [Maze Treasure Hunt with _BFS and DFS_ Algorithm](#maze-treasure-hunt-with-bfs-and-dfs-algorithm)
   - [Table of Contents](#table-of-contents)
