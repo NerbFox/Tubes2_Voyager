@@ -443,10 +443,6 @@ namespace Algo
             {
                 // pop DFSStack 
                 mapElmt current = DFSStack.Pop(); 
-                // if (DFSStack.Count == 0)
-                //     Console.Write(current.index  + " " + current.row + " " + current.col); // print the vertex
-                // else
-                //     Console.Write(current.index  + " " + current.row + " " + current.col + " -> "); // print the vertex
                 Console.Write(current.index + " " + current.row + " " + current.col + " -> "); // print the vertex
 
                 // visit semua adjacent vertices dari vertex saat ini
@@ -521,19 +517,19 @@ namespace Algo
                         // Console.WriteLine("AAAA " +n_treasure);
                         // return;  // ga harus return di sini 
                     }
+                    // treasureIndex.Add(scannedPath.Count - 1);
                     Console.WriteLine("Nih " + current.index + " " + current.row + " " + current.col);
                     // add stack to pathToTreasure
-                    while (DFSStack.Count != 0)
-                    {
-                        mapElmt mapEl = DFSStack.Pop();
-                        // Console.Write(mapEl.index + " " + mapEl.row + " " + mapEl.col + " -> ");
-                        // add to scannedPath a tuple of u.row and u.col
-                        this.scannedPath.Add((mapEl.row, mapEl.col));
-                    }
+                    // while (DFSStack.Count != 0)
+                    // {
+                    //     mapElmt mapEl = DFSStack.Pop();
+                    //     // Console.Write(mapEl.index + " " + mapEl.row + " " + mapEl.col + " -> ");
+                    //     // add to scannedPath a tuple of u.row and u.col
+                    //     this.scannedPath.Add((mapEl.row, mapEl.col));
+                    // }
                     // (int,int) i1 = (start.row,start.col);
                     // (int,int) i2 = (current.row,current.col);
                     // add treasure index to treasureIndex
-                    treasureIndex.Add(scannedPath.Count - 1);
                     // int i1 = 0;
                     // int i2 = scannedPath.Count - 1;
                     // update treasurePath
@@ -599,44 +595,66 @@ namespace Algo
                 // }
             }
         }
-        public void getPathToTreasureDFS(int i1, int i2){
-            // copy scannedPath to sub path
-            // List<(int, int)> subPath = scannedPath.ToList();
-            // subPath.Reverse();
+        public void getPathToTreasureDFS(int i1, int i2, List<(int,int)> subPath){
             // find path from last to first index of scannedPath with the skip index
+            subPath.Clear();
             int idx = i2;
-            (int,int) t = scannedPath[i2];
-            pathToTreasure.Add(t);
-            idx--;
-            // print scannedPath[0]
-            // Console.WriteLine("scannedPath[0] " + scannedPath[n-1]);
-            while (pathToTreasure.Last() != scannedPath[i1]){
+            var t = scannedPath[i2];
+            subPath.Add(t);
+            Console.WriteLine("scannedPath[i2] " + scannedPath[i2].Item1 + " " + scannedPath[i2].Item2);
+            // idx--;
+            while (subPath.Last() != scannedPath[i1]){
+                // int count = 0;
                 for (int i = i1; i < idx; i++){
                     t = scannedPath[i];
                     // change t to mapElmt 
-                    // cek apakah t adjacent dengan pathToTreasure.Last()
-                    if (isAdjacent(t, pathToTreasure.Last())){
-                        // add to pathToTreasure
-                        pathToTreasure.Add(t);
-                        // remove t from subPath
-                        // subPath.RemoveAt(i);
-                        // decrement n
-                        // idx--;
+                    // cek apakah t adjacent dengan subPath.Last()
+                    if ( (isAdjacent(t, subPath.Last()) && scannedPath[i+1]==subPath.Last() ) || t == scannedPath[idx-1]){
+                        // add to subPath
+                        subPath.Add(t);
+                        // decrement idx
+                        idx--;
                         break;
                     }
-
                 }
             }
-            // pathToTreasure.Reverse();
-            // for (int i = n-2; i > 0 ; i--){
-            //     // find the minimum adjacent node from start
-                
-            // }
-            
-
+            // reverse subPath
+            subPath.Reverse();            
         }
-        public void setPathToTreaseure(){
+        public void setPathToTreasure(){
+            // add index tresure from scannedPath to treasureIndex
+            for (int i = 0; i < scannedPath.Count; i++){
+                // kondisi jika scannedPath[i] == 'T'
+                if (map.getElement(scannedPath[i].Item1,scannedPath[i].Item2) == 'T'){
+                    // add to treasureIndex
+                    if (treasureIndex.Count == 0) 
+                        treasureIndex.Add(i);
+                    // add to treasureIndex if i tidak sama dengan sebelumnya 
+                    else if (scannedPath[i] != scannedPath[treasureIndex.Last()]){
+                        treasureIndex.Add(i);
+                    }
+                }
+            }
             
+            // add path to tresureIndex 
+            List<(int, int)> subPath  = new List<(int, int)>();
+            getPathToTreasureDFS(0, treasureIndex[0], subPath);
+            
+            // call getPathToTreasureDFS 
+            getPathToTreasureDFS(0, treasureIndex[0], subPath);
+            foreach (var j in subPath){
+                pathToTreasure.Add(j);
+            }
+            for (int i = 0; i < treasureIndex.Count - 1; i++){
+                getPathToTreasureDFS(treasureIndex[i], treasureIndex[i+1], subPath);
+                // add subPath to pathToTreasure
+                foreach (var j in subPath){
+                    // add if current element is not the same as the last element
+                    if (pathToTreasure.Count == 0 || j != pathToTreasure.Last())
+                        pathToTreasure.Add(j);
+                }
+            }
+
         }
         public void setResult(){
             // result of scannedPath list<int,int>
@@ -682,31 +700,21 @@ namespace Algo
             }
             
         }
-        public void tsp(){
-            // travelling salesman problem
-            // end point is start point
-
+        public void DFSTsp(){
             // using dfs backtrack
             dfsbacktrack();
-            // continue move to start point
-            // find the next scannedPath to start point that is the shortest
-            // get the last scannedPath
-            var last = scannedPath.Last();
+            // set path to treasure
+            setPathToTreasure();   
+ 
             // initialize new scannedPath with scannedPath in reverse order
-            List<(int, int)> new_path = new List<(int, int)>();
-            foreach (var i in scannedPath){
-                new_path.Add(i);
-            }
+            List<(int, int)> new_path = pathToTreasure.ToList();
             new_path.Reverse();
             // remove the first scannedPath in new scannedPath
             new_path.RemoveAt(0);
-
-            // find the scannedPath from last to start point
-            // iterate the scannedPath from last to start point (backwards)
                   
             // concat the scannedPath with the new_path
             foreach (var i in new_path){
-                scannedPath.Add(i);
+                pathToTreasure.Add(i);
             }
         }
         private int getDistance(mapElmt a, mapElmt b)
@@ -747,14 +755,7 @@ namespace Algo
             foreach (var i in pathToTreasure)
             {
                 // a,b -> c,d -> e,f if end of scannedPath
-                // if (i == pathToTreasure.Last())
-                // {
-                //     Console.Write(i.Item1 + "," + i.Item2 + " ");
-                // }
-                // else
-                // {
-                    Console.WriteLine(i.Item1 + "," + i.Item2 + " -> ");
-                // }
+                Console.WriteLine(i.Item1 + "," + i.Item2 + " -> ");
             }
         }
     }

@@ -446,7 +446,8 @@ namespace GUI
                 }
                 else if (TSPToggle.Checked && DFSButton.Checked)
                 {
-                    // Algo.();
+                     // using dfs backtrack
+                    Algo.DFSTsp();
                 }
                 // BFS
                 else if (BFSButton.Checked)
@@ -463,6 +464,12 @@ namespace GUI
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
 
+                if (DFSButton.Checked && !TSPToggle.Checked) 
+                {
+                    // set path to treasure 
+                    Algo.setPathToTreasure();                    
+                }
+        
                 // Show the execution time
                 ExecutionTimeLabel.Text = elapsedMs + " ms";
 
@@ -509,7 +516,12 @@ namespace GUI
 
                     if (visited[i.Item1][i.Item2])
                     {
-                        if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.OrangeRed)
+                        if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.Orange)
+                        {
+                            MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.OrangeRed;
+                            MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.OrangeRed;
+                        }
+                        else if (MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor == Color.OrangeRed)
                         {
                             MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Red;
                             MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Red;
@@ -521,8 +533,8 @@ namespace GUI
                         }
                         else
                         {
-                            MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.OrangeRed;
-                            MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.OrangeRed;
+                            MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.SelectionBackColor = Color.Orange;
+                            MapDataGrid.Rows[i.Item1].Cells[i.Item2].Style.BackColor = Color.Orange;
                         }
                     }
                     else
