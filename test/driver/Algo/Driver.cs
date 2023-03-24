@@ -26,7 +26,7 @@ class DriverAlgo
         // Console.WriteLine("\n\nDepth-first traversal (starting from vertex start):");
         
         map.print();
-        MyAlgo g = new MyAlgo(map);
+        Solver g = new Solver(map);
         // g.DFS();
         Console.WriteLine("\nBacktracking:");
         g.resetVisited();
@@ -37,7 +37,7 @@ class DriverAlgo
         // BFS bfs = new BFS(map);
 
         // mapElmt m = new mapElmt(i, j, map.getElement(i, j));
-        // MyAlgo g = new MyAlgo(4);
+        // Solver g = new Solver(4);
         // mapElmt m1 = new mapElmt(0, 90, 100);
         // mapElmt m2 = new mapElmt(1, 93, 10);
         // mapElmt m3 = new mapElmt(2, 90, 16);

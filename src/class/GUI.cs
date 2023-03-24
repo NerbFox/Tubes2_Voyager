@@ -24,7 +24,7 @@ namespace GUI
         private DataGridView MapDataGrid;
         private TextBox StringInputBox;
         private Label ExecutionTimeLabel; 
-        private MyAlgo Algo;
+        private Solver Algo;
         private Timer timer;
         private int currentIndex;
         private List<List<bool>> visited;
@@ -32,7 +32,7 @@ namespace GUI
         {
             currentIndex = 0;
             timer = new Timer();
-            Algo = new MyAlgo();
+            Algo = new Solver();
             visited = new List<List<bool>>();
             /*
                 Setup Window
@@ -354,8 +354,8 @@ namespace GUI
                         {
                             MapDataGrid.Font = new Font("Microsoft Sans Serif", (600/map.getMapHeight())/3, FontStyle.Bold);
                         }
-                        // initialize MyAlgo class with map data and start point
-                        Algo = new MyAlgo(map);
+                        // initialize Solver class with map data and start point
+                        Algo = new Solver(map);
                     }
                 }
             }

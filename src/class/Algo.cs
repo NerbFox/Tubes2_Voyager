@@ -1,23 +1,25 @@
 using Map;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Collections;
+// using System;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Collections;
 namespace Algo
 {
-    struct mapElmt
+    interface ICoordinate
     {
-        public int index;
-        public int row;
-        public int col;
-        public bool n_visited;
+        int row { get; set;}
+        int col { get; set;}
+    }
+    struct mapElmt : ICoordinate
+    {
+        public int index {get; set;}
+        public int row { get; set;}
+        public int col { get; set;}
         public mapElmt(int index, int row, int col)
         {
             this.index = index;
             this.row = row;
             this.col = col;
-            this.n_visited = false;
-
         }
 
         public override string ToString()
@@ -25,7 +27,7 @@ namespace Algo
             return $"{index} ({row},{col})";
         }
     }
-    class MyAlgo
+    class Solver
     {
         protected int v; // number of vertices
         protected List<mapElmt>[] adj; // adjacency list array of list mapElment
@@ -37,7 +39,7 @@ namespace Algo
         public List<(int, int)> path; // list of tuple (point map)
         public List<char> step; // list of step to take : D, U, L, R
         // constructor
-        public MyAlgo(){
+        public Solver(){
             this.path = new List<(int, int)>();
             this.step = new List<char>();
             this.v = 0;
@@ -54,7 +56,7 @@ namespace Algo
             n_treasure = 0;
             n_visited = 0;
         }
-        public MyAlgo(MyMap _map)
+        public Solver(MyMap _map)
         {
             this.path = new List<(int, int)>();
             this.step = new List<char>();
@@ -151,7 +153,7 @@ namespace Algo
                 }
             }
         }
-        public void MyAlgoSetter(MyMap _map){
+        public void SolverSetter(MyMap _map){
             // delete the old path and step
             this.path.Clear();
             this.step.Clear();
