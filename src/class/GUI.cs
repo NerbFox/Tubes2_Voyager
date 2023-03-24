@@ -437,10 +437,14 @@ namespace GUI
                 // Make new stopwatch
                 var watch = System.Diagnostics.Stopwatch.StartNew();
 
-                // TSP
+                // TSP BFS
                 if (TSPToggle.Checked && BFSButton.Checked)
                 {
                     Algo.TSPAlgorithmStrategies();
+                }
+                else if (TSPToggle.Checked && DFSButton.Checked)
+                {
+                    // Algo.();
                 }
                 // BFS
                 else if (BFSButton.Checked)
@@ -451,6 +455,7 @@ namespace GUI
                 else if (DFSButton.Checked) 
                 {
                     Algo.dfsbacktrack();
+                    // Algo.getPathToTreasureDFS();
                 }
 
                 watch.Stop();
